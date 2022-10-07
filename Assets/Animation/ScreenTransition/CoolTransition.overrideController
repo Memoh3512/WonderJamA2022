@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CoolTransition
+  m_Controller: {fileID: 9100000, guid: 089fec50b6cfdae46b9c0fd7787f940a, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: beac1d8e9589ea74c9df10be2fe63430, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: dd518ecad40e4e440ab67aee5e8e2f0a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b282ca0f07b2998499138d090c4e8f4d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 77a542f7a17a52b43ab0f4b5c713c110, type: 2}
