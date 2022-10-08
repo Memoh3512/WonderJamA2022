@@ -10,26 +10,33 @@ public class GenericBar : MonoBehaviour
         Health,
         Stamina
     }
+    public enum CostType
+    {
+        Mask,
+        None
+    }
     
     public float delay;
     public float speed;
     public Stat statType;
-    public bool costShower;
+    public CostType costType = CostType.None;
     PlayerControls pc;
     SpriteRenderer sr;
     float baseScale;
+    private float baseXPos;
     float targetValue;
     float currentValue;
     private float maxStat;
     
     private void Start()
     {
+        baseXPos = transform.localPosition.x;
         baseScale = transform.localScale.x;
         sr = gameObject.GetComponent<SpriteRenderer>();
         pc = transform.parent.gameObject.GetComponent<PlayerControls>();
         maxStat = getMaxPlayerStat();
         
-        if (!costShower)
+        if (costType==CostType.None)
         {
             switch (statType)
             {
@@ -43,14 +50,10 @@ public class GenericBar : MonoBehaviour
                     break;
             }
         }
-        else
+        else if(costType==CostType.Mask)
         {
-            Invis();
+            pc.changeGunEvent.AddListener(OnGunChanged);
         }
-    }
-    void Invis()
-    {
-        transform.localScale = new Vector2(0,transform.localScale.y);
     }
 
     IEnumerator valueTaken()
@@ -83,11 +86,12 @@ public class GenericBar : MonoBehaviour
         }
     }
 
-    void ShowCost(int value)
+    void ShowCost(float value,float currentValueX)
     {
-        if (costShower)
+        if (costType == CostType.Mask)
         {
-            transform.localScale = new Vector3( baseScale*((value / maxStat)+((currentValue-value)/maxStat)),transform.localScale.y,transform.localScale.z);
+            Debug.Log("ShowCost");
+            transform.localScale = new Vector3( baseScale*((currentValueX-(value)) / maxStat),transform.localScale.y,transform.localScale.z);
         }
     }
     private float getMaxPlayerStat()
@@ -103,6 +107,26 @@ public class GenericBar : MonoBehaviour
                 break;
         }
         return stat;
+    }
+    private void OnGunChanged(Weapon wep,Weapon oldWeapon)
+    {
+        UpdateWeaponStaminaCost(wep);
+        if (oldWeapon!=null)
+        {
+            oldWeapon.gunShotEvent.RemoveListener(OnGunShot);
+        }
+        wep.gunShotEvent.AddListener(OnGunShot);
+    }
+    private void OnGunShot(Weapon wep)
+    {
+        UpdateWeaponStaminaCost(wep);
+    }
+    private void UpdateWeaponStaminaCost(Weapon wep)
+    {
+        if (pc.CanShootWeapon())
+        {
+            ShowCost(wep.getStaminaCost(),pc.currentStamina);
+        }
     }
 }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Weapon
 {
@@ -12,6 +13,8 @@ public class Weapon
     float knockback;
     Vector2 shootingOffset;
     int projectileCount;
+    
+    public UnityEvent<Weapon> gunShotEvent = new UnityEvent<Weapon>();
 
     protected GameObject lastProjectile;
 
@@ -33,6 +36,7 @@ public class Weapon
         projectileCount--;
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"),lastProjectile.transform.position,Quaternion.identity);
         text.GetComponent<TextMeshPro>().text = "PEW";
+        gunShotEvent.Invoke(this);
     }
 
     public float getStaminaCost()
