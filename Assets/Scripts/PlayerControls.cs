@@ -221,7 +221,7 @@ public class PlayerControls : Damagable
         //Debug.Log("STAMINA: " + currentStamina);
         if (currentStamina <= 0)
         {
-            state = PlayerAction.Waiting;
+            GameManager.instance.NextPlayerTurn();
         }
     }
 
@@ -434,8 +434,9 @@ public class PlayerControls : Damagable
         if (fallCount >= maxFallCount)
         {
             //TODO die
-            Debug.LogError("DIEEEEEE");
-            Destroy(gameObject);
+            alive = false;
+            GameManager.instance.NextPlayerTurn();
+            gameObject.SetActive(false);
             
         }
         else
@@ -446,5 +447,12 @@ public class PlayerControls : Damagable
         }
 
     }
-    
+
+    private void Die()
+    {
+        alive = false;
+        gameObject.SetActive(false);
+        GameManager.instance.PlayerDied(gameObject);
+    }
+
 }
