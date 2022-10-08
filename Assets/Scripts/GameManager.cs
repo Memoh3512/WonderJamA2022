@@ -118,6 +118,11 @@ public class GameManager : MonoBehaviour
         {
             GameEnd();
         }
+        
+        if (players[currentPlayerIndex] == deadPlayer.GetComponent<PlayerControls>())
+        {
+            NextPlayerTurn();
+        }
     }
     public void GameEnd()
     {

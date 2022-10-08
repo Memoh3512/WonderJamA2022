@@ -100,7 +100,7 @@ MonoBehaviour:
   delay: 1
   speed: 100
   statType: 0
-  costType: 2
+  costType: 1
 --- !u!1 &795103591724654355
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
   delay: 0
   speed: 0
   statType: 0
-  costType: 2
+  costType: 1
 --- !u!1 &831315085278680515
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,8 +410,8 @@ Transform:
   - {fileID: 2237277484893657231}
   - {fileID: 1034522032726540923}
   - {fileID: 2227607249251985057}
-  - {fileID: 3619883213997211218}
   - {fileID: 6771396910417519137}
+  - {fileID: 3619883213997211218}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -492,10 +492,12 @@ MonoBehaviour:
   flipStickDeadzone: 0.5
   flipAngleLeeway: 15
   zoomSpeed: 3
+  maxFallCount: 3
+  maxIKDistance: 1
   moveSpeed: 5
   jumpHeight: 200
   gravityScale: 5
-  staminaMax: 100000000
+  maxStamina: 100
   airControl: 10
   maxAirVelocity: 5
   maxHP: 100
@@ -738,7 +740,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1531561707257332878}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6122782739815136732
 SpriteRenderer:
@@ -908,7 +910,7 @@ MonoBehaviour:
   delay: 0
   speed: 0
   statType: 1
-  costShower: 0
+  costType: 1
 --- !u!1001 &4571772503308990355
 PrefabInstance:
   m_ObjectHideFlags: 0
