@@ -38,6 +38,7 @@ public class PlayerControls : Damagable
 
     [Header("Global Player Params")] public float flipStickDeadzone = 0.5f;
     public float flipAngleLeeway;
+    public float zoomSpeed = 1;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -165,6 +166,16 @@ public class PlayerControls : Damagable
 
                 break;
         }
+        
+        //zoom
+        if (state != PlayerAction.Waiting)
+        {
+
+            if (manette.rightShoulder.isPressed) FindObjectOfType<PlayerFollowCam>().Zoom(-zoomSpeed*Time.deltaTime);
+            if (manette.leftShoulder.isPressed) FindObjectOfType<PlayerFollowCam>().Zoom(zoomSpeed*Time.deltaTime);
+            
+        }
+        
     }
 
     void UpdateGunHolderPosition()
