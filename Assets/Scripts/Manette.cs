@@ -19,6 +19,8 @@ public class Manette
     private readonly Keyboard kb;
     private readonly Mouse mouse;
 
+    public string character = "";
+    
     public Manette(Gamepad game)
     {
 

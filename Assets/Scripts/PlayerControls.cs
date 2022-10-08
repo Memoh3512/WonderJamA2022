@@ -182,6 +182,12 @@ public class PlayerControls : Damagable
                     TryShoot();
                 }else if (manette.dpRight.wasPressedThisFrame)
                 {
+                    
+                    
+                    
+                }
+                else if (manette.dpRight.wasPressedThisFrame)
+                {
                     NextGun();
                 }else if (manette.dpLeft.wasPressedThisFrame)
                 {

@@ -7,7 +7,9 @@ using UnityEngine.InputSystem;
 public class PlayerSpawner : MonoBehaviour
 {
 
-    public GameObject playerPrefab;
+    [Header("Character prefabs")]
+    public GameObject ladybugPrefab;
+    public GameObject sauterellePrefab;
 
     public GameObject cursorPrefab;
     
@@ -19,9 +21,20 @@ public class PlayerSpawner : MonoBehaviour
         for (int i = 0; i < PlayerInputs.MAX_PLAYERS; i++)
         {
 
-            if (PlayerInputs.pControllers[i] != null)
+            if (PlayerInputs.GetPlayerController(i) != null)
             {
 
+                GameObject playerPrefab = ladybugPrefab;
+                switch (PlayerInputs.GetPlayerController(i).character)
+                {
+                    case "Ladybug":
+                        playerPrefab = ladybugPrefab;
+                        break;
+                    case "Grasshopper":
+                        playerPrefab = sauterellePrefab;
+                        break;
+                }
+                
                 int spawnpointIndex = Random.Range(0, spawnpoints.Count);
                 GameObject newPlayer = Instantiate(playerPrefab, 
                     spawnpoints[spawnpointIndex].transform.position,
