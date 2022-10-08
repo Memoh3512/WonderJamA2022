@@ -37,7 +37,7 @@ public class Weapon
 
     public float getStaminaCost()
     {
-        return staminaCost
+        return staminaCost;
     }
     virtual public void WeaponEmpty()
     {
