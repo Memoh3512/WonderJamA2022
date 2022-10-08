@@ -29,9 +29,9 @@ public class GameProjectile : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);
-            OnHit();
+            collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);           
         }
+        OnHit();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

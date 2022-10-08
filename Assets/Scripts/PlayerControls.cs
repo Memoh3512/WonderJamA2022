@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Processors;
 using UnityEngine.Serialization;
+using TMPro;
 
 
 public enum PlayerAction
@@ -167,6 +168,13 @@ public class PlayerControls : Damagable
                         RemoveStamina(currentWeapon.getStaminaCost());
                         currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
                         CheckStaminaState();
+                    }
+                    else
+                    {
+                        GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
+                        text.GetComponent<TextMeshPro>().text = "No stamina!";
+                        text.transform.localScale *= 0.5f;
+                        text.GetComponent<TextMeshPro>().color = Color.cyan;
                     }
 
                 }else if (manette.dpRight.wasPressedThisFrame)
