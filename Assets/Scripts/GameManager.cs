@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
         foreach (var player in players)
         {
             player.setState(PlayerAction.Waiting);
+            player.ShowUI(false);
         }
         
         // Start la game
@@ -94,7 +95,10 @@ public class GameManager : MonoBehaviour
     }
     public void NextPlayerTurn()
     {
-        players[currentPlayerIndex].ShowUI(false);
+        foreach (var player in players)
+        {
+            player.ShowUI(false);
+        }
         players[currentPlayerIndex].setState(PlayerAction.Waiting);
 
         // Get le next alive et rollover le playerIndex 
