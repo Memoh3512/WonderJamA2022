@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Weapon
@@ -30,7 +31,8 @@ public class Weapon
         lastProjectile = GameObject.Instantiate(projectilePrefab, position, Quaternion.identity);
         lastProjectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
         projectileCount--;
-        GameObject.Instantiate(Resources.Load<GameObject>("PopupText"));
+        GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"));
+        text.GetComponent<TextMeshPro>().text = "PEW";
     }
 
 
