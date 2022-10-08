@@ -42,6 +42,7 @@ public class PlayerControls : Damagable
     public float flipAngleLeeway;
     public float zoomSpeed = 1;
     public float maxFallCount = 3;
+    public float maxIKDistance = 1;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -220,6 +221,7 @@ public class PlayerControls : Damagable
         {
             MovePlayer();
             UpdateSpriteFlip();
+            UpdateSpriteIK();
         }
     }
     void RemoveStamina(float toRemove)
@@ -299,6 +301,34 @@ public class PlayerControls : Damagable
 
         }
         
+    }
+
+    void UpdateSpriteIK()
+    {
+
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.layerMask = 1 << LayerMask.NameToLayer("Ground");
+
+        RaycastHit2D[] hit = new RaycastHit2D[2];
+        if (Physics2D.Raycast(transform.position, Vector2.down, filter, hit) > 1)
+        {
+
+            if (hit[1].distance <= maxIKDistance)
+            {
+                Debug.Log("DIST: " + hit[1].distance);
+                Vector2 normal = hit[1].normal;
+                float angle = Mathf.Rad2Deg * Mathf.Atan2(normal.y, normal.x);
+                angle -= 90; //tangent a la surface
+
+                sprite.transform.eulerAngles = new Vector3(0,0,angle);   
+            }
+            else
+            {
+                sprite.transform.eulerAngles = Vector3.zero;
+            }
+
+        }
+
     }
 
     void Jump()
