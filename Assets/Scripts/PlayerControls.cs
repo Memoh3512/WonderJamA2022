@@ -313,7 +313,7 @@ public class PlayerControls : Damagable
                 isGunFlipped = true;
                 gunHolder.GetComponent<SpriteRenderer>().flipY = true;
 
-            } else if (isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
+            } else if ( isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
             {
 
                 isGunFlipped = false;
@@ -324,7 +324,7 @@ public class PlayerControls : Damagable
             }
 
         }
-        else if (manette.leftStick.magnitude > flipStickDeadzone)
+        else if (IsGrounded() && manette.leftStick.magnitude > flipStickDeadzone)
         {
             
             
