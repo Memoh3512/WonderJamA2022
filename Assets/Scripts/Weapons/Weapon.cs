@@ -7,13 +7,13 @@ using UnityEngine.Events;
 public class Weapon
 {
     public Sprite weaponSprite;
-    GameObject projectilePrefab;
-    float staminaCost;
-    float fireRate;
-    float knockback;
-    Vector2 shootingOffset;
-    int projectileCount;
-    string weaponName;
+    protected GameObject projectilePrefab;
+    protected float staminaCost;
+    protected float fireRate;
+    protected float knockback;
+    protected Vector2 shootingOffset;
+    protected int projectileCount;
+    protected string weaponName;
     
     public UnityEvent<Weapon> gunShotEvent = new UnityEvent<Weapon>();
 
@@ -34,6 +34,7 @@ public class Weapon
         if (weaponName == "")
             this.weaponName = this.GetType().ToString();
         else this.weaponName = weaponName;
+        
     }
 
     virtual public void Shoot(Vector2 position, Vector2 shootDirection)
@@ -47,6 +48,7 @@ public class Weapon
         text.GetComponent<TextMeshPro>().text = "PEW!";
         gunShotEvent.Invoke(this);
     }
+
 
     public float getStaminaCost()
     {
