@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         movingControls.SetActive(false);
         prepAttackControls.SetActive(false);
 
-        //players[currentPlayerIndex].ShowUI();
+        //GetActivePlayer().ShowUI();
         setUI(movingControls);
     }
     
@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviour
     private void NextTurn()
     {
         turn++;
+        TurnShowText();
         
         nextTurnEvent.Invoke();
     }
@@ -141,10 +142,10 @@ public class GameManager : MonoBehaviour
             currentPlayerIndex %= players.Count;
             if (currentPlayerIndex == 0) NextTurn();
 
-        } while (!players[currentPlayerIndex].isAlive());
+        } while (!GetActivePlayer().isAlive());
 
-        FocusOnPlayer(players[currentPlayerIndex]);
-        players[currentPlayerIndex].currentStamina = players[currentPlayerIndex].maxStamina;
+        FocusOnPlayer(GetActivePlayer());
+        GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
 
         nextPlayerEvent.Invoke();
     }
@@ -154,7 +155,7 @@ public class GameManager : MonoBehaviour
         player.PlayerTargetted();
         setCurrentPlayerState(PlayerAction.Moving);
 
-        followCam.Follow = players[currentPlayerIndex].transform;
+        followCam.Follow = GetActivePlayer().transform;
     }
 
     public void SwitchToGlobalCam()
@@ -183,19 +184,20 @@ public class GameManager : MonoBehaviour
         if (count <= 1)
         {
             GameEnd();
-        }else if (players[currentPlayerIndex] == deadPlayer.GetComponent<PlayerControls>())
+        }else if (GetActivePlayer() == deadPlayer.GetComponent<PlayerControls>())
         {
             NextPlayerTurn();
         }
     }
     public void GameEnd()
     {
-        
+        GetActivePlayer().Won();
+        SceneChanger.ChangeScene(SceneTypes.EndScreen);
     }
     public void setCurrentPlayerState(PlayerAction state)
     {
         Debug.Log("Current state switched : "+state);
-        players[currentPlayerIndex].setState(state);
+        GetActivePlayer().setState(state);
         switch (state)
         {
             case PlayerAction.Moving:

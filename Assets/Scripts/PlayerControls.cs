@@ -492,4 +492,8 @@ public class PlayerControls : Damagable
             staminaTakenEvent?.Invoke(currentStamina);
         }
     }
+    public void Won()
+    {
+        manette.Winner = true;
+    }
 }
