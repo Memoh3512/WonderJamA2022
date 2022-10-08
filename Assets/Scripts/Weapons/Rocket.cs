@@ -11,8 +11,13 @@ public class Rocket : Weapon
 
     override public void Shoot(Vector2 position, Vector2 shootDirection)
     {
+        
         base.Shoot(position, shootDirection);
         lastProjectile.GetComponent<RocketBullet>().Init(this, shootDirection);
+        if(Random.Range(1,10) == 5)
+        {
+            lastProjectile.GetComponent<RocketBullet>().Glitch();
+        }
     }
 
 }

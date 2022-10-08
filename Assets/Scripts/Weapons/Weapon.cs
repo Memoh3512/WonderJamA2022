@@ -41,9 +41,9 @@ public class Weapon
     {
         cooldown =  60/fireRate;
         
-        lastProjectile = GameObject.Instantiate(projectilePrefab, position, Quaternion.identity);
+        lastProjectile = GameObject.Instantiate(projectilePrefab, position + shootDirection.normalized*0.5f, Quaternion.identity);
         lastProjectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
-        GameManager.instance.GetActivePlayer().GetComponent<Rigidbody2D>().AddForce((-shootDirection).normalized * knockback);
+        GameManager.instance.GetActivePlayer().GetComponent<Rigidbody2D>().velocity += ((-shootDirection).normalized * knockback);
         AmmoUsed();
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"),lastProjectile.transform.position,Quaternion.identity);
         text.GetComponent<TextMeshPro>().text = Random.Range(1,100) == 2 ? "Poutine!" : "PEW!";
