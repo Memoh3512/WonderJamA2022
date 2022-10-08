@@ -18,7 +18,7 @@ public class PlayerControls : Damagable
 {
     private Manette manette;
     private Rigidbody2D rb;
-    private BoxCollider2D characterCollider;
+    private Collider2D characterCollider;
     private Animator animator;
     private SpriteRenderer sprite;
     private GameObject gunHolder;
@@ -57,7 +57,7 @@ public class PlayerControls : Damagable
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        characterCollider = GetComponent<BoxCollider2D>();
+        characterCollider = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
         gunHolder = transform.Find("GunHolder").gameObject;
         sprite = transform.Find("Sprite").GetComponent<SpriteRenderer>();
@@ -304,8 +304,8 @@ public class PlayerControls : Damagable
         filter.layerMask = LayerMask.GetMask("Ground", "Player");
 
         Collider2D[] colls = new Collider2D[2];
-        bool ret = Physics2D.OverlapBox(characterCollider.bounds.center + (Vector3.down * 0.2f),
-            characterCollider.bounds.extents*2f,0,filter,colls) > 1;
+        bool ret = Physics2D.OverlapCircle(characterCollider.bounds.center + (Vector3.down * 0.2f),
+            ((CircleCollider2D)characterCollider).radius,filter,colls) > 1;
         return ret;
     }
 
