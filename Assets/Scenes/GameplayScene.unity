@@ -676,9 +676,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -381088283
-  m_SortingLayer: 1
-  m_SortingOrder: 7
+  m_SortingLayerID: 1135128125
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7466c3022332b1b45942e87052a711d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2015,7 +2015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aac3168e0c900346aa2d0c5d453a413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1531561707257332866, guid: 4829669ca8cb4a44fb05fafc9593e363,
+  playerPrefab: {fileID: 5834711110628369997, guid: 757165c38d48b4845811eb180faa8c56,
     type: 3}
   cursorPrefab: {fileID: 46568000520674083, guid: 3e7b6d05779bed64592bce7be729af0d,
     type: 3}
