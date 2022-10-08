@@ -59,7 +59,11 @@ public class PlayerControls : Damagable
         rb.gravityScale = gravityScale;
 
         //debug
-        currentWeapon = new Sniper();
+        weapons.Add(new Sniper());
+        weapons.Add(new SMG());
+        weapons.Add(new Sniper());
+        weapons.Add(new Sniper());
+        currentWeapon = weapons[0];
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
         
         //Init
@@ -149,7 +153,7 @@ public class PlayerControls : Damagable
                     NextGun();
                 }else if (manette.dpLeft.wasPressedThisFrame)
                 {
-                    PreviousGun();
+                    NextGun(true);
                 }
 
                 break;
@@ -264,12 +268,27 @@ public class PlayerControls : Damagable
     {
         return alive;
     }
-    private void NextGun()
+    private void NextGun(bool reverse = false)
     {
+        int currIndex = weapons.IndexOf(currentWeapon);
         
-    }
-    private void PreviousGun()
-    {
-        
+        if (reverse)
+        {
+            currIndex--;
+        }
+        else
+        {
+            currIndex++;
+        }
+        if (currIndex < 0)
+        {
+            currIndex = weapons.Count - 1;
+        }else if (currIndex >= weapons.Count)
+        {
+            currIndex = 0;
+        }
+        currentWeapon = weapons[currIndex];
+        Debug.Log("Changing to :"+currIndex);
+        gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
     }
 }
