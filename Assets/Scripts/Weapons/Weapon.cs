@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon
 {
-    Sprite weaponSprite;
+    public Sprite weaponSprite;
     GameObject projectilePrefab;
     float staminaCost;
     float fireRate;

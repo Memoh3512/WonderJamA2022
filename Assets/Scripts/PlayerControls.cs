@@ -20,6 +20,8 @@ public class PlayerControls : Damagable
     private Rigidbody2D rb;
     private BoxCollider2D characterCollider;
     private Animator animator;
+    private GameObject gunHolder;
+    
     private Vector2 movementDelta;
 
     private bool alive = true;
@@ -38,22 +40,28 @@ public class PlayerControls : Damagable
     public float airControl = 10;
     public float maxAirVelocity = 10;
     public int maxHP = 100;
+    public float GunHolderDistance = 2f;
 
-    //change to Weapon class when its created
     private List<Weapon> weapons = new List<Weapon>();
     private Weapon currentWeapon = null;
+
+    private Vector2 storedVelocityBeforeShooting = Vector2.zero;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         characterCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+        gunHolder = transform.Find("GunHolder").gameObject;
+        
         currentStamina = staminaMax;
 
         rb.gravityScale = gravityScale;
 
         //debug
-        state = PlayerAction.Waiting;
+        state = PlayerAction.Moving;
+        currentWeapon = new Sniper();
+        gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
         
         //Init
         Init(maxHP);
@@ -89,19 +97,75 @@ public class PlayerControls : Damagable
 
                 if (manette.aButton.wasPressedThisFrame) Jump();
                 movementDelta = manette.leftStick;
+                UpdateGunHolderPosition();
+
+                if (manette.bButton.wasPressedThisFrame)
+                {
+                    //TODO Confirmation
+                    GameManager.instance.NextPlayerTurn();
+                }
+                else if (manette.xButton.wasPressedThisFrame)
+                {
+                    GameManager.instance.setCurrentPlayerState(PlayerAction.PrepAttack);
+                    storedVelocityBeforeShooting = rb.velocity;
+                    movementDelta = Vector2.zero;
+                }
+                else if (manette.yButton.wasPressedThisFrame)
+                {
+                    //TODO peut pas bouger utilise la stamina
+                    Weapon gunToAdd = GameManager.instance.getRandomWeapon();
+                    weapons.Add(gunToAdd);
+                    
+                    GameManager.instance.NextPlayerTurn();
+                }
 
                 break;
             case PlayerAction.Waiting:
-
-                movementDelta = Vector2.zero;
-
+                //Physics guide le joueur :P
                 break;
             case PlayerAction.PrepAttack:
-
                 movementDelta = Vector2.zero;
+                if (manette.xButton.wasPressedThisFrame)
+                {
+                    GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
+                    rb.velocity = storedVelocityBeforeShooting;
+                    storedVelocityBeforeShooting = Vector2.zero;
+                }
+                else if (manette.aButton.wasPressedThisFrame)
+                {
+                    rb.velocity = storedVelocityBeforeShooting;
+                    storedVelocityBeforeShooting = Vector2.zero;
+
+                    Vector2 dir = gunHolder.transform.position - transform.position;
+                    
+                    currentWeapon.Shoot(dir.normalized);
+                }else if (manette.rightShoulder.wasPressedThisFrame)
+                {
+                    NextGun();
+                }else if (manette.leftShoulder.wasPressedThisFrame)
+                {
+                    PreviousGun();
+                }
 
                 break;
         }
+    }
+
+    void UpdateGunHolderPosition()
+    {
+
+        if (manette.rightStick.magnitude > 0.1)
+        {
+         
+            Vector2 angle = manette.rightStick.normalized;
+
+            Vector2 pos = ((Vector2)transform.position) + (angle * GunHolderDistance);
+
+            gunHolder.transform.position = pos;
+            gunHolder.transform.eulerAngles = new Vector3(0,0,Mathf.Rad2Deg * Mathf.Atan2(angle.y, angle.x));
+            
+        }
+
     }
 
     void CheckStaminaState()
@@ -167,10 +231,7 @@ public class PlayerControls : Damagable
         //Gizmos.DrawCube(characterCollider.bounds.center + (Vector3.down * 0.2f), characterCollider.bounds.extents * 2f);
     }
 
-    public PlayerAction getPlayerState()
-    {
-        return state;
-    }
+    
 
     private void EndTurn()
     {
@@ -181,12 +242,24 @@ public class PlayerControls : Damagable
         alive = false;
         GameManager.instance.PlayerDied(gameObject);
     }
-    public void setStateWaiting()
+    public PlayerAction getState()
     {
-        state = PlayerAction.Waiting;
+        return state;
+    }
+    public void setState(PlayerAction stateToSet)
+    {
+        state = stateToSet;
     }
     public bool isAlive()
     {
         return alive;
+    }
+    private void NextGun()
+    {
+        
+    }
+    private void PreviousGun()
+    {
+        
     }
 }

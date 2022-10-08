@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 enum GameState
 {
     Playing,
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
 
         foreach (var player in players)
         {
-            player.setStateWaiting();
+            player.setState(PlayerAction.Waiting);
         }
         
         // Start la game
@@ -61,7 +62,7 @@ public class GameManager : MonoBehaviour
     }
     public void NextPlayerTurn()
     {
-        players[currentPlayerIndex].setStateWaiting();
+        players[currentPlayerIndex].setState(PlayerAction.Waiting);
 
         // Get le next alive et rollover le playerIndex 
         do
@@ -113,5 +114,19 @@ public class GameManager : MonoBehaviour
     public void GameEnd()
     {
         
+    }
+    public void setCurrentPlayerState(PlayerAction state)
+    {
+        Debug.Log("Current state switched : "+state);
+        players[currentPlayerIndex].setState(state);
+    }
+    public Weapon getRandomWeapon()
+    {
+        return allWeapons[Random.Range(0, allWeapons.Count)];
+    }
+
+    public void AddPlayer(PlayerControls player)
+    {
+        players.Add(player);
     }
 }

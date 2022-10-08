@@ -30,7 +30,7 @@ public class PlayerSpawner : MonoBehaviour
                     
                     GameObject newPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);  
                     newPlayer.GetComponent<PlayerControls>().GetPlayerGamepad(i);
-                    
+                    GameManager.instance.AddPlayer(newPlayer.GetComponent<PlayerControls>());
                 //}
 
                 
