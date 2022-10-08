@@ -5,7 +5,7 @@ using TMPro;
 
 public class Shotgun : Weapon
 {
-    public Shotgun() : base(20, 0, 500, 5, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/Shotgun"), Resources.Load<GameObject>("ProjectilePrefabs/ShotgunBullet"))
+    public Shotgun() : base(20, 0, 5, 5, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/Shotgun"), Resources.Load<GameObject>("ProjectilePrefabs/ShotgunBullet"))
     {
 
     }
@@ -22,7 +22,7 @@ public class Shotgun : Weapon
           }
 
 
-        GameManager.instance.GetActivePlayer().GetComponent<Rigidbody2D>().AddForce((-shootDirection).normalized * knockback);
+        GameManager.instance.GetActivePlayer().GetComponent<Rigidbody2D>().velocity += ((-shootDirection).normalized * knockback);
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"), lastProjectile.transform.position, Quaternion.identity);
         text.GetComponent<TextMeshPro>().text = "POW!";
         text.transform.localScale *= 2;
