@@ -14,7 +14,6 @@ public enum PlayerAction
 {
     Waiting,
     Moving,
-    PrepAttack,
 }
 
 public class PlayerControls : Damagable
@@ -138,34 +137,10 @@ public class PlayerControls : Damagable
                 }
                 else if (manette.xButton.wasPressedThisFrame)
                 {
-                    GameManager.instance.setCurrentPlayerState(PlayerAction.PrepAttack);
-                    if (!IsGrounded()) Time.timeScale = startShootTimeScale;
-                    changeGunEvent.Invoke(currentWeapon,null);
-                }
-                else if (manette.yButton.wasPressedThisFrame)
-                {
-                    //TODO peut pas bouger utilise la stamina
-                    Weapon gunToAdd = GameManager.instance.getRandomWeapon();
-                    weapons.Add(gunToAdd);
                     
-                    GameManager.instance.NextPlayerTurn();
-                }
-
-                break;
-            case PlayerAction.Waiting:
-                //Physics guide le joueur :P
-                break;
-            case PlayerAction.PrepAttack:
-                movementDelta = Vector2.zero;
-                
-                UpdateGunHolderPosition();
-                
-                if (manette.xButton.wasPressedThisFrame)
-                {
-                    GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
-                    Time.timeScale = 1f;
-                }
-                else if (manette.rightTrigger.wasPressedThisFrame)
+                    if (!IsGrounded()) Time.timeScale = startShootTimeScale;
+                    
+                }else if (manette.rightTrigger.wasPressedThisFrame)
                 {
 
                     if (!IsGrounded()) Time.timeScale = slomoTimeScale;
@@ -180,6 +155,7 @@ public class PlayerControls : Damagable
                 }else if (manette.rightTrigger.isPressed)
                 {
                     TryShoot();
+                    if (IsGrounded()) Time.timeScale = 1f;
                 }
                 else if (manette.rightTrigger.wasReleasedThisFrame)
                 {
@@ -195,7 +171,18 @@ public class PlayerControls : Damagable
                 {
                     NextGun(true);
                 }
+                else if (manette.yButton.wasPressedThisFrame)
+                {
+                    //TODO peut pas bouger utilise la stamina
+                    Weapon gunToAdd = GameManager.instance.getRandomWeapon();
+                    weapons.Add(gunToAdd);
+                    
+                    GameManager.instance.NextPlayerTurn();
+                }
 
+                break;
+            case PlayerAction.Waiting:
+                //Physics guide le joueur :P
                 break;
         }
         

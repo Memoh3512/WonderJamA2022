@@ -224,9 +224,9 @@ public class GameManager : MonoBehaviour
             case PlayerAction.Moving:
                 setUI(instance.movingControls);
                 break;
-            case PlayerAction.PrepAttack:
-                setUI(instance.prepAttackControls);
-                break;
+            // case PlayerAction.PrepAttack:
+            //     setUI(instance.prepAttackControls);
+            //     break;
         }
     }
     public Weapon getRandomWeapon()
