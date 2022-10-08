@@ -4,28 +4,34 @@ using UnityEngine;
 
 public class Weapon
 {
+    Sprite weaponSprite;
+    GameObject projectilePrefab;
     float staminaCost;
     float fireRate;
     float knockback;
+    Vector2 shootingOffset;
     int projectileCount;
-    GameObject projectilePrefap;
 
 
-    public Weapon(float staminaCost, float fireRate, float knockback, int projectileCount)
+    public Weapon(float staminaCost, float fireRate, float knockback, int projectileCount,Vector2 shootingOffset, Sprite weaponSprite, GameObject projectilePrefab)
     {
         this.staminaCost = staminaCost;
         this.fireRate = fireRate;
         this.knockback = knockback;
         this.projectileCount = projectileCount;
+        this.shootingOffset = shootingOffset;
+        this.weaponSprite = weaponSprite;
+        this.projectilePrefab = projectilePrefab;
     }
 
-    public void Shoot()
+    virtual public void Shoot()
     {
-        //pew pew
+        GameObject projectile = GameObject.Instantiate(projectilePrefab);
+        projectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
     }
 
 
-    public void WeaponEmpty()
+    virtual public void WeaponEmpty()
     {
 
     }

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LadybugAnimController
+  m_Controller: {fileID: 9100000, guid: 73c6ab3f36e6eb64dac4247694137bd5, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: c49df829243400146a6398ab76102984, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 58ed52de1adae784b8ca513845285975, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5c3a3389384b8d143959dc32015b7723, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 84493ed218b68524e95ab97b3c1c9990, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 70568ce44a4a8c944a092f3b03f45012, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e37fc6cc2ddfad44bacf581a7a83e3ee, type: 2}
