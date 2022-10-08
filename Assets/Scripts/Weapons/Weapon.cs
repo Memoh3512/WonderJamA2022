@@ -14,7 +14,6 @@ public class Weapon
     protected Vector2 shootingOffset;
     protected int projectileCount;
     protected string weaponName;
-    protected bool canShoot;
     
     public UnityEvent<Weapon> gunShotEvent = new UnityEvent<Weapon>();
 
@@ -35,7 +34,6 @@ public class Weapon
         if (weaponName == "")
             this.weaponName = this.GetType().ToString();
         else this.weaponName = weaponName;
-        this.canShoot = true;
         
     }
 
@@ -51,12 +49,6 @@ public class Weapon
         gunShotEvent.Invoke(this);
     }
 
-    IEnumerator fireDelay()
-    {
-        canShoot = false;
-        yield return new WaitForSeconds(60 / fireRate);
-        canShoot = true;
-    }
 
     public float getStaminaCost()
     {
