@@ -18,6 +18,7 @@ public class PlayerControls : MonoBehaviour
     private Manette manette;
     private Rigidbody2D rb;
     private BoxCollider2D characterCollider;
+    private Animator animator;
     private Vector2 movementDelta;
 
     //Turn
@@ -39,6 +40,7 @@ public class PlayerControls : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         characterCollider = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
         currentStamina = staminaMax;
 
         rb.gravityScale = gravityScale;
@@ -55,8 +57,18 @@ public class PlayerControls : MonoBehaviour
     private void Update()
     {
         CheckInputs();
+
+        UpdateAnimValues();
     }
 
+    void UpdateAnimValues()
+    {
+        
+        animator.SetBool("IsGrounded",IsGrounded());
+        animator.SetFloat("XVelocity", Math.Abs(rb.velocity.x));
+        
+    }
+    
     void CheckInputs()
     {
         //movement inputs
@@ -119,13 +131,12 @@ public class PlayerControls : MonoBehaviour
     {
         bool ret = Physics2D.OverlapBox(characterCollider.bounds.center + (Vector3.down * 0.2f),
             characterCollider.bounds.extents*2f,0, 1 << LayerMask.NameToLayer("Ground")) != null;
-        Debug.Log(ret);
         return ret;
     }
 
     private void OnDrawGizmos()
     {
-        characterCollider = GetComponent<BoxCollider2D>();
-        Gizmos.DrawCube(characterCollider.bounds.center + (Vector3.down * 0.2f), characterCollider.bounds.extents * 2f);
+        //characterCollider = GetComponent<BoxCollider2D>();
+        //Gizmos.DrawCube(characterCollider.bounds.center + (Vector3.down * 0.2f), characterCollider.bounds.extents * 2f);
     }
 }
