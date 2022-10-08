@@ -46,6 +46,8 @@ public class PlayerControls : Damagable
     private List<Weapon> weapons = new List<Weapon>();
     private Weapon currentWeapon = null;
 
+    private Vector2 storedVelocityBeforeShooting = Vector2.zero;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -96,15 +98,50 @@ public class PlayerControls : Damagable
                 movementDelta = manette.leftStick;
                 UpdateGunHolderPosition();
 
+                if (manette.bButton.wasPressedThisFrame)
+                {
+                    //TODO Confirmation
+                    GameManager.instance.NextPlayerTurn();
+                }
+                else if (manette.xButton.wasPressedThisFrame)
+                {
+                    GameManager.instance.setCurrentPlayerState(PlayerAction.PrepAttack);
+                    storedVelocityBeforeShooting = rb.velocity;
+                    movementDelta = Vector2.zero;
+                }
+                else if (manette.yButton.wasPressedThisFrame)
+                {
+                    //TODO peut pas bouger utilise la stamina
+                    Weapon gunToAdd = GameManager.instance.getRandomWeapon();
+                    weapons.Add(gunToAdd);
+                    
+                    GameManager.instance.NextPlayerTurn();
+                }
+
                 break;
             case PlayerAction.Waiting:
-
-                movementDelta = Vector2.zero;
-
+                //Physics guide le joueur :P
                 break;
             case PlayerAction.PrepAttack:
-
                 movementDelta = Vector2.zero;
+                if (manette.xButton.wasPressedThisFrame)
+                {
+                    GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
+                    rb.velocity = storedVelocityBeforeShooting;
+                    storedVelocityBeforeShooting = Vector2.zero;
+                }
+                else if (manette.aButton.wasPressedThisFrame)
+                {
+                    rb.velocity = storedVelocityBeforeShooting;
+                    storedVelocityBeforeShooting = Vector2.zero;
+                    currentWeapon.Shoot();
+                }else if (manette.rightShoulder.wasPressedThisFrame)
+                {
+                    NextGun();
+                }else if (manette.leftShoulder.wasPressedThisFrame)
+                {
+                    PreviousGun();
+                }
 
                 break;
         }
@@ -190,10 +227,7 @@ public class PlayerControls : Damagable
         //Gizmos.DrawCube(characterCollider.bounds.center + (Vector3.down * 0.2f), characterCollider.bounds.extents * 2f);
     }
 
-    public PlayerAction getPlayerState()
-    {
-        return state;
-    }
+    
 
     private void EndTurn()
     {
@@ -204,12 +238,24 @@ public class PlayerControls : Damagable
         alive = false;
         GameManager.instance.PlayerDied(gameObject);
     }
-    public void setStateWaiting()
+    public PlayerAction getState()
     {
-        state = PlayerAction.Waiting;
+        return state;
+    }
+    public void setState(PlayerAction stateToSet)
+    {
+        state = stateToSet;
     }
     public bool isAlive()
     {
         return alive;
+    }
+    private void NextGun()
+    {
+        
+    }
+    private void PreviousGun()
+    {
+        
     }
 }
