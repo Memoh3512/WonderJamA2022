@@ -9,6 +9,7 @@ public class GameProjectile : MonoBehaviour
     protected float speed;
     protected Weapon parent;
     protected Vector2 shootDirection;
+    protected Rigidbody2D rb;
     public void Init(int damage, float gravityScale, float speed, Weapon parent,Vector2 shootDirection)
     {
         this.damage = damage;
@@ -17,8 +18,14 @@ public class GameProjectile : MonoBehaviour
         this.parent = parent;
         this.shootDirection = shootDirection;
 
-        GetComponent<Rigidbody2D>().gravityScale = gravityScale;
-        GetComponent<Rigidbody2D>().velocity = shootDirection.normalized * speed;
+        rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = gravityScale; 
+        rb.velocity = shootDirection.normalized * speed;
+    }
+
+    private void Update()
+    {
+        transform.eulerAngles = new Vector3(0,0, Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg);
     }
     protected virtual void OnHit()
     {
@@ -31,6 +38,7 @@ public class GameProjectile : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);           
         }
+        if(collision.gameObject.tag != "Bullet")
         OnHit();
     }
 

@@ -17,7 +17,8 @@ public class Explosion : MonoBehaviour
         cc.enabled = true;
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
         text.GetComponent<TextMeshPro>().text = "BOOM!";
-        text.transform.localScale *= 4;
+        text.GetComponent<TextMeshPro>().color = Color.red;
+        text.transform.localScale *= 5;
         StartCoroutine(Die());
     }
 

@@ -136,7 +136,15 @@ public class GameManager : MonoBehaviour
         players[currentPlayerIndex].setState(PlayerAction.Waiting);
 
         // Get le next alive et rollover le playerIndex 
-
+        
+        foreach (var player in players)
+        {
+            if (player.isAlive())
+            {
+                
+            }
+        }
+        
         do
         {
             currentPlayerIndex++;
@@ -168,7 +176,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private PlayerControls GetActivePlayer()
+    public PlayerControls GetActivePlayer()
     {
         return players[currentPlayerIndex];
     }
@@ -187,9 +195,7 @@ public class GameManager : MonoBehaviour
         if (count <= 1)
         {
             GameEnd();
-        }
-        
-        if (players[currentPlayerIndex] == deadPlayer.GetComponent<PlayerControls>())
+        }else if (players[currentPlayerIndex] == deadPlayer.GetComponent<PlayerControls>())
         {
             NextPlayerTurn();
         }
