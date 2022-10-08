@@ -128,4 +128,9 @@ public class PlayerControls : MonoBehaviour
         characterCollider = GetComponent<BoxCollider2D>();
         Gizmos.DrawCube(characterCollider.bounds.center + (Vector3.down * 0.2f), characterCollider.bounds.extents * 2f);
     }
+
+    public PlayerAction getPlayerState()
+    {
+        return state;
+    }
 }
