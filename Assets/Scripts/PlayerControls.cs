@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Processors;
 using UnityEngine.Serialization;
+using TMPro;
 
 
 public enum PlayerAction
@@ -168,6 +169,13 @@ public class PlayerControls : Damagable
                         currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
                         CheckStaminaState();
                     }
+                    else
+                    {
+                        GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
+                        text.GetComponent<TextMeshPro>().text = "No stamina!";
+                        text.transform.localScale *= 0.5f;
+                        text.GetComponent<TextMeshPro>().color = Color.cyan;
+                    }
 
                 }else if (manette.dpRight.wasPressedThisFrame)
                 {
@@ -213,7 +221,7 @@ public class PlayerControls : Damagable
         //Debug.Log("STAMINA: " + currentStamina);
         if (currentStamina <= 0)
         {
-            state = PlayerAction.Waiting;
+            GameManager.instance.NextPlayerTurn();
         }
     }
 
@@ -426,8 +434,9 @@ public class PlayerControls : Damagable
         if (fallCount >= maxFallCount)
         {
             //TODO die
-            Debug.LogError("DIEEEEEE");
-            Destroy(gameObject);
+            alive = false;
+            GameManager.instance.NextPlayerTurn();
+            gameObject.SetActive(false);
             
         }
         else
@@ -438,5 +447,12 @@ public class PlayerControls : Damagable
         }
 
     }
-    
+
+    private void Die()
+    {
+        alive = false;
+        gameObject.SetActive(false);
+        GameManager.instance.PlayerDied(gameObject);
+    }
+
 }
