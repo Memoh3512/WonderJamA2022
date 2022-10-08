@@ -289,5 +289,6 @@ public class PlayerControls : Damagable
         }
         currentWeapon = weapons[currIndex];
         Debug.Log("Changing to :"+currIndex);
+        gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
     }
 }
