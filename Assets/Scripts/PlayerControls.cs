@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.Processors;
 
 
 public enum PlayerAction
@@ -20,6 +21,8 @@ public class PlayerControls : MonoBehaviour
     private BoxCollider2D characterCollider;
     private Vector2 movementDelta;
 
+    private bool alive = true;
+
     //Turn
     public float currentStamina = 100;
 
@@ -33,7 +36,8 @@ public class PlayerControls : MonoBehaviour
     public float staminaMax = 100;
 
     //change to Weapon class when its created
-    private int currentWeapon = 0;
+    private List<Weapon> weapons = new List<Weapon>();
+    private Weapon currentWeapon = null;
 
     private void Start()
     {
@@ -44,7 +48,7 @@ public class PlayerControls : MonoBehaviour
         rb.gravityScale = gravityScale;
 
         //debug
-        state = PlayerAction.Moving;
+        state = PlayerAction.Waiting;
     }
 
     public void GetPlayerGamepad(int index)
@@ -132,5 +136,22 @@ public class PlayerControls : MonoBehaviour
     public PlayerAction getPlayerState()
     {
         return state;
+    }
+
+    private void EndTurn()
+    {
+        GameManager.instance.NextPlayerTurn();
+    }
+    private void OnDeath()
+    {
+        alive = false;
+    }
+    public void setStateWaiting()
+    {
+        state = PlayerAction.Waiting;
+    }
+    public bool isAlive()
+    {
+        return alive;
     }
 }
