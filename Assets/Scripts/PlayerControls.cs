@@ -373,7 +373,7 @@ public class PlayerControls : Damagable
         currentWeapon = weapons[currIndex];
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
         
-        changeGunEvent.Invoke(currentWeapon);
+        changeGunEvent?.Invoke(currentWeapon);
     }
     public bool CanShootWeapon()
     {
