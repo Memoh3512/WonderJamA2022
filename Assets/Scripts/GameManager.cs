@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private PlayerControls GetActivePlayer()
+    public PlayerControls GetActivePlayer()
     {
         return players[currentPlayerIndex];
     }

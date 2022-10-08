@@ -43,6 +43,7 @@ public class Weapon
         
         lastProjectile = GameObject.Instantiate(projectilePrefab, position, Quaternion.identity);
         lastProjectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
+        GameManager.instance.GetActivePlayer().GetComponent<Rigidbody2D>().AddForce((-shootDirection).normalized * knockback);
         AmmoUsed();
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"),lastProjectile.transform.position,Quaternion.identity);
         text.GetComponent<TextMeshPro>().text = "PEW!";
