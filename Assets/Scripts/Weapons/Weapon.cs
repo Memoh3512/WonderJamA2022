@@ -14,6 +14,8 @@ public class Weapon
     Vector2 shootingOffset;
     int projectileCount;
     string weaponName;
+    
+    public UnityEvent<Weapon> gunShotEvent = new UnityEvent<Weapon>();
 
     protected GameObject lastProjectile;
     public UnityEvent ammoUsedEvent = new UnityEvent();
@@ -38,6 +40,7 @@ public class Weapon
         AmmoUsed();
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"),lastProjectile.transform.position,Quaternion.identity);
         text.GetComponent<TextMeshPro>().text = "PEW";
+        gunShotEvent.Invoke(this);
     }
 
     public float getStaminaCost()
