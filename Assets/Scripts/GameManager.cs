@@ -124,4 +124,9 @@ public class GameManager : MonoBehaviour
     {
         return allWeapons[Random.Range(0, allWeapons.Count)];
     }
+
+    public void AddPlayer(PlayerControls player)
+    {
+        players.Add(player);
+    }
 }
