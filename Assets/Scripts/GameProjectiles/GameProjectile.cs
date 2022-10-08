@@ -20,10 +20,22 @@ public class GameProjectile : MonoBehaviour
         GetComponent<Rigidbody2D>().gravityScale = gravityScale;
         GetComponent<Rigidbody2D>().velocity = shootDirection.normalized * speed;
     }
-    private void OnHit()
+    protected virtual void OnHit()
     {
-    
-        
+        Destroy(gameObject);
+    }
 
+    public virtual void Colliding(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);
+            OnHit();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Colliding(collision);
     }
 }
