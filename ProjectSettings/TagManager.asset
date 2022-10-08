@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Spawnpoint
   - GlobalCam
+  - LevelTop
   layers:
   - Default
   - TransparentFX
