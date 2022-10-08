@@ -35,6 +35,15 @@ public class Weapon
         text.GetComponent<TextMeshPro>().text = "PEW";
     }
 
+    public bool canShoot(float currStamina)
+    {
+        if (currStamina >= staminaCost)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     virtual public void WeaponEmpty()
     {

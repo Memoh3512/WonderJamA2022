@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Processors;
+using UnityEngine.Serialization;
 
 
 public enum PlayerAction
@@ -43,7 +45,7 @@ public class PlayerControls : Damagable
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
     public float gravityScale = 10;
-    public float staminaMax = 100;
+    public float maxStamina = 100;
     public float airControl = 10;
     public float maxAirVelocity = 10;
     public int maxHP = 100;
@@ -53,6 +55,8 @@ public class PlayerControls : Damagable
     private Weapon currentWeapon = null;
 
     private Vector2 storedVelocityBeforeShooting = Vector2.zero;
+    
+    public UnityEvent<float> staminaTakenEvent = new UnityEvent<float>();
 
     private void Start()
     {
@@ -62,7 +66,7 @@ public class PlayerControls : Damagable
         gunHolder = transform.Find("GunHolder").gameObject;
         sprite = transform.Find("Sprite").GetComponent<SpriteRenderer>();
         
-        currentStamina = staminaMax;
+        currentStamina = maxStamina;
 
         rb.gravityScale = gravityScale;
 
@@ -212,7 +216,14 @@ public class PlayerControls : Damagable
             UpdateSpriteFlip();
         }
     }
-
+    void RemoveStamina(float toRemove)
+    {
+        if (toRemove > 0.01)
+        {
+            currentStamina -= toRemove;
+            staminaTakenEvent?.Invoke(currentStamina);
+        }
+    }
     void MovePlayer()
     {
 
@@ -220,21 +231,17 @@ public class PlayerControls : Damagable
         Vector2 delta = (movementDelta * moveSpeed);
         if (IsGrounded())
         {
-            
             rb.velocity = new Vector2(delta.x, rb.velocity.y);
-            currentStamina -= Math.Abs((delta * Time.deltaTime).x);
-            
+            RemoveStamina(Math.Abs((delta * Time.deltaTime).x));
         }
         else
         {
-            
             //air control
             float di = delta.x * airControl;
             rb.velocity = new Vector2(
                 Mathf.Clamp(rb.velocity.x + (di*Time.deltaTime), -maxAirVelocity, maxAirVelocity),
                 rb.velocity.y);
-            currentStamina -= Math.Abs(di * Time.deltaTime);
-
+            RemoveStamina(Math.Abs(di * Time.deltaTime));
         }
 
         CheckStaminaState();
