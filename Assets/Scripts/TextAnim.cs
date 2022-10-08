@@ -12,34 +12,38 @@ public class TextAnim : MonoBehaviour
     float speed;
     float timeStep;
     Vector2 spawnDirection;
+    RectTransform RT;
     TextMeshPro tm;
     void Start()
     {
         timeStep = 0.01f;
-        lifeSpan = 0.5f;
+        lifeSpan = 1.5f;
         Scaleup = 2;
-        speed = 2;
+        speed = 0.5f;
         
         float angle = Random.Range(0, 360)*Mathf.Deg2Rad;
         spawnDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-        spawnDirection *= Random.Range(3, 5);
+        spawnDirection *= Random.Range(0.5f, 1);
         transform.position += new Vector3(spawnDirection.x,spawnDirection.y);
+        RT = GetComponent<RectTransform>();
         tm = GetComponent<TextMeshPro>();
-        startingSize = tm.fontSize;
+
+        startingSize = RT.localScale.x;
         StartCoroutine(Animation());
     }
 
     IEnumerator Animation()
     {
+        float totaltime = 0;
         float diffSize = (startingSize * Scaleup) - startingSize;
         float steps = startingSize / (lifeSpan / timeStep);
-        float totalSizeBoost = 0;
-        while (tm.fontSize < startingSize * Scaleup)
+        while (RT.localScale.x < startingSize * Scaleup)
         {
             yield return new WaitForSeconds(timeStep);
+            totaltime += timeStep;
             transform.position += new Vector3(spawnDirection.normalized.x * speed * timeStep, spawnDirection.normalized.y * speed * timeStep);
-            totalSizeBoost += steps;
-            tm.fontSize += Mathf.RoundToInt(totalSizeBoost);           
+            tm.alpha = (lifeSpan - totaltime) / lifeSpan;
+            RT.localScale += Vector3.one * steps;
         }
 
         Destroy(gameObject);

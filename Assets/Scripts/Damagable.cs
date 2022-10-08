@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Damagable : MonoBehaviour
 {
     protected int hp;
+
+    public UnityEvent<int> damageTakenEvent = new UnityEvent<int>();
     public Damagable(int hp = 10)
     {
         this.hp = hp;
@@ -28,7 +31,7 @@ public class Damagable : MonoBehaviour
             hp = 0;
             OnDeath();
         }
-        
+        damageTakenEvent?.Invoke(hp);
         return hp <= 0;
     }
 
