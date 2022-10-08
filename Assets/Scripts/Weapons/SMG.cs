@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sniper : Weapon
+public class SMG : Weapon
 {
-    public Sniper() : base(50,0,10,2,Vector2.zero,Resources.Load<Sprite>("WeaponSprites/Sniper"), Resources.Load<GameObject>("ProjectilePrefabs/SniperBullet"))
+    public SMG() : base(5, 200, 1, 30, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/SMG"), Resources.Load<GameObject>("ProjectilePrefabs/SMGBullet"))
     {
-        
+
     }
 
     override public void Shoot(Vector2 position, Vector2 shootDirection)
@@ -15,6 +15,5 @@ public class Sniper : Weapon
         lastProjectile.GetComponent<SniperBullet>().Init(this, shootDirection);
 
     }
-
 
 }
