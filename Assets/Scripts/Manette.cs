@@ -36,7 +36,7 @@ public class Manette
         kb = Keyboard.current;
         mouse = Mouse.current;
         gp = new Gamepad();
-
+        
     }
     
     public async void Rumble(float nbSecs, RumbleForce force = RumbleForce.Medium)
