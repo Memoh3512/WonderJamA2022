@@ -32,6 +32,7 @@ public class PlayerControls : MonoBehaviour
     public float jumpHeight = 1;
     public float gravityScale = 10;
     public float staminaMax = 100;
+    public float airControl = 100;
 
     //change to Weapon class when its created
     private int currentWeapon = 0;
@@ -110,10 +111,24 @@ public class PlayerControls : MonoBehaviour
 
     void MovePlayer()
     {
+
         var position = transform.position;
-        Vector2 delta = (manette.leftStick * moveSpeed);
-        rb.velocity = new Vector2(delta.x, rb.velocity.y);
-        currentStamina -= Math.Abs((delta * Time.deltaTime).x);
+        Vector2 delta = (movementDelta * moveSpeed);
+        if (IsGrounded())
+        {
+            
+            rb.velocity = new Vector2(delta.x, rb.velocity.y);
+            currentStamina -= Math.Abs((delta * Time.deltaTime).x);
+            
+        }
+        else
+        {
+
+            Debug.Log("AICONTROL");
+            Vector2 di = delta * airControl;
+            rb.AddForce(di*Time.deltaTime);
+
+        }
 
         CheckStaminaState();
     }
