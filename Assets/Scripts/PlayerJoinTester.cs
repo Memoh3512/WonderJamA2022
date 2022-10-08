@@ -94,6 +94,7 @@ public class PlayerJoinTester : MonoBehaviour
         transform.Find("CharacterChoosed").GetComponent<Image>().color = new Color(1,1,1,1);
         transform.Find("CharacterName").GetComponent<TextMeshProUGUI>().text = c.name;
 
+        PlayerInputs.GetPlayerController(playerNb - 1).character = c.name;
 
     }
 

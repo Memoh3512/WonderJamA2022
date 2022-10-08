@@ -101,6 +101,16 @@ public class PlayerControls : Damagable
         CheckInputs();
 
         UpdateAnimValues();
+
+        if (currentWeapon.cooldown > 0)
+        {
+            currentWeapon.cooldown -= Time.deltaTime;
+            if (currentWeapon.cooldown < 0)
+            {
+                currentWeapon.cooldown = 0;
+            }
+        }
+        
     }
 
     void UpdateAnimValues()
@@ -165,23 +175,18 @@ public class PlayerControls : Damagable
                     storedVelocityBeforeShooting = Vector2.zero;
                     rb.gravityScale = gravityScale;
 
-                    Vector2 dir = gunHolder.transform.position - transform.position;
+                    TryShoot(true);
 
-                    if (CanShootWeapon())
-                    {
-                        RemoveStamina(currentWeapon.getStaminaCost());
-                        currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
-                        CheckStaminaState();
-                    }
-                    else
-                    {
-                        GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
-                        text.GetComponent<TextMeshPro>().text = "No stamina!";
-                        text.transform.localScale *= 0.5f;
-                        text.GetComponent<TextMeshPro>().color = Color.cyan;
-                    }
-
+                }else if (manette.rightTrigger.isPressed)
+                {
+                    TryShoot();
                 }else if (manette.dpRight.wasPressedThisFrame)
+                {
+                    
+                    
+                    
+                }
+                else if (manette.dpRight.wasPressedThisFrame)
                 {
                     NextGun();
                 }else if (manette.dpLeft.wasPressedThisFrame)
@@ -195,12 +200,30 @@ public class PlayerControls : Damagable
         //zoom
         if (state != PlayerAction.Waiting)
         {
-
             if (manette.rightShoulder.isPressed) FindObjectOfType<PlayerFollowCam>().Zoom(-zoomSpeed*Time.deltaTime);
             if (manette.leftShoulder.isPressed) FindObjectOfType<PlayerFollowCam>().Zoom(zoomSpeed*Time.deltaTime);
-            
         }
         
+    }
+    void TryShoot(bool singlePress=false)
+    {
+        if (CanShootWeaponCooldown())
+        {
+            if (CanShootWeaponStamina())
+            {
+                Vector2 dir = gunHolder.transform.position - transform.position;
+                RemoveStamina(currentWeapon.getStaminaCost());
+                currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
+                CheckStaminaState();
+            }
+            else if(singlePress)
+            {
+                GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
+                text.GetComponent<TextMeshPro>().text = "No stamina!";
+                text.transform.localScale *= 0.5f;
+                text.GetComponent<TextMeshPro>().color = Color.cyan;
+            }
+        }
     }
 
     void UpdateGunHolderPosition()
@@ -240,7 +263,7 @@ public class PlayerControls : Damagable
     }
     void RemoveStamina(float toRemove)
     {
-        if (toRemove > 0.01)
+        if (toRemove > 0)
         {
             currentStamina -= toRemove;
             staminaTakenEvent?.Invoke(currentStamina);
@@ -370,18 +393,6 @@ public class PlayerControls : Damagable
         return ret;
     }
 
-    private void OnDrawGizmos()
-    {
-        //characterCollider = GetComponent<BoxCollider2D>();
-        //Gizmos.DrawCube(characterCollider.bounds.center + (Vector3.down * 0.2f), characterCollider.bounds.extents * 2f);
-    }
-
-    
-
-    private void EndTurn()
-    {
-        GameManager.instance.NextPlayerTurn();
-    }
     protected override void OnDeath()
     {
         Die();
@@ -424,13 +435,17 @@ public class PlayerControls : Damagable
         
         changeGunEvent.Invoke(currentWeapon,oldGun);
     }
-    public bool CanShootWeapon()
+    public bool CanShootWeaponStamina()
     {
         if (currentStamina >= currentWeapon.getStaminaCost())
         {
             return true;
         }
         return false;
+    }
+    public bool CanShootWeaponCooldown()
+    {
+        return currentWeapon.OutOfCooldown();
     }
 
     public void Fall(float top)
@@ -459,11 +474,12 @@ public class PlayerControls : Damagable
         GameManager.instance.PlayerDied(gameObject);
     }
 
-    public void ShowUI(bool show = true)
+    public void PlayerTargetted(bool show = true)
     {
         foreach (var ui in toNotShowOnOthersTurn)
         {
             ui.SetActive(show);
         }
+        staminaTakenEvent?.Invoke(currentStamina);
     }
 }
