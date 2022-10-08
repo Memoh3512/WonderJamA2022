@@ -113,12 +113,17 @@ public class PlayerControls : Damagable
     void UpdateGunHolderPosition()
     {
 
-        Vector2 angle = manette.rightStick.normalized;
+        if (manette.rightStick.magnitude > 0.1)
+        {
+         
+            Vector2 angle = manette.rightStick.normalized;
 
-        Vector2 pos = ((Vector2)transform.position) + (angle * GunHolderDistance);
+            Vector2 pos = ((Vector2)transform.position) + (angle * GunHolderDistance);
 
-        gunHolder.transform.position = pos;
-        gunHolder.transform.eulerAngles = new Vector3(0,0,Mathf.Rad2Deg * Mathf.Atan2(angle.y, angle.x));
+            gunHolder.transform.position = pos;
+            gunHolder.transform.eulerAngles = new Vector3(0,0,Mathf.Rad2Deg * Mathf.Atan2(angle.y, angle.x));
+            
+        }
 
     }
 
