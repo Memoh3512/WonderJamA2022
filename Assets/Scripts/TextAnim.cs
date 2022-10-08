@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TextAnim : MonoBehaviour
@@ -11,7 +12,7 @@ public class TextAnim : MonoBehaviour
     float speed;
     float timeStep;
     Vector2 spawnDirection;
-    TextMesh tm;
+    TextMeshPro tm;
     void Start()
     {
         timeStep = 0.01f;
@@ -23,7 +24,7 @@ public class TextAnim : MonoBehaviour
         spawnDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
         spawnDirection *= Random.Range(3, 5);
         transform.position += new Vector3(spawnDirection.x,spawnDirection.y);
-        tm = GetComponent<TextMesh>();
+        tm = GetComponent<TextMeshPro>();
         startingSize = tm.fontSize;
         StartCoroutine(Animation());
     }
