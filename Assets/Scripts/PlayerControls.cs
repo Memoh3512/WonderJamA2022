@@ -44,7 +44,8 @@ public class PlayerControls : Damagable
     public float zoomSpeed = 1;
     public float maxFallCount = 3;
     public float maxIKDistance = 1;
-    public float SlomoTime = 0.3f;
+    public float startShootTimeScale = 0.05f;
+    public float slomoTimeScale = 0.2f;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -57,8 +58,6 @@ public class PlayerControls : Damagable
 
     private List<Weapon> weapons = new List<Weapon>();
     private Weapon currentWeapon = null;
-
-    private Vector2 storedVelocityBeforeShooting = Vector2.zero;
     
     public UnityEvent<float> staminaTakenEvent = new UnityEvent<float>();
     public UnityEvent<Weapon,Weapon> changeGunEvent = new UnityEvent<Weapon,Weapon>();
@@ -140,9 +139,7 @@ public class PlayerControls : Damagable
                 else if (manette.xButton.wasPressedThisFrame)
                 {
                     GameManager.instance.setCurrentPlayerState(PlayerAction.PrepAttack);
-                    storedVelocityBeforeShooting = rb.velocity;
-                    rb.velocity = Vector2.zero;
-                    rb.gravityScale = 0;
+                    if (!IsGrounded()) Time.timeScale = startShootTimeScale;
                     changeGunEvent.Invoke(currentWeapon,null);
                 }
                 else if (manette.yButton.wasPressedThisFrame)
@@ -166,17 +163,12 @@ public class PlayerControls : Damagable
                 if (manette.xButton.wasPressedThisFrame)
                 {
                     GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
-                    rb.velocity = storedVelocityBeforeShooting;
-                    storedVelocityBeforeShooting = Vector2.zero;
-                    rb.gravityScale = gravityScale;
+                    Time.timeScale = 1f;
                 }
                 else if (manette.rightTrigger.wasPressedThisFrame)
                 {
-                    rb.velocity = storedVelocityBeforeShooting;
-                    storedVelocityBeforeShooting = Vector2.zero;
-                    rb.gravityScale = gravityScale;
 
-                    Time.timeScale = SlomoTime;
+                    if (!IsGrounded()) Time.timeScale = slomoTimeScale;
 
                     TryShoot(true);
 
