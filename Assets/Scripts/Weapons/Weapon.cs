@@ -46,7 +46,7 @@ public class Weapon
         GameManager.instance.GetActivePlayer().GetComponent<Rigidbody2D>().AddForce((-shootDirection).normalized * knockback);
         AmmoUsed();
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"),lastProjectile.transform.position,Quaternion.identity);
-        text.GetComponent<TextMeshPro>().text = "PEW!";
+        text.GetComponent<TextMeshPro>().text = Random.Range(1,100) == 2 ? "Poutine!" : "PEW!";
         gunShotEvent.Invoke(this);
     }
 
