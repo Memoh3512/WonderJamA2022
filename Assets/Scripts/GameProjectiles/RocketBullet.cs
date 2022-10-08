@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class RocketBullet : GameProjectile
@@ -15,7 +16,10 @@ public class RocketBullet : GameProjectile
         
             GameObject explosion = GameObject.Instantiate(Resources.Load<GameObject>("ProjectilePrefabs/Explosion"), transform.position, Quaternion.identity);
             explosion.GetComponent<Explosion>().Init(damage, 4, 25);
-            Destroy(gameObject);      
+            GetComponent<ParticleSystem>().Stop();
+            Destroy(GetComponent<SpriteRenderer>());
+            Destroy(GetComponent<PolygonCollider2D>());
+            Destroy(gameObject,GetComponent<ParticleSystem>().startLifetime);      
         
     }
 }
