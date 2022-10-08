@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class GameProjectile : MonoBehaviour
 {
-    int damage;
-    float gravityScale;
-    float speed;
-    Weapon parent;
-    Vector2 shootDirection;
+    protected int damage;
+    protected float gravityScale;
+    protected float speed;
+    protected Weapon parent;
+    protected Vector2 shootDirection;
     public void Init(int damage, float gravityScale, float speed, Weapon parent,Vector2 shootDirection)
     {
         this.damage = damage;
@@ -29,9 +29,9 @@ public class GameProjectile : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);
-            OnHit();
+            collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);           
         }
+        OnHit();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

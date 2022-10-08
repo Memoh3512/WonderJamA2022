@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Processors;
 using UnityEngine.Serialization;
+using TMPro;
 
 
 public enum PlayerAction
@@ -61,6 +62,8 @@ public class PlayerControls : Damagable
     public UnityEvent<float> staminaTakenEvent = new UnityEvent<float>();
     public UnityEvent<Weapon,Weapon> changeGunEvent = new UnityEvent<Weapon,Weapon>();
 
+    public List<GameObject> toNotShowOnOthersTurn = new List<GameObject>();
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -76,6 +79,7 @@ public class PlayerControls : Damagable
         //debug
         weapons.Add(new Sniper());
         weapons.Add(new SMG());
+        weapons.Add(new Rocket());
         //ENSEMBLE {
         currentWeapon = weapons[0];
         //}
@@ -167,6 +171,13 @@ public class PlayerControls : Damagable
                         RemoveStamina(currentWeapon.getStaminaCost());
                         currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
                         CheckStaminaState();
+                    }
+                    else
+                    {
+                        GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
+                        text.GetComponent<TextMeshPro>().text = "No stamina!";
+                        text.transform.localScale *= 0.5f;
+                        text.GetComponent<TextMeshPro>().color = Color.cyan;
                     }
 
                 }else if (manette.dpRight.wasPressedThisFrame)
@@ -372,8 +383,7 @@ public class PlayerControls : Damagable
     }
     protected override void OnDeath()
     {
-        alive = false;
-        GameManager.instance.PlayerDied(gameObject);
+        Die();
     }
     public PlayerAction getState()
     {
@@ -429,11 +439,8 @@ public class PlayerControls : Damagable
 
         if (fallCount >= maxFallCount)
         {
-            //TODO die
-            alive = false;
-            GameManager.instance.NextPlayerTurn();
-            gameObject.SetActive(false);
-            
+            Die();
+
         }
         else
         {
@@ -451,4 +458,11 @@ public class PlayerControls : Damagable
         GameManager.instance.PlayerDied(gameObject);
     }
 
+    public void ShowUI(bool show = true)
+    {
+        foreach (var ui in toNotShowOnOthersTurn)
+        {
+            ui.SetActive(show);
+        }
+    }
 }

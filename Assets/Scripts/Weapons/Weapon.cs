@@ -39,7 +39,7 @@ public class Weapon
         lastProjectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
         AmmoUsed();
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"),lastProjectile.transform.position,Quaternion.identity);
-        text.GetComponent<TextMeshPro>().text = "PEW";
+        text.GetComponent<TextMeshPro>().text = "PEW!";
         gunShotEvent.Invoke(this);
     }
 
