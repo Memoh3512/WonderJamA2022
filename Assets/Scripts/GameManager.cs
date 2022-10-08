@@ -12,6 +12,12 @@ enum GameState
     Stopped
 }
 
+public enum GlitchType
+{
+    Player,
+    Screen
+}
+
 public struct Character
 {
     public Sprite spr;
@@ -239,5 +245,13 @@ public class GameManager : MonoBehaviour
         prepAttackControls.SetActive(false);
 
         ui.SetActive(true);
+    }
+
+    public void Glitch(GlitchType glitchType)
+    {
+        GameObject Text = Instantiate(Resources.Load<GameObject>("PopupText"), new Vector3(0, 0, 0), Quaternion.identity);
+        Text.transform.localScale *= 20;
+        Text.GetComponent<TextMeshPro>().color = Color.magenta;
+        Text.GetComponent<TextMeshPro>().text = "GLITCH";
     }
 }

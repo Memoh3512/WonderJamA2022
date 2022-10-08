@@ -482,6 +482,9 @@ public class PlayerControls : Damagable
         {
             ui.SetActive(show);
         }
-        staminaTakenEvent?.Invoke(currentStamina);
+        if (show)
+        {
+            staminaTakenEvent?.Invoke(currentStamina);
+        }
     }
 }
