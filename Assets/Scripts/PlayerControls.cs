@@ -207,7 +207,7 @@ public class PlayerControls : Damagable
             rb.velocity = new Vector2(
                 Mathf.Clamp(rb.velocity.x + (di*Time.deltaTime), -maxAirVelocity, maxAirVelocity),
                 rb.velocity.y);
-            Debug.Log("VEL = " + rb.velocity.x);
+            currentStamina -= Math.Abs(di * Time.deltaTime);
 
         }
 
@@ -225,8 +225,13 @@ public class PlayerControls : Damagable
 
     bool IsGrounded()
     {
+
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.layerMask = LayerMask.GetMask("Ground", "Player");
+
+        Collider2D[] colls = new Collider2D[2];
         bool ret = Physics2D.OverlapBox(characterCollider.bounds.center + (Vector3.down * 0.2f),
-            characterCollider.bounds.extents*2f,0, 1 << LayerMask.NameToLayer("Ground")) != null;
+            characterCollider.bounds.extents*2f,0,filter,colls) > 1;
         return ret;
     }
 
