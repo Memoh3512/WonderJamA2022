@@ -201,7 +201,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStamina: 100
   state: 0
-  moveSpeed: 10
+  moveSpeed: 5
   jumpHeight: 200
   gravityScale: 5
   staminaMax: 100
+  airControl: 10
+  maxAirVelocity: 5

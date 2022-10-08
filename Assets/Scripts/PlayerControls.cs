@@ -35,7 +35,8 @@ public class PlayerControls : MonoBehaviour
     public float jumpHeight = 1;
     public float gravityScale = 10;
     public float staminaMax = 100;
-    public float airControl = 100;
+    public float airControl = 10;
+    public float maxAirVelocity = 10;
 
     //change to Weapon class when its created
     private List<Weapon> weapons = new List<Weapon>();
@@ -51,7 +52,7 @@ public class PlayerControls : MonoBehaviour
         rb.gravityScale = gravityScale;
 
         //debug
-        state = PlayerAction.Waiting;
+        state = PlayerAction.Moving;
     }
 
     public void GetPlayerGamepad(int index)
@@ -127,10 +128,13 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
-
-            Debug.Log("AICONTROL");
-            Vector2 di = delta * airControl;
-            rb.AddForce(di*Time.deltaTime);
+            
+            //air control
+            float di = delta.x * airControl;
+            rb.velocity = new Vector2(
+                Mathf.Clamp(rb.velocity.x + (di*Time.deltaTime), -maxAirVelocity, maxAirVelocity),
+                rb.velocity.y);
+            Debug.Log("VEL = " + rb.velocity.x);
 
         }
 
