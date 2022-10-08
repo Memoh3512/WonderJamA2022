@@ -15,7 +15,7 @@ public class RocketBullet : GameProjectile
     {
         
             GameObject explosion = GameObject.Instantiate(Resources.Load<GameObject>("ProjectilePrefabs/Explosion"), transform.position, Quaternion.identity);
-            explosion.GetComponent<Explosion>().Init(damage, 4, 1000);
+            explosion.GetComponent<Explosion>().Init(damage, 4, 10000);
             Destroy(gameObject);      
         
     }

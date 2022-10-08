@@ -31,6 +31,7 @@ public class Weapon
         this.projectilePrefab = projectilePrefab;
         if (weaponName == "")
             this.weaponName = this.GetType().ToString();
+        else this.weaponName = weaponName;
     }
 
     virtual public void Shoot(Vector2 position, Vector2 shootDirection)
