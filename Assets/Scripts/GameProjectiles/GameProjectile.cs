@@ -16,9 +16,14 @@ public class GameProjectile : MonoBehaviour
         this.speed = speed;
         this.parent = parent;
         this.shootDirection = shootDirection;
+
+        GetComponent<Rigidbody2D>().gravityScale = gravityScale;
+        GetComponent<Rigidbody2D>().velocity = shootDirection.normalized * speed;
     }
     private void OnHit()
     {
+    
+        
 
     }
 }

@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class Damagable : MonoBehaviour
 {
-    int hp;
-    public Damagable(int hp)
+    protected int hp;
+    public Damagable(int hp = 10)
+    {
+        this.hp = hp;
+    }
+
+    public void Init(int hp)
     {
         this.hp = hp;
     }
@@ -27,7 +32,7 @@ public class Damagable : MonoBehaviour
         return hp <= 0;
     }
 
-    protected void OnDeath()
+    protected virtual void OnDeath()
     {
         Destroy(gameObject);
     }
