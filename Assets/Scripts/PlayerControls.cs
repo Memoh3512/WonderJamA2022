@@ -59,7 +59,7 @@ public class PlayerControls : Damagable
     private Vector2 storedVelocityBeforeShooting = Vector2.zero;
     
     public UnityEvent<float> staminaTakenEvent = new UnityEvent<float>();
-    public UnityEvent<Weapon> changeGunEvent = new UnityEvent<Weapon>();
+    public UnityEvent<Weapon,Weapon> changeGunEvent = new UnityEvent<Weapon,Weapon>();
 
     private void Start()
     {
@@ -76,9 +76,10 @@ public class PlayerControls : Damagable
         //debug
         weapons.Add(new Sniper());
         weapons.Add(new SMG());
-        weapons.Add(new Sniper());
-        weapons.Add(new Sniper());
+        //ENSEMBLE {
         currentWeapon = weapons[0];
+        //}
+        
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
         
         //Init
@@ -99,10 +100,8 @@ public class PlayerControls : Damagable
 
     void UpdateAnimValues()
     {
-        
         animator.SetBool("IsGrounded",IsGrounded());
         animator.SetFloat("XVelocity", Math.Abs(rb.velocity.x));
-        
     }
     
     void CheckInputs()
@@ -128,6 +127,7 @@ public class PlayerControls : Damagable
                     storedVelocityBeforeShooting = rb.velocity;
                     rb.velocity = Vector2.zero;
                     rb.gravityScale = 0;
+                    changeGunEvent.Invoke(currentWeapon,null);
                 }
                 else if (manette.yButton.wasPressedThisFrame)
                 {
@@ -164,7 +164,9 @@ public class PlayerControls : Damagable
 
                     if (CanShootWeapon())
                     {
+                        RemoveStamina(currentWeapon.getStaminaCost());
                         currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
+                        CheckStaminaState();
                     }
 
                 }else if (manette.dpRight.wasPressedThisFrame)
@@ -383,6 +385,7 @@ public class PlayerControls : Damagable
     }
     private void NextGun(bool reverse = false)
     {
+        Weapon oldGun = currentWeapon;
         int currIndex = weapons.IndexOf(currentWeapon);
         
         if (reverse)
@@ -404,7 +407,7 @@ public class PlayerControls : Damagable
         currentWeapon = weapons[currIndex];
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
         
-        changeGunEvent?.Invoke(currentWeapon);
+        changeGunEvent.Invoke(currentWeapon,oldGun);
     }
     public bool CanShootWeapon()
     {
