@@ -59,7 +59,6 @@ public class PlayerControls : Damagable
         rb.gravityScale = gravityScale;
 
         //debug
-        state = PlayerAction.Moving;
         currentWeapon = new Sniper();
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
         
@@ -108,7 +107,8 @@ public class PlayerControls : Damagable
                 {
                     GameManager.instance.setCurrentPlayerState(PlayerAction.PrepAttack);
                     storedVelocityBeforeShooting = rb.velocity;
-                    movementDelta = Vector2.zero;
+                    rb.velocity = Vector2.zero;
+                    rb.gravityScale = 0;
                 }
                 else if (manette.yButton.wasPressedThisFrame)
                 {
@@ -125,24 +125,29 @@ public class PlayerControls : Damagable
                 break;
             case PlayerAction.PrepAttack:
                 movementDelta = Vector2.zero;
+                
+                UpdateGunHolderPosition();
+                
                 if (manette.xButton.wasPressedThisFrame)
                 {
                     GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
                     rb.velocity = storedVelocityBeforeShooting;
                     storedVelocityBeforeShooting = Vector2.zero;
+                    rb.gravityScale = gravityScale;
                 }
-                else if (manette.aButton.wasPressedThisFrame)
+                else if (manette.rightTrigger.wasPressedThisFrame)
                 {
                     rb.velocity = storedVelocityBeforeShooting;
                     storedVelocityBeforeShooting = Vector2.zero;
+                    rb.gravityScale = gravityScale;
 
                     Vector2 dir = gunHolder.transform.position - transform.position;
                     
-                    currentWeapon.Shoot(dir.normalized);
-                }else if (manette.rightShoulder.wasPressedThisFrame)
+                    currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
+                }else if (manette.dpRight.wasPressedThisFrame)
                 {
                     NextGun();
-                }else if (manette.leftShoulder.wasPressedThisFrame)
+                }else if (manette.dpLeft.wasPressedThisFrame)
                 {
                     PreviousGun();
                 }

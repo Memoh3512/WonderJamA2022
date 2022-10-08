@@ -11,12 +11,12 @@ enum GameState
 }
 public class GameManager : MonoBehaviour
 {
-    private List<PlayerControls> players;
-    private List<Weapon> allWeapons;
+    private List<PlayerControls> players = new List<PlayerControls>();
+    private List<Weapon> allWeapons = new List<Weapon>();
     private int turn;
     private GameState gameState;
-    private UnityEvent nextTurnEvent;
-    private UnityEvent nextPlayerEvent;
+    private UnityEvent nextTurnEvent = new UnityEvent();
+    private UnityEvent nextPlayerEvent = new UnityEvent();
     private int currentPlayerIndex;
 
     
@@ -36,10 +36,10 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        GameStart();
+        
     }
     
-    void GameStart()
+    public void GameStart()
     {
         //RESET LES VALEURS <3
         turn = 1;
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     
     private void NextTurn()
     {
-        turn += 1;
+        turn++;
         
         nextTurnEvent.Invoke();
     }
@@ -65,30 +65,27 @@ public class GameManager : MonoBehaviour
         players[currentPlayerIndex].setState(PlayerAction.Waiting);
 
         // Get le next alive et rollover le playerIndex 
+
         do
         {
+
             currentPlayerIndex++;
-            if (players.Count > currentPlayerIndex)
-            {
-                currentPlayerIndex = 0;
-                NextTurn();
-            }
+            currentPlayerIndex %= players.Count;
+            if (currentPlayerIndex == 0) NextTurn();
+
         } while (!players[currentPlayerIndex].isAlive());
-        
 
         FocusOnPlayer(players[currentPlayerIndex]);
-        
+
         nextPlayerEvent.Invoke();
     }
 
     public void FocusOnPlayer(PlayerControls player)
     {
         //TODO set la camera ui etc
+        players[currentPlayerIndex].setState(PlayerAction.Moving);
         
     }
-    
-
-    
 
     private PlayerControls GetActivePlayer()
     {
