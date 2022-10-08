@@ -171,6 +171,11 @@ public class PlayerControls : Damagable
                     if (!IsGrounded()) Time.timeScale = slomoTimeScale;
 
                     TryShoot(true);
+                    if (currentWeapon.getFirerate() == 0)
+                    {
+                        Time.timeScale = 1f;
+                        GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
+                    }
 
                 }else if (manette.rightTrigger.isPressed)
                 {
@@ -180,7 +185,7 @@ public class PlayerControls : Damagable
                 {
 
                     Time.timeScale = 1f;
-                    state = PlayerAction.Moving;
+                    GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
 
                 }
                 else if (manette.dpRight.wasPressedThisFrame)
@@ -206,7 +211,7 @@ public class PlayerControls : Damagable
     {
         if (CanShootWeaponCooldown())
         {
-            if (CanShootWeaponStamina() && singlePress)
+            if (CanShootWeaponStamina())
             {
                 Vector2 dir = gunHolder.transform.position - transform.position;
                 RemoveStamina(currentWeapon.getStaminaCost());
@@ -353,7 +358,7 @@ public class PlayerControls : Damagable
 
             if (hit[1].distance <= maxIKDistance)
             {
-                Debug.Log("DIST: " + hit[1].distance);
+                //Debug.Log("DIST: " + hit[1].distance);
                 Vector2 normal = hit[1].normal;
                 float angle = Mathf.Rad2Deg * Mathf.Atan2(normal.y, normal.x);
                 angle -= 90; //tangent a la surface
