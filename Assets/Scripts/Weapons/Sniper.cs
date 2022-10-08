@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Sniper : Weapon
 {
-    public Sniper() : base(50,0,10,2,Vector2.zero,null,null)
+    public Sniper() : base(50,0,10,2,Vector2.zero,Resources.Load<Sprite>("WeaponSprites/Sniper.png"), Resources.Load<GameObject>("ProjectilePrefabs/SniperBullet"))
     {
         
     }
 
-    override public void Shoot()
+    override public void Shoot(Vector2 shootDirection)
     {
-       
+        base.Shoot(shootDirection);
     }
+
+    
 }

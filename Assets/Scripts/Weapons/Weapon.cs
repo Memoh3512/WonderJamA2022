@@ -12,7 +12,6 @@ public class Weapon
     Vector2 shootingOffset;
     int projectileCount;
 
-
     public Weapon(float staminaCost, float fireRate, float knockback, int projectileCount,Vector2 shootingOffset, Sprite weaponSprite, GameObject projectilePrefab)
     {
         this.staminaCost = staminaCost;
@@ -24,10 +23,12 @@ public class Weapon
         this.projectilePrefab = projectilePrefab;
     }
 
-    virtual public void Shoot()
+    virtual public void Shoot(Vector2 shootDirection)
     {
         GameObject projectile = GameObject.Instantiate(projectilePrefab);
         projectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
+        projectile.GetComponent<SniperBullet>().Init(this, shootDirection);
+        projectileCount--;
     }
 
 
@@ -35,4 +36,6 @@ public class Weapon
     {
 
     }
+
+
 }
