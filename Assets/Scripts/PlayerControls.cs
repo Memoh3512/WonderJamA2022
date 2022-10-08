@@ -60,6 +60,9 @@ public class PlayerControls : Damagable
 
         //debug
         weapons.Add(new Sniper());
+        weapons.Add(new SMG());
+        weapons.Add(new Sniper());
+        weapons.Add(new Sniper());
         currentWeapon = weapons[0];
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
         
@@ -277,8 +280,14 @@ public class PlayerControls : Damagable
         {
             currIndex++;
         }
-        currIndex %= weapons.Count;
-        currentWeapon = weapons[Math.Abs(currIndex)];
-        Debug.Log("Changing to :"+Math.Abs(currIndex));
+        if (currIndex < 0)
+        {
+            currIndex = weapons.Count - 1;
+        }else if (currIndex >= weapons.Count)
+        {
+            currIndex = 0;
+        }
+        currentWeapon = weapons[currIndex];
+        Debug.Log("Changing to :"+currIndex);
     }
 }
