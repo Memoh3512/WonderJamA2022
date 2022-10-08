@@ -1464,10 +1464,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 18.702427, y: 12.593704}
-      - {x: -18.95808, y: 12.732133}
-      - {x: -18.897814, y: -8.513947}
-      - {x: 19.048922, y: -8.487407}
+    - - {x: 18.227953, y: 12.170949}
+      - {x: -18.65871, y: 12.122878}
+      - {x: -18.595995, y: -8.298524}
+      - {x: 18.244703, y: -8.078131}
 --- !u!1 &1181447699
 GameObject:
   m_ObjectHideFlags: 0
@@ -2548,7 +2548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ConfineMode: 0
   m_BoundingVolume: {fileID: 0}
-  m_BoundingShape2D: {fileID: 0}
+  m_BoundingShape2D: {fileID: 1174081448}
   m_ConfineScreenEdges: 1
   m_Damping: 0
 --- !u!1001 &6202525373775372253

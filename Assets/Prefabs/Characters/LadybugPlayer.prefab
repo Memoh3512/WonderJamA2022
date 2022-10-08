@@ -494,7 +494,7 @@ MonoBehaviour:
   moveSpeed: 5
   jumpHeight: 200
   gravityScale: 5
-  maxStamina: 100
+  staminaMax: 100000000
   airControl: 10
   maxAirVelocity: 5
   maxHP: 100
