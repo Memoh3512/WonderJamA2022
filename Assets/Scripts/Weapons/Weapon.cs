@@ -24,10 +24,11 @@ public class Weapon
         this.projectilePrefab = projectilePrefab;
     }
 
-    virtual public void Shoot()
+    virtual public void Shoot(Vector2 shootDirection)
     {
         GameObject projectile = GameObject.Instantiate(projectilePrefab);
         projectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
+        projectile.GetComponent<SniperBullet>().Init(this, shootDirection);
     }
 
 
