@@ -44,6 +44,7 @@ public class PlayerControls : Damagable
     public float zoomSpeed = 1;
     public float maxFallCount = 3;
     public float maxIKDistance = 1;
+    public float SlomoTime = 0.3f;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -175,7 +176,7 @@ public class PlayerControls : Damagable
                     storedVelocityBeforeShooting = Vector2.zero;
                     rb.gravityScale = gravityScale;
 
-                    Time.timeScale = 0.1f;
+                    Time.timeScale = SlomoTime;
 
                     TryShoot(true);
 
