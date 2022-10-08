@@ -45,11 +45,11 @@ public class GenericBar : MonoBehaviour
             {
                 case Stat.Health:
                     currentValue = getMaxPlayerStat();
-                    pc.damageTakenEvent.AddListener(OnValueRemove);
+                    pc.damageTakenEvent.AddListener(OnValueUpdated);
                     break;
                 case Stat.Stamina:
                     currentValue = getMaxPlayerStat();
-                    pc.staminaTakenEvent.AddListener(OnValueRemove);
+                    pc.staminaTakenEvent.AddListener(OnValueUpdated);
                     break;
             }
         }
@@ -72,22 +72,25 @@ public class GenericBar : MonoBehaviour
         }
     }
 
-    void OnValueRemove(float value)
+    void OnValueUpdated(float value)
     {
-        if (value >= 0)
+        if (value < 0)
         {
-            if (delay!=0f)
-            {
-                targetValue = value;
-                StopCoroutine(valueTaken());
-                StartCoroutine(valueTaken());
-            }
-            else
-            {
-                transform.localScale = new Vector3( baseScale*(value / maxStat),transform.localScale.y,transform.localScale.z);
-            }
+            value = 0;
+        }
+        
+        if (delay!=0f)
+        {
+            targetValue = value;
+            StopCoroutine(valueTaken());
+            StartCoroutine(valueTaken());
+        }
+        else
+        {
+            transform.localScale = new Vector3( baseScale*(value / maxStat),transform.localScale.y,transform.localScale.z);
         }
     }
+    
 
     void ShowCost(float value,float currentValueX)
     {
@@ -126,7 +129,7 @@ public class GenericBar : MonoBehaviour
     private void UpdateWeaponStaminaCost(Weapon wep)
     {
         UnShowCost();
-        if (pc.CanShootWeapon())
+        if (pc.CanShootWeaponStamina())
         {
             ShowCost(wep.getStaminaCost(),pc.currentStamina);
         }

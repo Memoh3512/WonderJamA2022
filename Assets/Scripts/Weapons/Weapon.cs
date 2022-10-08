@@ -20,6 +20,8 @@ public class Weapon
     protected GameObject lastProjectile;
     public UnityEvent ammoUsedEvent = new UnityEvent();
 
+    public float cooldown = 0;
+
     public Weapon(float staminaCost, float fireRate, float knockback, int projectileCount,Vector2 shootingOffset, Sprite weaponSprite, GameObject projectilePrefab, string weaponName = "")
     {
         this.staminaCost = staminaCost;
@@ -35,6 +37,8 @@ public class Weapon
 
     virtual public void Shoot(Vector2 position, Vector2 shootDirection)
     {
+        cooldown =  60/fireRate;
+        
         lastProjectile = GameObject.Instantiate(projectilePrefab, position, Quaternion.identity);
         lastProjectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
         AmmoUsed();
@@ -66,6 +70,30 @@ public class Weapon
     public int getProjectileCount()
     {
         return projectileCount;
+    }
+    public float getFirerate()
+    {
+        return fireRate;
+    }
+
+    public bool OutOfCooldown()
+    {
+        if (fireRate == 0)
+        {
+            return true;
+        }
+        if (fireRate>0)
+        {
+            if (cooldown <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

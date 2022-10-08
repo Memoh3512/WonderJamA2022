@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
     {
         movingControls.SetActive(false);
         prepAttackControls.SetActive(false);
+
         //players[currentPlayerIndex].ShowUI();
         setUI(movingControls);
     }
@@ -75,16 +77,48 @@ public class GameManager : MonoBehaviour
     {
         //RESET LES VALEURS <3
         turn = 1;
+        TurnShowText();
 
         foreach (var player in players)
         {
             player.setState(PlayerAction.Waiting);
-            player.ShowUI(false);
+            player.PlayerTargetted(false);
         }
         
         // Start la game
         currentPlayerIndex = 0;
         FocusOnPlayer(players[0]);
+    }
+    public void TurnShowText()
+    {
+        turnReminder.SetActive(true);
+        TextMeshProUGUI t = turnReminder.GetComponentInChildren<TextMeshProUGUI>();
+        t.text = "Turn " + turn;
+        StartCoroutine(FadeTextToFullAlpha(2f,t));
+    }
+    public IEnumerator FadeTextToFullAlpha(float t, TextMeshProUGUI i)
+    {
+        i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
+        while (i.color.a < 1.0f)
+        {
+            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
+            if (i.color.a >= 1f)
+            {
+                yield return StartCoroutine(FadeTextToZeroAlpha(t,i));
+                break;
+            }
+            yield return null;
+        }
+    }
+ 
+    public IEnumerator FadeTextToZeroAlpha(float t, TextMeshProUGUI i)
+    {
+        i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
+        while (i.color.a > 0.0f)
+        {
+            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
+            yield return null;
+        }
     }
     
     private void NextTurn()
@@ -97,7 +131,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var player in players)
         {
-            player.ShowUI(false);
+            player.PlayerTargetted(false);
         }
         players[currentPlayerIndex].setState(PlayerAction.Waiting);
 
@@ -119,7 +153,7 @@ public class GameManager : MonoBehaviour
 
     public void FocusOnPlayer(PlayerControls player)
     {
-        player.ShowUI();
+        player.PlayerTargetted();
         setUI(movingControls);
         //TODO set la camera ui etc
         players[currentPlayerIndex].setState(PlayerAction.Moving);
@@ -192,7 +226,6 @@ public class GameManager : MonoBehaviour
     {
         movingControls.SetActive(false);
         prepAttackControls.SetActive(false);
-        turnReminder.SetActive(false);
 
         ui.SetActive(true);
     }
