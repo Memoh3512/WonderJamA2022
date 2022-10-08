@@ -41,6 +41,7 @@ public class PlayerControls : Damagable
     [Header("Global Player Params")] public float flipStickDeadzone = 0.5f;
     public float flipAngleLeeway;
     public float zoomSpeed = 1;
+    public float maxFallCount = 3;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -383,4 +384,26 @@ public class PlayerControls : Damagable
         }
         return false;
     }
+
+    public void Fall(float top)
+    {
+
+        fallCount++;
+
+        if (fallCount >= maxFallCount)
+        {
+            //TODO die
+            Debug.LogError("DIEEEEEE");
+            Destroy(gameObject);
+            
+        }
+        else
+        {
+
+            transform.position = new Vector3(transform.position.x, top, 0);
+
+        }
+
+    }
+    
 }
