@@ -180,7 +180,13 @@ public class PlayerControls : Damagable
                         text.GetComponent<TextMeshPro>().color = Color.cyan;
                     }
 
-                }else if (manette.dpRight.wasPressedThisFrame)
+                } else if (manette.rightTrigger.wasReleasedThisFrame)
+                {
+                    
+                    
+                    
+                }
+                else if (manette.dpRight.wasPressedThisFrame)
                 {
                     NextGun();
                 }else if (manette.dpLeft.wasPressedThisFrame)
