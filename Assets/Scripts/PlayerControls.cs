@@ -251,7 +251,7 @@ public class PlayerControls : Damagable
             rb.velocity = new Vector2(
                 Mathf.Clamp(rb.velocity.x + (di*Time.deltaTime), -maxAirVelocity, maxAirVelocity),
                 rb.velocity.y);
-            RemoveStamina(Math.Abs(di * Time.deltaTime));
+            RemoveStamina(Math.Abs(rb.velocity.x * Time.deltaTime));
         }
 
         CheckStaminaState();
