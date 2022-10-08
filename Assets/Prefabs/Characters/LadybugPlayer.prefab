@@ -501,7 +501,7 @@ MonoBehaviour:
   airControl: 10
   maxAirVelocity: 5
   maxHP: 100
-  GunHolderDistance: 2
+  GunHolderDistance: 0.8
   staminaTakenEvent:
     m_PersistentCalls:
       m_Calls: []
