@@ -7,7 +7,7 @@ public class Damagable : MonoBehaviour
 {
     protected int hp;
 
-    public UnityEvent<int> damageTakenEvent = new UnityEvent<int>();
+    public UnityEvent<float> damageTakenEvent = new UnityEvent<float>();
     public Damagable(int hp = 10)
     {
         this.hp = hp;
