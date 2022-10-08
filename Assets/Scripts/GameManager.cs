@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     private UnityEvent nextPlayerEvent = new UnityEvent();
     private int currentPlayerIndex;
 
+    [Header("GO References")] public CinemachineVirtualCamera followCam;
     
     // Singleton
     public static GameManager instance;
@@ -84,7 +86,9 @@ public class GameManager : MonoBehaviour
     {
         //TODO set la camera ui etc
         players[currentPlayerIndex].setState(PlayerAction.Moving);
-        
+
+        followCam.Follow = players[currentPlayerIndex].transform;
+
     }
 
     private PlayerControls GetActivePlayer()

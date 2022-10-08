@@ -10,6 +10,7 @@ public class PlayerSpawner : MonoBehaviour
     public GameObject playerPrefab;
 
     public GameObject cursorPrefab;
+    
     // Start is called before the first frame update
     void Start()
     {
