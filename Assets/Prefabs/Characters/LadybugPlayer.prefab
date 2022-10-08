@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 1531561707257332876}
   - component: {fileID: 1531561707257332867}
   - component: {fileID: 1531561707257332879}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LadybugPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
