@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
     private int currentPlayerIndex;
 
     [Header("GO References")] public CinemachineVirtualCamera followCam;
+
+    [Header("UI")] 
+    public GameObject movingControls;
+    public GameObject prepAttackControls;
+    public GameObject turnReminder;
     
     // Singleton
     public static GameManager instance;
@@ -38,7 +43,10 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        
+        movingControls.SetActive(false);
+        prepAttackControls.SetActive(false);
+        players[currentPlayerIndex].ShowUI();
+        setUI(movingControls);
     }
     
     public void GameStart()
@@ -64,13 +72,13 @@ public class GameManager : MonoBehaviour
     }
     public void NextPlayerTurn()
     {
+        players[currentPlayerIndex].ShowUI(false);
         players[currentPlayerIndex].setState(PlayerAction.Waiting);
 
         // Get le next alive et rollover le playerIndex 
 
         do
         {
-
             currentPlayerIndex++;
             currentPlayerIndex %= players.Count;
             if (currentPlayerIndex == 0) NextTurn();
@@ -84,11 +92,12 @@ public class GameManager : MonoBehaviour
 
     public void FocusOnPlayer(PlayerControls player)
     {
+        player.ShowUI();
+        setUI(movingControls);
         //TODO set la camera ui etc
         players[currentPlayerIndex].setState(PlayerAction.Moving);
 
         followCam.Follow = players[currentPlayerIndex].transform;
-
     }
 
     public void SwitchToGlobalCam()
@@ -132,6 +141,15 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Current state switched : "+state);
         players[currentPlayerIndex].setState(state);
+        switch (state)
+        {
+            case PlayerAction.Moving:
+                setUI(instance.movingControls);
+                break;
+            case PlayerAction.PrepAttack:
+                setUI(instance.prepAttackControls);
+                break;
+        }
     }
     public Weapon getRandomWeapon()
     {
@@ -141,5 +159,14 @@ public class GameManager : MonoBehaviour
     public void AddPlayer(PlayerControls player)
     {
         players.Add(player);
+    }
+
+    public void setUI(GameObject ui)
+    {
+        movingControls.SetActive(false);
+        prepAttackControls.SetActive(false);
+        turnReminder.SetActive(false);
+
+        ui.SetActive(true);
     }
 }
