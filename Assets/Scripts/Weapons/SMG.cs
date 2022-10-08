@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SMG : Weapon
 {
-    public SMG() : base(5, 600, 1, 30, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/SMG"), Resources.Load<GameObject>("ProjectilePrefabs/SMGBullet"))
+    public SMG() : base(5, 600, 3, 30, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/SMG"), Resources.Load<GameObject>("ProjectilePrefabs/SMGBullet"))
     {
 
     }
