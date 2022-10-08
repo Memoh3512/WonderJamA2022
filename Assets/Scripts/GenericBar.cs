@@ -56,6 +56,7 @@ public class GenericBar : MonoBehaviour
         if(costType==CostType.Mask)
         {
             pc.changeGunEvent.AddListener(OnGunChanged);
+            pc.unShowCostEvent.AddListener(UnShowCost);
         }
     }
 

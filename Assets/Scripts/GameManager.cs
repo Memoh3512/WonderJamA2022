@@ -133,18 +133,8 @@ public class GameManager : MonoBehaviour
         {
             player.PlayerTargetted(false);
         }
-        players[currentPlayerIndex].setState(PlayerAction.Waiting);
+        setCurrentPlayerState(PlayerAction.Waiting);
 
-        // Get le next alive et rollover le playerIndex 
-        
-        foreach (var player in players)
-        {
-            if (player.isAlive())
-            {
-                
-            }
-        }
-        
         do
         {
             currentPlayerIndex++;
@@ -162,9 +152,7 @@ public class GameManager : MonoBehaviour
     public void FocusOnPlayer(PlayerControls player)
     {
         player.PlayerTargetted();
-        setUI(movingControls);
-        //TODO set la camera ui etc
-        players[currentPlayerIndex].setState(PlayerAction.Moving);
+        setCurrentPlayerState(PlayerAction.Moving);
 
         followCam.Follow = players[currentPlayerIndex].transform;
     }
