@@ -38,6 +38,7 @@ public class GameProjectile : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);           
         }
+        if(collision.gameObject.tag != "Bullet")
         OnHit();
     }
 

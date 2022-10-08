@@ -80,6 +80,7 @@ public class PlayerControls : Damagable
         weapons.Add(new Sniper());
         weapons.Add(new SMG());
         weapons.Add(new Rocket());
+        weapons.Add(new Shotgun());
         //ENSEMBLE {
         currentWeapon = weapons[0];
         //}

@@ -7,13 +7,14 @@ using UnityEngine.Events;
 public class Weapon
 {
     public Sprite weaponSprite;
-    GameObject projectilePrefab;
-    float staminaCost;
-    float fireRate;
-    float knockback;
-    Vector2 shootingOffset;
-    int projectileCount;
-    string weaponName;
+    protected GameObject projectilePrefab;
+    protected float staminaCost;
+    protected float fireRate;
+    protected float knockback;
+    protected Vector2 shootingOffset;
+    protected int projectileCount;
+    protected string weaponName;
+    protected bool canShoot;
     
     public UnityEvent<Weapon> gunShotEvent = new UnityEvent<Weapon>();
 
@@ -32,16 +33,30 @@ public class Weapon
         if (weaponName == "")
             this.weaponName = this.GetType().ToString();
         else this.weaponName = weaponName;
+        this.canShoot = true;
+        
     }
 
     virtual public void Shoot(Vector2 position, Vector2 shootDirection)
     {
-        lastProjectile = GameObject.Instantiate(projectilePrefab, position, Quaternion.identity);
-        lastProjectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
-        AmmoUsed();
-        GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"),lastProjectile.transform.position,Quaternion.identity);
-        text.GetComponent<TextMeshPro>().text = "PEW!";
-        gunShotEvent.Invoke(this);
+        if (canShoot)
+        {
+            lastProjectile = GameObject.Instantiate(projectilePrefab, position, Quaternion.identity);
+            lastProjectile.transform.position += new Vector3(shootingOffset.x, shootingOffset.y);
+            AmmoUsed();
+            GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"), lastProjectile.transform.position, Quaternion.identity);
+            text.GetComponent<TextMeshPro>().text = "PEW!";
+            gunShotEvent.Invoke(this);
+            GameManager.instance.StartCoroutine(fireDelay());
+        }
+
+    }
+
+    IEnumerator fireDelay()
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(60 / fireRate);
+        canShoot = true;
     }
 
     public float getStaminaCost()
@@ -67,6 +82,11 @@ public class Weapon
     public int getProjectileCount()
     {
         return projectileCount;
+    }
+
+    public bool CanShoot()
+    {
+        return canShoot;
     }
 
 }
