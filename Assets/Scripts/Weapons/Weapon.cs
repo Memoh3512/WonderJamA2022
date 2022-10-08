@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon
 {
-    Sprite weaponSprite;
+    public Sprite weaponSprite;
     GameObject projectilePrefab;
     float staminaCost;
     float fireRate;
@@ -23,9 +23,9 @@ public class Weapon
         this.projectilePrefab = projectilePrefab;
     }
 
-    virtual public void Shoot(Vector2 shootDirection)
+    virtual public void Shoot(Vector2 position, Vector2 shootDirection)
     {
-        GameObject projectile = GameObject.Instantiate(projectilePrefab);
+        GameObject projectile = GameObject.Instantiate(projectilePrefab, position, Quaternion.identity);
         projectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
         projectile.GetComponent<SniperBullet>().Init(this, shootDirection);
         projectileCount--;

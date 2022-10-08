@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 907505434011087158}
   - component: {fileID: 907505434011087161}
   - component: {fileID: 907505434011087157}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SauterellePlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,3 +207,5 @@ MonoBehaviour:
   staminaMax: 100
   airControl: 10
   maxAirVelocity: 5
+  maxHP: 100
+  GunHolderDistance: 2
