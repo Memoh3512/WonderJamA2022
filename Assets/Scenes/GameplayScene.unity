@@ -4035,6 +4035,8 @@ MonoBehaviour:
     type: 3}
   sauterellePrefab: {fileID: 5834711110628369997, guid: 757165c38d48b4845811eb180faa8c56,
     type: 3}
+  ChenillePrefab: {fileID: 7685331948111858390, guid: f0b4095af192e6d44b687b4cf658858b,
+    type: 3}
   cursorPrefab: {fileID: 46568000520674083, guid: 3e7b6d05779bed64592bce7be729af0d,
     type: 3}
 --- !u!4 &1834018080

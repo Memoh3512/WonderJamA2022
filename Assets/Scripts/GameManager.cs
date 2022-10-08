@@ -41,6 +41,11 @@ public class GameManager : MonoBehaviour
             spr = Resources.Load<Sprite>("Characters/Sauterelle"),
             name = "Grasshopper"
         },
+        new Character()
+        {
+            spr = Resources.Load<Sprite>("Characters/Chenille"),
+            name = "Caterpillar"
+        },
     };
 
     [Header("GO References")] public CinemachineVirtualCamera followCam;
