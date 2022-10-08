@@ -20,6 +20,7 @@ public class PlayerControls : Damagable
     private Rigidbody2D rb;
     private BoxCollider2D characterCollider;
     private Animator animator;
+    private SpriteRenderer sprite;
     private GameObject gunHolder;
     
     private Vector2 movementDelta;
@@ -32,6 +33,11 @@ public class PlayerControls : Damagable
     //movement setup
     [SerializeField] private PlayerAction state = PlayerAction.Waiting;
     private int fallCount = 0;
+    private bool isSpriteFlipped = false;
+    private bool isGunFlipped = false;
+
+    [Header("Global Player Params")] public float flipStickDeadzone = 0.5f;
+    public float flipAngleLeeway;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -53,6 +59,7 @@ public class PlayerControls : Damagable
         characterCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         gunHolder = transform.Find("GunHolder").gameObject;
+        sprite = transform.Find("Sprite").GetComponent<SpriteRenderer>();
         
         currentStamina = staminaMax;
 
@@ -163,7 +170,7 @@ public class PlayerControls : Damagable
     void UpdateGunHolderPosition()
     {
 
-        if (manette.rightStick.magnitude > 0.1)
+        if (manette.rightStick.magnitude > flipStickDeadzone)
         {
          
             Vector2 angle = manette.rightStick.normalized;
@@ -188,7 +195,11 @@ public class PlayerControls : Damagable
 
     private void FixedUpdate()
     {
-        if (state == PlayerAction.Moving) MovePlayer();
+        if (state == PlayerAction.Moving)
+        {
+            MovePlayer();
+            UpdateSpriteFlip();
+        }
     }
 
     void MovePlayer()
@@ -216,6 +227,54 @@ public class PlayerControls : Damagable
         }
 
         CheckStaminaState();
+    }
+
+    void UpdateSpriteFlip()
+    {
+
+        if (movementDelta.magnitude > flipStickDeadzone)
+        {
+
+            //player sprite flip
+            float angle = Mathf.Rad2Deg*Mathf.Atan2(movementDelta.y, movementDelta.x);
+
+            if (!isSpriteFlipped && (angle > 90 + flipAngleLeeway || angle < -90 - flipAngleLeeway))
+            {
+
+                isSpriteFlipped = true;
+                sprite.flipX = true;
+
+            } else if (isSpriteFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
+            {
+
+                isSpriteFlipped = false;
+                sprite.flipX = false;
+
+            }
+
+        }
+        
+        //gun sprite flip
+        if (manette.rightStick.magnitude > flipStickDeadzone)
+        {
+            
+            float angle = Mathf.Rad2Deg * Mathf.Atan2(manette.rightStick.y, manette.rightStick.x);
+            if (!isGunFlipped && (angle > 90 + flipAngleLeeway || angle < -90 - flipAngleLeeway))
+            {
+
+                isGunFlipped = true;
+                gunHolder.GetComponent<SpriteRenderer>().flipY = true;
+
+            } else if (isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
+            {
+
+                isGunFlipped = false;
+                gunHolder.GetComponent<SpriteRenderer>().flipY = false;
+
+            }
+
+        }
+        
     }
 
     void Jump()

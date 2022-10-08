@@ -492,6 +492,8 @@ MonoBehaviour:
       m_Calls: []
   currentStamina: 100
   state: 0
+  flipStickDeadzone: 0.5
+  flipAngleLeeway: 15
   moveSpeed: 5
   jumpHeight: 200
   gravityScale: 5
