@@ -35,7 +35,8 @@ public class PlayerControls : Damagable
     public float jumpHeight = 1;
     public float gravityScale = 10;
     public float staminaMax = 100;
-    public float airControl = 100;
+    public float airControl = 10;
+    public float maxAirVelocity = 10;
     public int maxHP = 100;
 
     //change to Weapon class when its created
@@ -131,10 +132,13 @@ public class PlayerControls : Damagable
         }
         else
         {
-
-            Debug.Log("AICONTROL");
-            Vector2 di = delta * airControl;
-            rb.AddForce(di*Time.deltaTime);
+            
+            //air control
+            float di = delta.x * airControl;
+            rb.velocity = new Vector2(
+                Mathf.Clamp(rb.velocity.x + (di*Time.deltaTime), -maxAirVelocity, maxAirVelocity),
+                rb.velocity.y);
+            Debug.Log("VEL = " + rb.velocity.x);
 
         }
 
