@@ -59,7 +59,8 @@ public class PlayerControls : Damagable
         rb.gravityScale = gravityScale;
 
         //debug
-        currentWeapon = new Sniper();
+        weapons.Add(new Sniper());
+        currentWeapon = weapons[0];
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
         
         //Init
@@ -149,7 +150,7 @@ public class PlayerControls : Damagable
                     NextGun();
                 }else if (manette.dpLeft.wasPressedThisFrame)
                 {
-                    PreviousGun();
+                    NextGun(true);
                 }
 
                 break;
@@ -207,7 +208,7 @@ public class PlayerControls : Damagable
             rb.velocity = new Vector2(
                 Mathf.Clamp(rb.velocity.x + (di*Time.deltaTime), -maxAirVelocity, maxAirVelocity),
                 rb.velocity.y);
-            Debug.Log("VEL = " + rb.velocity.x);
+            currentStamina -= Math.Abs(di * Time.deltaTime);
 
         }
 
@@ -225,8 +226,13 @@ public class PlayerControls : Damagable
 
     bool IsGrounded()
     {
+
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.layerMask = LayerMask.GetMask("Ground", "Player");
+
+        Collider2D[] colls = new Collider2D[2];
         bool ret = Physics2D.OverlapBox(characterCollider.bounds.center + (Vector3.down * 0.2f),
-            characterCollider.bounds.extents*2f,0, 1 << LayerMask.NameToLayer("Ground")) != null;
+            characterCollider.bounds.extents*2f,0,filter,colls) > 1;
         return ret;
     }
 
@@ -259,12 +265,20 @@ public class PlayerControls : Damagable
     {
         return alive;
     }
-    private void NextGun()
+    private void NextGun(bool reverse = false)
     {
+        int currIndex = weapons.IndexOf(currentWeapon);
         
-    }
-    private void PreviousGun()
-    {
-        
+        if (reverse)
+        {
+            currIndex--;
+        }
+        else
+        {
+            currIndex++;
+        }
+        currIndex %= weapons.Count;
+        currentWeapon = weapons[Math.Abs(currIndex)];
+        Debug.Log("Changing to :"+Math.Abs(currIndex));
     }
 }
