@@ -8,13 +8,14 @@ public class GameProjectile : MonoBehaviour
     float gravityScale;
     float speed;
     Weapon parent;
-
-    public void Init(int damage, float gravityScale, float speed, Weapon parent)
+    Vector2 shootDirection;
+    public void Init(int damage, float gravityScale, float speed, Weapon parent,Vector2 shootDirection)
     {
         this.damage = damage;
         this.gravityScale = gravityScale;
         this.speed = speed;
         this.parent = parent;
+        this.shootDirection = shootDirection;
     }
     private void OnHit()
     {

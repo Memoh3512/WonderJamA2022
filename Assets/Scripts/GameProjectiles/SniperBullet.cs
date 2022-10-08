@@ -6,8 +6,8 @@ public class SniperBullet : GameProjectile
 {
   
 
-    public void Init(Weapon parent)
+    public void Init(Weapon parent, Vector2 shootDirection)
     {
-        base.Init(20,0.2f,10,parent);
+        base.Init(20,0.2f,10,parent,shootDirection);
     }
 }

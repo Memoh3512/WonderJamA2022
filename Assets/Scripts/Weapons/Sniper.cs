@@ -9,8 +9,8 @@ public class Sniper : Weapon
         
     }
 
-    override public void Shoot()
+    override public void Shoot(Vector2 shootDirection)
     {
-       
+        base.Shoot(shootDirection);
     }
 }
