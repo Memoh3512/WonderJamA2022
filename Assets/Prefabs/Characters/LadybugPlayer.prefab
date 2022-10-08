@@ -494,6 +494,8 @@ MonoBehaviour:
   zoomSpeed: 3
   maxFallCount: 3
   maxIKDistance: 1
+  startShootTimeScale: 0.05
+  slomoTimeScale: 0.2
   moveSpeed: 5
   jumpHeight: 200
   gravityScale: 5
