@@ -10,6 +10,14 @@ enum GameState
     Playing,
     Stopped
 }
+
+public struct Character
+{
+    public Sprite spr;
+    public string name;
+
+}
+
 public class GameManager : MonoBehaviour
 {
     private List<PlayerControls> players = new List<PlayerControls>();
@@ -19,6 +27,20 @@ public class GameManager : MonoBehaviour
     private UnityEvent nextTurnEvent = new UnityEvent();
     private UnityEvent nextPlayerEvent = new UnityEvent();
     private int currentPlayerIndex;
+
+    public static List<Character> characters = new List<Character>()
+    {
+        new Character()
+        {
+            spr = Resources.Load<Sprite>("Characters/Coccinelle"),
+            name = "Ladybug"
+        },
+        new Character()
+        {
+            spr = Resources.Load<Sprite>("Characters/Sauterelle"),
+            name = "Grasshopper"
+        },
+    };
 
     [Header("GO References")] public CinemachineVirtualCamera followCam;
 
@@ -45,7 +67,7 @@ public class GameManager : MonoBehaviour
     {
         movingControls.SetActive(false);
         prepAttackControls.SetActive(false);
-        players[currentPlayerIndex].ShowUI();
+        //players[currentPlayerIndex].ShowUI();
         setUI(movingControls);
     }
     
@@ -86,6 +108,7 @@ public class GameManager : MonoBehaviour
         } while (!players[currentPlayerIndex].isAlive());
 
         FocusOnPlayer(players[currentPlayerIndex]);
+        players[currentPlayerIndex].currentStamina = players[currentPlayerIndex].maxStamina;
 
         nextPlayerEvent.Invoke();
     }
