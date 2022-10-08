@@ -34,7 +34,7 @@ public class Explosion : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);
             Vector2 direction = (collision.transform.position - transform.position).normalized;
-            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(direction * pushForce);
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce);
         }
     }
 }
