@@ -20,6 +20,8 @@ public class PlayerControls : Damagable
     private Rigidbody2D rb;
     private BoxCollider2D characterCollider;
     private Animator animator;
+    private GameObject gunHolder;
+    
     private Vector2 movementDelta;
 
     private bool alive = true;
@@ -38,6 +40,7 @@ public class PlayerControls : Damagable
     public float airControl = 10;
     public float maxAirVelocity = 10;
     public int maxHP = 100;
+    public float GunHolderDistance = 2f;
 
     //change to Weapon class when its created
     private List<Weapon> weapons = new List<Weapon>();
@@ -48,12 +51,14 @@ public class PlayerControls : Damagable
         rb = GetComponent<Rigidbody2D>();
         characterCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+        gunHolder = transform.Find("GunHolder").gameObject;
+        
         currentStamina = staminaMax;
 
         rb.gravityScale = gravityScale;
 
         //debug
-        state = PlayerAction.Waiting;
+        state = PlayerAction.Moving;
         
         //Init
         Init(maxHP);
@@ -89,6 +94,7 @@ public class PlayerControls : Damagable
 
                 if (manette.aButton.wasPressedThisFrame) Jump();
                 movementDelta = manette.leftStick;
+                UpdateGunHolderPosition();
 
                 break;
             case PlayerAction.Waiting:
@@ -102,6 +108,18 @@ public class PlayerControls : Damagable
 
                 break;
         }
+    }
+
+    void UpdateGunHolderPosition()
+    {
+
+        Vector2 angle = manette.rightStick.normalized;
+
+        Vector2 pos = ((Vector2)transform.position) + (angle * GunHolderDistance);
+
+        gunHolder.transform.position = pos;
+        gunHolder.transform.eulerAngles = new Vector3(0,0,Mathf.Rad2Deg * Mathf.Atan2(angle.y, angle.x));
+
     }
 
     void CheckStaminaState()
