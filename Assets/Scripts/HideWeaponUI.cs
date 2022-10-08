@@ -9,9 +9,9 @@ public class HideWeaponUI : MonoBehaviour
     void Start()
     {
         wsUI = transform.Find("WeaponSprite").gameObject.GetComponent<WeaponSwapUI>();
-        transform.parent.GetComponent<PlayerControls>().changeGunEvent.AddListener(new UnityAction<Weapon>(OnWeaponChange));
+        transform.parent.GetComponent<PlayerControls>().changeGunEvent.AddListener(new UnityAction<Weapon, Weapon>(OnWeaponChange));
     }
-    private void OnWeaponChange(Weapon weapon)
+    private void OnWeaponChange(Weapon weapon, Weapon previousWeapon)
     {
         SetActiveChildren(true);
         wsUI.OnWeaponChange(weapon);
