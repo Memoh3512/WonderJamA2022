@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sniper : Weapon
 {
-    public Sniper() : base(50,0,10,2,Vector2.zero,Resources.Load<Sprite>("WeaponSprites/Sniper.png"), Resources.Load<GameObject>("ProjectilePrefabs/SniperBullet"))
+    public Sniper() : base(50,0,10,2,Vector2.zero,Resources.Load<Sprite>("WeaponSprites/Sniper"), Resources.Load<GameObject>("ProjectilePrefabs/SniperBullet"))
     {
         
     }

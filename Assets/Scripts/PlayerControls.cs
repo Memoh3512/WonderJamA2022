@@ -42,7 +42,6 @@ public class PlayerControls : Damagable
     public int maxHP = 100;
     public float GunHolderDistance = 2f;
 
-    //change to Weapon class when its created
     private List<Weapon> weapons = new List<Weapon>();
     private Weapon currentWeapon = null;
 
@@ -61,6 +60,8 @@ public class PlayerControls : Damagable
 
         //debug
         state = PlayerAction.Moving;
+        currentWeapon = new Sniper();
+        gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
         
         //Init
         Init(maxHP);
@@ -134,7 +135,10 @@ public class PlayerControls : Damagable
                 {
                     rb.velocity = storedVelocityBeforeShooting;
                     storedVelocityBeforeShooting = Vector2.zero;
-                    currentWeapon.Shoot();
+
+                    Vector2 dir = gunHolder.transform.position - transform.position;
+                    
+                    currentWeapon.Shoot(dir.normalized);
                 }else if (manette.rightShoulder.wasPressedThisFrame)
                 {
                     NextGun();
