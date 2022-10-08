@@ -62,6 +62,8 @@ public class PlayerControls : Damagable
     public UnityEvent<float> staminaTakenEvent = new UnityEvent<float>();
     public UnityEvent<Weapon,Weapon> changeGunEvent = new UnityEvent<Weapon,Weapon>();
 
+    public List<GameObject> toNotShowOnOthersTurn = new List<GameObject>();
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -231,9 +233,9 @@ public class PlayerControls : Damagable
         if (state == PlayerAction.Moving)
         {
             MovePlayer();
-            UpdateSpriteFlip();
             UpdateSpriteIK();
         }
+        if (state != PlayerAction.Waiting) UpdateSpriteFlip();
     }
     void RemoveStamina(float toRemove)
     {
@@ -269,9 +271,34 @@ public class PlayerControls : Damagable
     void UpdateSpriteFlip()
     {
 
-        if (movementDelta.magnitude > flipStickDeadzone)
+        //gun sprite flip
+        if (manette.rightStick.magnitude > flipStickDeadzone)
         {
+            
+            float angle = Mathf.Rad2Deg * Mathf.Atan2(manette.rightStick.y, manette.rightStick.x);
+            if (!isGunFlipped && (angle > 90 + flipAngleLeeway || angle < -90 - flipAngleLeeway))
+            {
 
+                isSpriteFlipped = true;
+                sprite.flipX = true;
+                isGunFlipped = true;
+                gunHolder.GetComponent<SpriteRenderer>().flipY = true;
+
+            } else if (isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
+            {
+
+                isGunFlipped = false;
+                gunHolder.GetComponent<SpriteRenderer>().flipY = false;
+                isSpriteFlipped = false;
+                sprite.flipX = false;
+
+            }
+
+        }
+        else if (manette.leftStick.magnitude > flipStickDeadzone)
+        {
+            
+            
             //player sprite flip
             float angle = Mathf.Rad2Deg*Mathf.Atan2(movementDelta.y, movementDelta.x);
 
@@ -288,28 +315,7 @@ public class PlayerControls : Damagable
                 sprite.flipX = false;
 
             }
-
-        }
-        
-        //gun sprite flip
-        if (manette.rightStick.magnitude > flipStickDeadzone)
-        {
             
-            float angle = Mathf.Rad2Deg * Mathf.Atan2(manette.rightStick.y, manette.rightStick.x);
-            if (!isGunFlipped && (angle > 90 + flipAngleLeeway || angle < -90 - flipAngleLeeway))
-            {
-
-                isGunFlipped = true;
-                gunHolder.GetComponent<SpriteRenderer>().flipY = true;
-
-            } else if (isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
-            {
-
-                isGunFlipped = false;
-                gunHolder.GetComponent<SpriteRenderer>().flipY = false;
-
-            }
-
         }
         
     }
@@ -377,8 +383,7 @@ public class PlayerControls : Damagable
     }
     protected override void OnDeath()
     {
-        alive = false;
-        GameManager.instance.PlayerDied(gameObject);
+        Die();
     }
     public PlayerAction getState()
     {
@@ -434,11 +439,8 @@ public class PlayerControls : Damagable
 
         if (fallCount >= maxFallCount)
         {
-            //TODO die
-            alive = false;
-            GameManager.instance.NextPlayerTurn();
-            gameObject.SetActive(false);
-            
+            Die();
+
         }
         else
         {
@@ -456,4 +458,11 @@ public class PlayerControls : Damagable
         GameManager.instance.PlayerDied(gameObject);
     }
 
+    public void ShowUI(bool show = true)
+    {
+        foreach (var ui in toNotShowOnOthersTurn)
+        {
+            ui.SetActive(show);
+        }
+    }
 }

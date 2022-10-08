@@ -501,13 +501,17 @@ MonoBehaviour:
   airControl: 10
   maxAirVelocity: 5
   maxHP: 100
-  GunHolderDistance: 2
+  GunHolderDistance: 0.8
   staminaTakenEvent:
     m_PersistentCalls:
       m_Calls: []
   changeGunEvent:
     m_PersistentCalls:
       m_Calls: []
+  toNotShowOnOthersTurn:
+  - {fileID: 4030358469385013208}
+  - {fileID: 2457444529810875302}
+  - {fileID: 8868863000242514684}
 --- !u!1 &2457444529810875302
 GameObject:
   m_ObjectHideFlags: 0
