@@ -57,6 +57,7 @@ public class PlayerControls : Damagable
     private Vector2 storedVelocityBeforeShooting = Vector2.zero;
     
     public UnityEvent<float> staminaTakenEvent = new UnityEvent<float>();
+    public UnityEvent<Weapon> changeGunEvent = new UnityEvent<Weapon>();
 
     private void Start()
     {
@@ -158,8 +159,12 @@ public class PlayerControls : Damagable
                     rb.gravityScale = gravityScale;
 
                     Vector2 dir = gunHolder.transform.position - transform.position;
-                    
-                    currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
+
+                    if (CanShootWeapon())
+                    {
+                        currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
+                    }
+
                 }else if (manette.dpRight.wasPressedThisFrame)
                 {
                     NextGun();
@@ -364,8 +369,18 @@ public class PlayerControls : Damagable
         {
             currIndex = 0;
         }
+        
         currentWeapon = weapons[currIndex];
-        Debug.Log("Changing to :"+currIndex);
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
+        
+        changeGunEvent?.Invoke(currentWeapon);
+    }
+    public bool CanShootWeapon()
+    {
+        if (currentStamina >= currentWeapon.getStaminaCost())
+        {
+            return true;
+        }
+        return false;
     }
 }

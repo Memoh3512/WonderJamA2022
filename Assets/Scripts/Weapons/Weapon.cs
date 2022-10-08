@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Weapon
 {
@@ -12,10 +13,12 @@ public class Weapon
     float knockback;
     Vector2 shootingOffset;
     int projectileCount;
+    string weaponName;
 
     protected GameObject lastProjectile;
+    public UnityEvent ammoUsedEvent = new UnityEvent();
 
-    public Weapon(float staminaCost, float fireRate, float knockback, int projectileCount,Vector2 shootingOffset, Sprite weaponSprite, GameObject projectilePrefab)
+    public Weapon(float staminaCost, float fireRate, float knockback, int projectileCount,Vector2 shootingOffset, Sprite weaponSprite, GameObject projectilePrefab, string weaponName = "")
     {
         this.staminaCost = staminaCost;
         this.fireRate = fireRate;
@@ -24,31 +27,42 @@ public class Weapon
         this.shootingOffset = shootingOffset;
         this.weaponSprite = weaponSprite;
         this.projectilePrefab = projectilePrefab;
+        if (weaponName == "")
+            this.weaponName = this.GetType().ToString();
     }
 
     virtual public void Shoot(Vector2 position, Vector2 shootDirection)
     {
         lastProjectile = GameObject.Instantiate(projectilePrefab, position, Quaternion.identity);
         lastProjectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
-        projectileCount--;
+        AmmoUsed();
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"),lastProjectile.transform.position,Quaternion.identity);
         text.GetComponent<TextMeshPro>().text = "PEW";
     }
 
-    public bool canShoot(float currStamina)
+    public float getStaminaCost()
     {
-        if (currStamina >= staminaCost)
-        {
-            return true;
-        }
-        return false;
+        return staminaCost;
     }
-
-
+    
+    public void AmmoUsed()
+    {
+        projectileCount--;
+        ammoUsedEvent?.Invoke();
+    }
     virtual public void WeaponEmpty()
     {
 
     }
 
+    public string getWeaponName()
+    {
+        return weaponName;
+    }
+
+    public int getProjectileCount()
+    {
+        return projectileCount;
+    }
 
 }
