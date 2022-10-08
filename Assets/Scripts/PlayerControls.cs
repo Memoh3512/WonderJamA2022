@@ -14,7 +14,7 @@ public enum PlayerAction
     PrepAttack,
 }
 
-public class PlayerControls : MonoBehaviour
+public class PlayerControls : Damagable
 {
     private Manette manette;
     private Rigidbody2D rb;
@@ -36,6 +36,7 @@ public class PlayerControls : MonoBehaviour
     public float gravityScale = 10;
     public float staminaMax = 100;
     public float airControl = 100;
+    public int maxHP = 100;
 
     //change to Weapon class when its created
     private List<Weapon> weapons = new List<Weapon>();
@@ -52,6 +53,9 @@ public class PlayerControls : MonoBehaviour
 
         //debug
         state = PlayerAction.Waiting;
+        
+        //Init
+        Init(maxHP);
     }
 
     public void GetPlayerGamepad(int index)
@@ -168,9 +172,10 @@ public class PlayerControls : MonoBehaviour
     {
         GameManager.instance.NextPlayerTurn();
     }
-    private void OnDeath()
+    protected override void OnDeath()
     {
         alive = false;
+        GameManager.instance.PlayerDied(gameObject);
     }
     public void setStateWaiting()
     {
