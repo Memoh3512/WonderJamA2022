@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,14 +24,16 @@ public class GenericBar : MonoBehaviour
     PlayerControls pc;
     SpriteRenderer sr;
     float baseScale;
-    private float baseXPos;
     float targetValue;
     float currentValue;
     private float maxStat;
-    
+    private void Awake()
+    {
+        
+    }
+
     private void Start()
     {
-        baseXPos = transform.localPosition.x;
         baseScale = transform.localScale.x;
         sr = gameObject.GetComponent<SpriteRenderer>();
         pc = transform.parent.gameObject.GetComponent<PlayerControls>();
@@ -50,7 +53,7 @@ public class GenericBar : MonoBehaviour
                     break;
             }
         }
-        else if(costType==CostType.Mask)
+        if(costType==CostType.Mask)
         {
             pc.changeGunEvent.AddListener(OnGunChanged);
         }
@@ -90,7 +93,6 @@ public class GenericBar : MonoBehaviour
     {
         if (costType == CostType.Mask)
         {
-            Debug.Log("ShowCost");
             transform.localScale = new Vector3( baseScale*((currentValueX-(value)) / maxStat),transform.localScale.y,transform.localScale.z);
         }
     }
@@ -123,9 +125,17 @@ public class GenericBar : MonoBehaviour
     }
     private void UpdateWeaponStaminaCost(Weapon wep)
     {
+        UnShowCost();
         if (pc.CanShootWeapon())
         {
             ShowCost(wep.getStaminaCost(),pc.currentStamina);
+        }
+    }
+    public void UnShowCost()
+    {
+        if (costType == CostType.Mask)
+        {
+            transform.localScale = new Vector3( baseScale*maxStat,transform.localScale.y,transform.localScale.z);
         }
     }
 }

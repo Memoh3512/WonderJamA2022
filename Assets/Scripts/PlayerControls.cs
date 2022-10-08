@@ -76,7 +76,6 @@ public class PlayerControls : Damagable
         weapons.Add(new SMG());
         //ENSEMBLE {
         currentWeapon = weapons[0];
-        changeGunEvent.Invoke(currentWeapon,null);
         //}
         
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
@@ -99,10 +98,8 @@ public class PlayerControls : Damagable
 
     void UpdateAnimValues()
     {
-        
         animator.SetBool("IsGrounded",IsGrounded());
         animator.SetFloat("XVelocity", Math.Abs(rb.velocity.x));
-        
     }
     
     void CheckInputs()
@@ -128,6 +125,7 @@ public class PlayerControls : Damagable
                     storedVelocityBeforeShooting = rb.velocity;
                     rb.velocity = Vector2.zero;
                     rb.gravityScale = 0;
+                    changeGunEvent.Invoke(currentWeapon,null);
                 }
                 else if (manette.yButton.wasPressedThisFrame)
                 {
