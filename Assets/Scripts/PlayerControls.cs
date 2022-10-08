@@ -61,6 +61,7 @@ public class PlayerControls : Damagable
     
     public UnityEvent<float> staminaTakenEvent = new UnityEvent<float>();
     public UnityEvent<Weapon,Weapon> changeGunEvent = new UnityEvent<Weapon,Weapon>();
+    public UnityEvent unShowCostEvent = new UnityEvent();
 
     public List<GameObject> toNotShowOnOthersTurn = new List<GameObject>();
 
@@ -406,6 +407,10 @@ public class PlayerControls : Damagable
     public void setState(PlayerAction stateToSet)
     {
         state = stateToSet;
+        if (state == PlayerAction.Moving)
+        {
+            unShowCostEvent?.Invoke();
+        }
     }
     public bool isAlive()
     {
@@ -486,5 +491,9 @@ public class PlayerControls : Damagable
         {
             staminaTakenEvent?.Invoke(currentStamina);
         }
+    }
+    public void Won()
+    {
+        manette.Winner = true;
     }
 }

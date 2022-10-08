@@ -20,7 +20,13 @@ public class Manette
     private readonly Mouse mouse;
 
     public string character = "";
-    
+    private bool winner = false;
+    public bool Winner
+    {
+        get => winner;
+        set => winner = value;
+    }
+
     public Manette(Gamepad game)
     {
 
