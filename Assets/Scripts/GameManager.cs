@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
     {
         movingControls.SetActive(false);
         prepAttackControls.SetActive(false);
-        players[currentPlayerIndex].ShowUI();
+        //players[currentPlayerIndex].ShowUI();
         setUI(movingControls);
     }
     
@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
         } while (!players[currentPlayerIndex].isAlive());
 
         FocusOnPlayer(players[currentPlayerIndex]);
+        players[currentPlayerIndex].currentStamina = players[currentPlayerIndex].maxStamina;
 
         nextPlayerEvent.Invoke();
     }
