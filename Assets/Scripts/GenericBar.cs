@@ -62,7 +62,6 @@ public class GenericBar : MonoBehaviour
             currentValue -= 0.001f * speed;
             if (currentValue < targetValue) currentValue = targetValue;
             Vector3 scale = new Vector3(baseScale * (currentValue / maxStat), transform.localScale.y, transform.localScale.z);
-            Debug.Log("Scale + "+scale);
             transform.localScale = scale;
         }
     }
@@ -71,7 +70,6 @@ public class GenericBar : MonoBehaviour
     {
         if (value >= 0)
         {
-            Debug.Log(value);
             if (delay!=0f)
             {
                 targetValue = value;
