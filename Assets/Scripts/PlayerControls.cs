@@ -44,6 +44,7 @@ public class PlayerControls : Damagable
     public float zoomSpeed = 1;
     public float maxFallCount = 3;
     public float maxIKDistance = 1;
+    public float SlomoTime = 0.3f;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -175,16 +176,20 @@ public class PlayerControls : Damagable
                     storedVelocityBeforeShooting = Vector2.zero;
                     rb.gravityScale = gravityScale;
 
+                    Time.timeScale = SlomoTime;
+
                     TryShoot(true);
 
                 }else if (manette.rightTrigger.isPressed)
                 {
                     TryShoot();
-                }else if (manette.dpRight.wasPressedThisFrame)
+                }
+                else if (manette.rightTrigger.wasReleasedThisFrame)
                 {
-                    
-                    
-                    
+
+                    Time.timeScale = 1f;
+                    state = PlayerAction.Moving;
+
                 }
                 else if (manette.dpRight.wasPressedThisFrame)
                 {
@@ -308,7 +313,7 @@ public class PlayerControls : Damagable
                 isGunFlipped = true;
                 gunHolder.GetComponent<SpriteRenderer>().flipY = true;
 
-            } else if (isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
+            } else if ( isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
             {
 
                 isGunFlipped = false;
@@ -319,7 +324,7 @@ public class PlayerControls : Damagable
             }
 
         }
-        else if (manette.leftStick.magnitude > flipStickDeadzone)
+        else if (IsGrounded() && manette.leftStick.magnitude > flipStickDeadzone)
         {
             
             
