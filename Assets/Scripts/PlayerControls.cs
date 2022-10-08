@@ -202,7 +202,7 @@ public class PlayerControls : Damagable
     {
         if (CanShootWeaponCooldown())
         {
-            if (CanShootWeaponStamina())
+            if (CanShootWeaponStamina() && singlePress)
             {
                 Vector2 dir = gunHolder.transform.position - transform.position;
                 RemoveStamina(currentWeapon.getStaminaCost());
