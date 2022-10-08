@@ -175,16 +175,20 @@ public class PlayerControls : Damagable
                     storedVelocityBeforeShooting = Vector2.zero;
                     rb.gravityScale = gravityScale;
 
+                    Time.timeScale = 0.1f;
+
                     TryShoot(true);
 
                 }else if (manette.rightTrigger.isPressed)
                 {
                     TryShoot();
-                }else if (manette.dpRight.wasPressedThisFrame)
+                }
+                else if (manette.rightTrigger.wasReleasedThisFrame)
                 {
-                    
-                    
-                    
+
+                    Time.timeScale = 1f;
+                    state = PlayerAction.Moving;
+
                 }
                 else if (manette.dpRight.wasPressedThisFrame)
                 {
