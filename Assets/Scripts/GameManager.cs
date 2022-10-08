@@ -91,6 +91,13 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void SwitchToGlobalCam()
+    {
+        
+        followCam.gameObject.SetActive(false);
+        
+    }
+
     private PlayerControls GetActivePlayer()
     {
         return players[currentPlayerIndex];
