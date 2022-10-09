@@ -35,6 +35,7 @@ public class Damagable : MonoBehaviour
         return hp <= 0;
     }
 
+ 
     protected virtual void OnDeath()
     {
         Destroy(gameObject);
