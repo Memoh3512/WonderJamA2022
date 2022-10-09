@@ -274,7 +274,7 @@ public class GameManager : MonoBehaviour
     public Weapon getRandomWeapon()
     {
         Weapon rWeapon = new SMG();
-        switch (Random.Range(0, 6))
+        switch (Random.Range(0, 7))
         {
             case 0: rWeapon =  new Sniper();
                 break;
@@ -288,6 +288,9 @@ public class GameManager : MonoBehaviour
                 break;
             case 5: rWeapon = new Poutine();
                 break;
+            case 6: rWeapon = new Bow();
+                break;
+
 
         }
         return rWeapon;
@@ -313,11 +316,16 @@ public class GameManager : MonoBehaviour
     public void Glitch(GlitchType glitchType, PlayerControls player)
     {
         SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Glitch01_V01"));
-        
-        GameObject Text = Instantiate(Resources.Load<GameObject>("PopupText"), new Vector3(0, 0, 0), Quaternion.identity);
-        Text.transform.localScale *= 20;
-        Text.GetComponent<TextMeshPro>().color = Color.magenta;
-        Text.GetComponent<TextMeshPro>().text = "GLITCH";
+
+        switch (glitchType)
+        {
+            case GlitchType.Player:
+                GameObject.Instantiate(Resources.Load<GameObject>("GlitchSmall"), player.gameObject.transform);
+                break;
+            case GlitchType.Screen:
+                GameObject.Instantiate(Resources.Load<GameObject>("GlitchBig"), GameObject.FindGameObjectWithTag("MainCamera").transform);
+                break;
+        }
     }
 
     public void PopupText(Vector3 position, float scale, Color color, String text,float lifeSpan = 1.5f)
