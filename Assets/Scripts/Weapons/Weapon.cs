@@ -104,8 +104,9 @@ public class Weapon
 
     virtual public void Shoot(Vector2 position, Vector2 shootDirection)
     {
+        if (projectileCount <= 0) return; 
+        
         cooldown =  60/fireRate;
-        Debug.Log(shootDirection);
         lastProjectile = GameObject.Instantiate(projectilePrefab, position + shootDirection* offset, Quaternion.identity);
         lastProjectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
         GameManager.instance.GetActivePlayer().GetComponent<Rigidbody2D>().velocity += ((-shootDirection).normalized * knockback);
