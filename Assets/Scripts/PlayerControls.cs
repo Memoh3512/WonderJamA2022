@@ -588,6 +588,9 @@ public class PlayerControls : Damagable
             GameObject[] spawnpoints = GameObject.FindGameObjectsWithTag("Spawnpoint");
             Vector3 pos = spawnpoints[Random.Range(0, spawnpoints.Length)].transform.position;
             transform.position = pos;
+            
+            
+            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Void_V01"));
         }
     }
 

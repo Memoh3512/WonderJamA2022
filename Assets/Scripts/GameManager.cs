@@ -141,8 +141,8 @@ public class GameManager : MonoBehaviour
             StartCoroutine(GlobalCamCor());
             GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
 
-            //TODO SFX change de tour
             
+            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Nextturn_V01"));
             nextPlayerEvent.Invoke();
             if (!start)
             {
@@ -257,6 +257,7 @@ public class GameManager : MonoBehaviour
     public void GameEnd()
     {
         GetActivePlayer().Won();
+        SoundPlayer.instance.SetMusic(Songs.Crickets, 1f, TransitionBehavior.Stop);
         SceneChanger.ChangeScene(SceneTypes.EndScreen);
     }
     public void setCurrentPlayerState(PlayerAction state)
