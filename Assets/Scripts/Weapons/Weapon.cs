@@ -28,7 +28,7 @@ public class Weapon
 
     public float cooldown = 0;
 
-    public Weapon(float staminaCost, float fireRate, float knockback, int projectileCount, Vector2 shootingOffset, Sprite weaponSprite, GameObject projectilePrefab, string weaponName = "", float offset = 0f, bool lrActive = true)
+    public Weapon(float staminaCost, float fireRate, float knockback, int projectileCount, Vector2 shootingOffset, Sprite weaponSprite, GameObject projectilePrefab, string weaponName = "", bool lrActive = true)
     {
         this.staminaCost = staminaCost;
         this.fireRate = fireRate;
@@ -37,7 +37,6 @@ public class Weapon
         this.shootingOffset = shootingOffset;
         this.weaponSprite = weaponSprite;
         this.projectilePrefab = projectilePrefab;
-        this.offset = offset;
         this.lrActive = lrActive;
 
         if (weaponName == "")
@@ -45,13 +44,20 @@ public class Weapon
         else this.weaponName = weaponName;
 
         lr = GameObject.Find("PreviewRenderer").GetComponent<LineRenderer>();
-        if(projectilePrefab != null)
+        SetProjectileValues();
+
+    }
+
+
+    public void SetProjectileValues()
+    {
+        if (projectilePrefab != null)
         {
+            offset = projectilePrefab.GetComponent<GameProjectile>().offset;
             gravityScale = projectilePrefab.GetComponent<GameProjectile>().gravityScale;
             speed = projectilePrefab.GetComponent<GameProjectile>().speed;
             drag = projectilePrefab.GetComponent<Rigidbody2D>().drag;
         }
-
     }
 
     public void OnGunHolderMove(Vector2 position, Vector2 shootDirection)
@@ -174,6 +180,17 @@ public class Weapon
             }
         }
         return true;
+    }
+
+    public GameObject getProjectilePrefab()
+    {
+        return projectilePrefab;
+    }
+
+    public void setProjectilePrefab(GameObject prefab)
+    {
+        projectilePrefab = prefab;
+        SetProjectileValues();
     }
 
 }

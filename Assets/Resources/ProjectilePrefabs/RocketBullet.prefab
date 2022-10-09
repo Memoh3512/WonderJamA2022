@@ -126,6 +126,7 @@ MonoBehaviour:
   damage: 30
   gravityScale: 0.2
   speed: 5
+  offset: 0.5
 --- !u!198 &8610490407339465906
 ParticleSystem:
   m_ObjectHideFlags: 0

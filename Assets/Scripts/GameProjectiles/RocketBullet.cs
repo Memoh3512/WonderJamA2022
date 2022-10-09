@@ -11,7 +11,7 @@ public class RocketBullet : GameProjectile
 
     public override void Colliding(Collision2D collision)
     {
-        if (!bounce && !boomed)
+        if (!bounce && !boomed && collision.gameObject.tag != "Bullet")
         {
             boomed = true;
             GameObject explosion = GameObject.Instantiate(Resources.Load<GameObject>("ProjectilePrefabs/Explosion"), transform.position, Quaternion.identity);

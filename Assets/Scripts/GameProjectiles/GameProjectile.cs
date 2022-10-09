@@ -7,6 +7,7 @@ public class GameProjectile : MonoBehaviour
     public int damage;
     public float gravityScale;
     public float speed;
+    public float offset;
     protected Weapon parent;
     protected Vector2 shootDirection;
     protected Rigidbody2D rb;
