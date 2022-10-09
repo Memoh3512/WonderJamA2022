@@ -326,7 +326,6 @@ public class PlayerControls : Damagable
         {
             GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
             text.GetComponent<TextMeshPro>().text = "No Stamina!";
-            text.transform.localScale *= 0.5f;
             text.GetComponent<TextMeshPro>().color = Color.cyan;
         }
     }
