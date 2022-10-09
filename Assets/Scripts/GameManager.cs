@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")] 
     public GameObject movingControls;
-    public GameObject prepAttackControls;
     public GameObject turnReminder;
     
     // Singleton
@@ -60,10 +59,6 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        movingControls.SetActive(false);
-        prepAttackControls.SetActive(false);
-
-        //GetActivePlayer().ShowUI();
         setUI(movingControls);
     }
     
@@ -255,9 +250,6 @@ public class GameManager : MonoBehaviour
             case PlayerAction.Moving:
                 setUI(instance.movingControls);
                 break;
-            // case PlayerAction.PrepAttack:
-            //     setUI(instance.prepAttackControls);
-            //     break;
         }
     }
     public Weapon getRandomWeapon()
@@ -280,7 +272,6 @@ public class GameManager : MonoBehaviour
     public void setUI(GameObject ui)
     {
         movingControls.SetActive(false);
-        prepAttackControls.SetActive(false);
 
         ui.SetActive(true);
     }
