@@ -66,10 +66,10 @@ public class Explosion : MonoBehaviour
             playersHit.Add(pc);
             Vector2 direction = (collision.transform.position - transform.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            if(angle < 100 && angle > 80)
+            if(angle < 105 && angle > 75)
             {
                 GameManager.instance.Glitch(GlitchType.Player, collision.GetComponent<PlayerControls>());
-                collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce*2);
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce*1.1f);
             }
             else
             {
