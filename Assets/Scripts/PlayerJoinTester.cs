@@ -59,6 +59,9 @@ public class PlayerJoinTester : MonoBehaviour
                 else
                 {
                     SetCharacter(GameManager.characters[0]);
+                    
+                    //TODO SFX player join
+                    
                     joined = true;
                 }
 

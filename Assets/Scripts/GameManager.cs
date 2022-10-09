@@ -142,6 +142,8 @@ public class GameManager : MonoBehaviour
             StartCoroutine(GlobalCamCor());
             GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
 
+            //TODO SFX change de tour
+            
             nextPlayerEvent.Invoke();
             SwapGlitch();    
 
