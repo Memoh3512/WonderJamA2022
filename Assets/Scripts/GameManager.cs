@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
     {
         
         Time.timeScale = 1;
-        if(Random.Range(0, 10) == 3)
+        if(Random.Range(0, 10) == 3 && !start)
         {
             if (GetActivePlayer().isAlive())
             {
