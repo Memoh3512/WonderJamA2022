@@ -15,8 +15,9 @@ public class Weapon
     protected int projectileCount;
     protected string weaponName;
     private LineRenderer lr;
-    protected float shootOffset = 0.5f;
+    protected float offset;
     private float gravityScale;
+    private bool lrActive;
     private float speed;
     private float drag;
 
@@ -27,7 +28,7 @@ public class Weapon
 
     public float cooldown = 0;
 
-    public Weapon(float staminaCost, float fireRate, float knockback, int projectileCount,Vector2 shootingOffset, Sprite weaponSprite, GameObject projectilePrefab, string weaponName = "")
+    public Weapon(float staminaCost, float fireRate, float knockback, int projectileCount, Vector2 shootingOffset, Sprite weaponSprite, GameObject projectilePrefab, string weaponName = "", float offset = 0f, bool lrActive = true)
     {
         this.staminaCost = staminaCost;
         this.fireRate = fireRate;
@@ -36,6 +37,8 @@ public class Weapon
         this.shootingOffset = shootingOffset;
         this.weaponSprite = weaponSprite;
         this.projectilePrefab = projectilePrefab;
+        this.offset = offset;
+        this.lrActive = lrActive;
 
         if (weaponName == "")
             this.weaponName = this.GetType().ToString();
@@ -54,13 +57,13 @@ public class Weapon
     public void OnGunHolderMove(Vector2 position, Vector2 shootDirection)
     {
 
-        if (projectilePrefab == null)
+        if (projectilePrefab == null || !lrActive)
         {
             lr.positionCount = 0;
             return;
         }
-        position += shootDirection.normalized * shootingOffset;
-        int steps = Mathf.RoundToInt(3000f/speed);
+        position += shootDirection.normalized * offset;
+        int steps = Mathf.RoundToInt(2500f/speed);
         List<Vector3> points = new List<Vector3>();
         float timeStep = Time.fixedDeltaTime / Physics2D.velocityIterations;
         Vector2 gravity = Physics2D.gravity * gravityScale * timeStep * timeStep;
@@ -88,12 +91,16 @@ public class Weapon
         lr.SetPositions(finalPoints);
     }
 
+    public void turnOffLineRenderer()
+    {
+        lr.positionCount = 0;
+    }
 
     virtual public void Shoot(Vector2 position, Vector2 shootDirection)
     {
         cooldown =  60/fireRate;
-        
-        lastProjectile = GameObject.Instantiate(projectilePrefab, position + shootDirection.normalized*shootingOffset, Quaternion.identity);
+        Debug.Log(shootDirection);
+        lastProjectile = GameObject.Instantiate(projectilePrefab, position + shootDirection* offset, Quaternion.identity);
         lastProjectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
         GameManager.instance.GetActivePlayer().GetComponent<Rigidbody2D>().velocity += ((-shootDirection).normalized * knockback);
         AmmoUsed();
