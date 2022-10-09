@@ -102,15 +102,20 @@ public class PlayerControls : Damagable
 
         UpdateAnimValues();
 
-        if (currentWeapon.cooldown > 0)
+        if (currentWeapon != null)
         {
-            currentWeapon.cooldown -= Time.deltaTime;
-            if (currentWeapon.cooldown < 0)
+            
+            if (currentWeapon.cooldown > 0)
             {
-                currentWeapon.cooldown = 0;
-            }
+                currentWeapon.cooldown -= Time.deltaTime;
+                if (currentWeapon.cooldown < 0)
+                {
+                    currentWeapon.cooldown = 0;
+                }
+            }   
+            
         }
-        
+
     }
 
     void UpdateAnimValues()
@@ -149,27 +154,39 @@ public class PlayerControls : Damagable
                 }else if (manette.rightTrigger.wasPressedThisFrame)
                 {
 
-
+                    
                     if (!IsGrounded()) Time.timeScale = slomoTimeScale;
 
-                    TryShoot(true);
-                    if (currentWeapon.getFirerate() == 0)
+                    if (currentWeapon != null)
                     {
-                        Time.timeScale = 1f;
-                        GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
+                        
+                        TryShoot(true);
+                        if (currentWeapon != null)
+                        {
+
+                            if (currentWeapon.getFirerate() == 0)
+                            {
+                                Time.timeScale = 1f;
+                            }
+
+                        }
+                        else Time.timeScale = 1f;
+
                     }
 
                 }else if (manette.rightTrigger.isPressed)
                 {
-                    TryShoot();
-                    if (IsGrounded()) Time.timeScale = 1f;
+                    if (currentWeapon != null)
+                    {
+                        
+                        if (currentWeapon.getFirerate() != 0) TryShoot();
+                        if (IsGrounded()) Time.timeScale = 1f;   
+                        
+                    }
                 }
                 else if (manette.rightTrigger.wasReleasedThisFrame)
                 {
-
                     Time.timeScale = 1f;
-                    GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
-
                 }
                 else if (manette.dpRight.wasPressedThisFrame)
                 {
@@ -180,11 +197,7 @@ public class PlayerControls : Damagable
                 }
                 else if (manette.yButton.wasPressedThisFrame)
                 {
-                    //TODO peut pas bouger utilise la stamina
-                    Weapon gunToAdd = GameManager.instance.getRandomWeapon();
-                    weapons.Add(gunToAdd);
-                    
-                    GameManager.instance.NextPlayerTurn();
+                    GetWeapon();
                 }
 
                 break;
@@ -203,23 +216,30 @@ public class PlayerControls : Damagable
     }
     void TryShoot(bool singlePress=false)
     {
-        if (CanShootWeaponCooldown())
+
+        if (currentWeapon != null)
         {
-            if (CanShootWeaponStamina())
+            
+            if (CanShootWeaponCooldown())
             {
-                Vector2 dir = gunHolder.transform.position - transform.position;
-                RemoveStamina(currentWeapon.getStaminaCost());
-                currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
-                CheckStaminaState();
-            }
-            else if(singlePress)
-            {
-                GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
-                text.GetComponent<TextMeshPro>().text = "No stamina!";
-                text.transform.localScale *= 0.5f;
-                text.GetComponent<TextMeshPro>().color = Color.cyan;
-            }
+                if (CanShootWeaponStamina())
+                {
+                    Vector2 dir = gunHolder.transform.position - transform.position;
+                    RemoveStamina(currentWeapon.getStaminaCost());
+                    currentWeapon.Shoot(gunHolder.transform.position, dir.normalized);
+                    CheckStaminaState();
+                }
+                else if(singlePress)
+                {
+                    GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
+                    text.GetComponent<TextMeshPro>().text = "No stamina!";
+                    text.transform.localScale *= 0.5f;
+                    text.GetComponent<TextMeshPro>().color = Color.cyan;
+                }
+            }    
+            
         }
+        
     }
 
     void UpdateGunHolderPosition()
@@ -266,6 +286,7 @@ public class PlayerControls : Damagable
     {
         weapons.Remove(weapon);
         NextGun();
+        Time.timeScale = 1f;
     }
 
     void CheckStaminaState()
@@ -467,15 +488,24 @@ public class PlayerControls : Damagable
         else
         {
             gunHolder.GetComponent<SpriteRenderer>().sprite = null;
+            currentWeapon = null;
+            
+            GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
+            text.GetComponent<TextMeshPro>().text = "No gun!";
+            text.transform.localScale *= 0.7f;
+            text.GetComponent<TextMeshPro>().color = Color.yellow;
         }
 
 
     }
     public bool CanShootWeaponStamina()
     {
-        if (currentStamina >= currentWeapon.getStaminaCost())
+        if (currentWeapon != null)
         {
-            return true;
+            if (currentStamina >= currentWeapon.getStaminaCost())
+            {
+                return true;
+            }   
         }
         return false;
     }
