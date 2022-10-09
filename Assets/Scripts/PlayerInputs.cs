@@ -46,6 +46,10 @@ public static class PlayerInputs
         }
 
     }
-    
-    
+
+
+    public static void ResetManettes()
+    {
+        throw new System.NotImplementedException();
+    }
 }
