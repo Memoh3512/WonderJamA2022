@@ -257,6 +257,7 @@ public class GameManager : MonoBehaviour
     public void GameEnd()
     {
         GetActivePlayer().Won();
+        SoundPlayer.instance.SetMusic(Songs.Crickets, 1f, TransitionBehavior.Stop);
         SceneChanger.ChangeScene(SceneTypes.EndScreen);
     }
     public void setCurrentPlayerState(PlayerAction state)
