@@ -15,7 +15,11 @@ public class Weapon
     protected int projectileCount;
     protected string weaponName;
     private LineRenderer lr;
-    
+    protected float shootOffset = 0.5f;
+    private float gravityScale;
+    private float speed;
+    private float drag;
+
     public UnityEvent<Weapon> gunShotEvent = new UnityEvent<Weapon>();
 
     protected GameObject lastProjectile;
@@ -32,17 +36,56 @@ public class Weapon
         this.shootingOffset = shootingOffset;
         this.weaponSprite = weaponSprite;
         this.projectilePrefab = projectilePrefab;
+
         if (weaponName == "")
             this.weaponName = this.GetType().ToString();
         else this.weaponName = weaponName;
 
-        
-        
+        lr = GameObject.Find("PreviewRenderer").GetComponent<LineRenderer>();
+        if(projectilePrefab != null)
+        {
+            gravityScale = projectilePrefab.GetComponent<GameProjectile>().gravityScale;
+            speed = projectilePrefab.GetComponent<GameProjectile>().speed;
+            drag = projectilePrefab.GetComponent<Rigidbody2D>().drag;
+        }
+
     }
 
     public void OnGunHolderMove(Vector2 position, Vector2 shootDirection)
     {
-        if (projectilePrefab == null) return; 
+
+        if (projectilePrefab == null)
+        {
+            lr.positionCount = 0;
+            return;
+        }
+        position += shootDirection.normalized * shootingOffset;
+        int steps = Mathf.RoundToInt(3000f/speed);
+        List<Vector3> points = new List<Vector3>();
+        float timeStep = Time.fixedDeltaTime / Physics2D.velocityIterations;
+        Vector2 gravity = Physics2D.gravity * gravityScale * timeStep * timeStep;
+        float drg = 1f - timeStep * drag;
+        Vector2 moveStep = shootDirection.normalized * speed * timeStep;
+
+        for(int i = 0; i < steps; i++)
+        {
+            moveStep += gravity;
+            moveStep *= drg;
+            position += moveStep;
+            points.Add(position);
+
+        }
+        for(int i = 0; i < Mathf.RoundToInt(steps*0.1f); i++)
+        {
+            points.RemoveAt(0);
+        }
+        Vector3[] finalPoints = new Vector3[points.Count];
+        for(int i = 0; i < points.Count; i++)
+        {
+            finalPoints[i] = points[i];
+        }
+        lr.positionCount = finalPoints.Length;
+        lr.SetPositions(finalPoints);
     }
 
 
@@ -50,7 +93,7 @@ public class Weapon
     {
         cooldown =  60/fireRate;
         
-        lastProjectile = GameObject.Instantiate(projectilePrefab, position + shootDirection.normalized*0.5f, Quaternion.identity);
+        lastProjectile = GameObject.Instantiate(projectilePrefab, position + shootDirection.normalized*shootingOffset, Quaternion.identity);
         lastProjectile.transform.position += new Vector3(shootingOffset.x,shootingOffset.y);
         GameManager.instance.GetActivePlayer().GetComponent<Rigidbody2D>().velocity += ((-shootDirection).normalized * knockback);
         AmmoUsed();
