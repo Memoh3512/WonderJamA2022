@@ -192,9 +192,8 @@ public class GameManager : MonoBehaviour
                     player2 = GetRandomAlivePlayer();
 
                 } while (player2 == player1);
-
-                Glitch(GlitchType.Player, player1);
-                Glitch(GlitchType.Player, player2);
+                
+                Glitch(GlitchType.Screen);
 
                 Vector3 position = player1.transform.position;
                 player1.transform.position = player2.transform.position;
@@ -274,7 +273,7 @@ public class GameManager : MonoBehaviour
     public Weapon getRandomWeapon()
     {
         Weapon rWeapon = new SMG();
-        switch (Random.Range(0, 8))
+        switch (Random.Range(0, 9))
         {
             case 0: rWeapon =  new Sniper();
                 break;
@@ -292,7 +291,8 @@ public class GameManager : MonoBehaviour
                 break;
             case 7: rWeapon = new MachineGun();
                 break;
-
+            case 8: rWeapon = new Grenade();
+                break;
 
         }
         return rWeapon;
