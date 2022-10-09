@@ -137,6 +137,16 @@ public class Weapon
         return weaponName;
     }
 
+    public void setWeaponName(string name)
+    {
+        this.weaponName = name;
+    }
+
+    public void addAmmos(int ammosToAdd)
+    {
+        projectileCount += ammosToAdd;
+        ammoUsedEvent?.Invoke();
+    }
     public int getProjectileCount()
     {
         return projectileCount;
