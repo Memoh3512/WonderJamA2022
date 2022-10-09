@@ -42,7 +42,7 @@ public class LevelLoader : MonoBehaviour
     private void Start()
     {
         
-        SoundPlayer.instance.SetMusic(Songs.ADRENALINE);
+        SoundPlayer.instance.SetMusic(Songs.Crickets);
         
     }
 

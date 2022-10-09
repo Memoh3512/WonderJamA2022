@@ -8,8 +8,9 @@ public enum Songs
 {
     
     ADRENALINE,
-    GameplaySong
-    
+    GameplaySong,
+    Crickets,
+
 }
 public enum TransitionBehavior
 {
@@ -172,7 +173,8 @@ public class SoundPlayer : MonoBehaviour
         songs = new Dictionary<Songs, AudioClip>()
         {
             {Songs.ADRENALINE, Resources.Load<AudioClip>("Sound/Music/ADRENALINE")},
-            {Songs.GameplaySong, Resources.Load<AudioClip>("Sound/Music/Where Do I Belong")},
+            {Songs.GameplaySong, Resources.Load<AudioClip>("Sound/Music/GameplaySong")},
+            {Songs.Crickets, Resources.Load<AudioClip>("Sound/Music/Ambiance_Vloop")},
             //...
         };
         
