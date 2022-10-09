@@ -169,6 +169,12 @@ public class GameManager : MonoBehaviour
         {
             if (Random.Range(0, 10) == 1)
             {
+                int playersAlive = 0;
+                foreach(PlayerControls p in players)
+                {
+                    if (p.isAlive()) playersAlive++;
+                }
+                if (playersAlive < 2) return;
                 PlayerControls player1 = GetRandomAlivePlayer();
                 PlayerControls player2;
                 do
