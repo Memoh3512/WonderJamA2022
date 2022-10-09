@@ -385,6 +385,7 @@ public class PlayerControls : Damagable
     {
         var position = transform.position;
         Vector2 delta = (movementDelta * moveSpeed);
+        if (Math.Abs(rb.velocity.x) > Math.Abs(delta.x)) delta.x = rb.velocity.x;
         if (IsGrounded())
         {
             rb.velocity = new Vector2(delta.x, rb.velocity.y);
@@ -394,9 +395,13 @@ public class PlayerControls : Damagable
         {
             //air control
             float di = delta.x * airControl;
-            rb.velocity = new Vector2(
-                Mathf.Clamp(rb.velocity.x + (di*Time.deltaTime), -maxAirVelocity, maxAirVelocity),
+            float xSpeed = Math.Abs(rb.velocity.x) > maxAirVelocity
+                ? rb.velocity.x
+                : Math.Min(maxAirVelocity, rb.velocity.x + (di * Time.deltaTime));
+            Vector2 vel = new Vector2(
+                xSpeed,
                 rb.velocity.y);
+            rb.velocity = vel;
             RemoveStamina(Math.Abs(rb.velocity.x * Time.deltaTime));
         }
         CheckStaminaState();
