@@ -294,7 +294,17 @@ public class PlayerControls : Damagable
         {
             RemoveStamina(75);
             Weapon gunToAdd = GameManager.instance.getRandomWeapon();
-            weapons.Add(gunToAdd);
+            bool weaponAlreadyAcquired = false;
+            foreach(Weapon w in weapons)
+            {
+                if(gunToAdd.getWeaponName() == w.getWeaponName())
+                {
+                    weaponAlreadyAcquired = true;
+                    w.addAmmos(gunToAdd.getProjectileCount());
+                    gunToAdd.setWeaponName(w.getWeaponName() + " Ammos x" + gunToAdd.getProjectileCount());
+                }
+            }
+            if(!weaponAlreadyAcquired) weapons.Add(gunToAdd);
             GameObject popup = GameObject.Instantiate(Resources.Load<GameObject>("GetWeaponPopup"), transform);
             popup.transform.position += Vector3.up * 2;
             popup.GetComponent<WeaponPopup>().Setup(gunToAdd);
