@@ -56,6 +56,9 @@ public class PlayerControls : Damagable
     public float GunHolderDistance = 2f;
     public float staminaUsageMultiplier = 3f;
 
+    [Header("Audio")] public AudioClip jumpSFX;
+    public AudioClip footstepSFX;
+
     private List<Weapon> weapons = new List<Weapon>();
     private Weapon currentWeapon = null;
     
@@ -150,15 +153,29 @@ public class PlayerControls : Damagable
 
                     if (!IsGrounded())
                     {
-                        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
+                        if (Math.Abs(Time.timeScale - 1f) < 0.01f)
+                        {
+                            
+                            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
+                            
+                        }
                         Time.timeScale = startShootTimeScale;
                     }
                     
                 }else if (manette.rightTrigger.wasPressedThisFrame)
                 {
 
-                    
-                    if (!IsGrounded()) Time.timeScale = slomoTimeScale;
+
+                    if (!IsGrounded())
+                    {
+                        if (Math.Abs(Time.timeScale - 1f) < 0.01f)
+                        {
+                            
+                            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
+                            
+                        }
+                        Time.timeScale = slomoTimeScale;
+                    }
 
                     if (currentWeapon != null)
                     {
@@ -169,11 +186,11 @@ public class PlayerControls : Damagable
 
                             if (currentWeapon.getFirerate() == 0)
                             {
-                                Time.timeScale = 1f;
+                                ResetTime();
                             }
 
                         }
-                        else Time.timeScale = 1f;
+                        else ResetTime();
 
                     }
 
@@ -183,7 +200,7 @@ public class PlayerControls : Damagable
                     {
                         
                         if (currentWeapon.getFirerate() != 0) TryShoot();
-                        if (IsGrounded()) Time.timeScale = 1f;   
+                        if (IsGrounded()) ResetTime(); 
                         
                     }
                 }
@@ -217,6 +234,21 @@ public class PlayerControls : Damagable
         }
         
     }
+
+    void ResetTime()
+    {
+
+        if (Math.Abs(Time.timeScale - 1f) > 0.01f)
+        {
+            
+            //TODO SFX slomo out
+            
+        }
+
+        Time.timeScale = 1f;
+
+    }
+    
     void TryShoot(bool singlePress=false)
     {
 
@@ -435,9 +467,29 @@ public class PlayerControls : Damagable
     {
         if (IsGrounded())
         {
-            rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);   
+            rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
+
+            if (jumpSFX != null)
+            {
+                
+                SoundPlayer.instance.PlaySFX(jumpSFX);
+                
+            }
+            
         }
         //Debug.Log("JUMP");
+    }
+
+    public void PlayFootstepSFX()
+    {
+
+        if (footstepSFX != null)
+        {
+            
+            SoundPlayer.instance.PlaySFX(footstepSFX);   
+            
+        }
+
     }
 
     bool IsGrounded()
@@ -548,6 +600,9 @@ public class PlayerControls : Damagable
 
     private void Die()
     {
+        
+        //TODO SFX die
+        
         alive = false;
         gameObject.SetActive(false);
         GameManager.instance.PlayerDied(gameObject);

@@ -30,6 +30,11 @@ public class Damagable : MonoBehaviour
         {
             hp = 0;
             OnDeath();
+        } else if (gameObject.CompareTag("Player"))
+        {
+            
+            //TODO SFX take damage
+            
         }
         damageTakenEvent?.Invoke(hp);
         return hp <= 0;

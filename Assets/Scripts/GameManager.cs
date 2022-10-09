@@ -274,6 +274,9 @@ public class GameManager : MonoBehaviour
 
     public void Glitch(GlitchType glitchType, PlayerControls player)
     {
+        
+        //TODO SFX Glitch (met le 1 pour l'instant)
+        
         GameObject Text = Instantiate(Resources.Load<GameObject>("PopupText"), new Vector3(0, 0, 0), Quaternion.identity);
         Text.transform.localScale *= 20;
         Text.GetComponent<TextMeshPro>().color = Color.magenta;
