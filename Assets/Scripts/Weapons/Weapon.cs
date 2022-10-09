@@ -192,5 +192,4 @@ public class Weapon
         projectilePrefab = prefab;
         SetProjectileValues();
     }
-
 }

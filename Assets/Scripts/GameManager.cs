@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     [Header("UI")] 
     public GameObject movingControls;
     public GameObject turnReminder;
+    public GameObject ammoUI;
     
     // Singleton
     public static GameManager instance;
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
         foreach (var player in players)
         {
             player.setState(PlayerAction.Waiting);
+            player.changeGunEvent.AddListener(OnWeaponChange);
         }
         NextPlayerTurn(true);
     }
@@ -81,6 +83,7 @@ public class GameManager : MonoBehaviour
     }
     public IEnumerator FadeTextToFullAlpha(float t, TextMeshProUGUI i)
     {
+        ammoUI.SetActive(false);
         i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
         while (i.color.a < 1.0f)
         {
@@ -102,6 +105,7 @@ public class GameManager : MonoBehaviour
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
             yield return null;
         }
+        ammoUI.SetActive(true);
     }
     
     private void NextTurn()
@@ -115,7 +119,7 @@ public class GameManager : MonoBehaviour
     {
         
         Time.timeScale = 1;
-
+        
         setCurrentPlayerState(PlayerAction.Waiting);
 
         if (start)
@@ -326,5 +330,28 @@ public class GameManager : MonoBehaviour
         textpop.GetComponent<TextMeshPro>().color = color;
         textpop.GetComponent<TextMeshPro>().text = text;
         textpop.GetComponent<TextAnim>().lifeSpan = lifeSpan;
+    }
+
+    private void OnWeaponChange(Weapon wep, Weapon wep2)
+    {
+        if (wep2 != null)
+        {
+            wep2.gunShotEvent.RemoveListener(OnWeaponShot);
+        }
+        if (wep != null)
+        {
+            wep.gunShotEvent.AddListener(OnWeaponShot);
+        }
+
+        UpdateAmmoUI();
+    }
+    private void OnWeaponShot(Weapon wep)
+    {
+        UpdateAmmoUI();
+    }
+
+    public void UpdateAmmoUI()
+    {
+        ammoUI.transform.Find("Ammo").GetComponent<TextMeshProUGUI>().text = GetActivePlayer().GetGun().getProjectileCount().ToString();
     }
 }

@@ -492,7 +492,7 @@ public class PlayerControls : Damagable
         Collider2D[] colls = new Collider2D[2];
         bool ret = Physics2D.OverlapCircle(characterCollider.bounds.center + (Vector3.down * 0.1f),
             ((CircleCollider2D)characterCollider).radius,filter,colls) > 1;
-        if (colls[1] != null)Debug.Log( colls[0].gameObject.name + " - " + colls[1].gameObject.name);
+        //if (colls[1] != null)Debug.Log( colls[0].gameObject.name + " - " + colls[1].gameObject.name);
         return ret;
     }
 
@@ -617,7 +617,10 @@ public class PlayerControls : Damagable
         {
             currentWeapon?.turnOffLineRenderer();
         }
-        changeGunEvent.Invoke(currentWeapon, null);
+        if (currentWeapon != null)
+        {
+            changeGunEvent.Invoke(currentWeapon, null);
+        }
     }
     public Weapon GetGun()
     {
