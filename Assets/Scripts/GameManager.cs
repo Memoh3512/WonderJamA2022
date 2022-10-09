@@ -178,6 +178,12 @@ public class GameManager : MonoBehaviour
         {
             if (Random.Range(0, 10) == 1)
             {
+                int playersAlive = 0;
+                foreach(PlayerControls p in players)
+                {
+                    if (p.isAlive()) playersAlive++;
+                }
+                if (playersAlive < 2) return;
                 PlayerControls player1 = GetRandomAlivePlayer();
                 PlayerControls player2;
                 do
@@ -265,14 +271,24 @@ public class GameManager : MonoBehaviour
     }
     public Weapon getRandomWeapon()
     {
-        switch (Random.Range(0, 4))
+        Weapon rWeapon = new SMG();
+        switch (Random.Range(0, 6))
         {
-            case 0: return new Sniper();
-            case 1: return new SMG();
-            case 2: return new Rocket();
-            case 3: return new Shotgun();
+            case 0: rWeapon =  new Sniper();
+                break;
+            case 1: rWeapon = new SMG();
+                break;
+            case 2: rWeapon = new Rocket();
+                break;
+            case 3: rWeapon = new Shotgun();
+                break;
+            case 4: rWeapon = new Pearl();
+                break;
+            case 5: rWeapon = new Poutine();
+                break;
+
         }
-        return new SMG();
+        return rWeapon;
     }
 
     public void AddPlayer(PlayerControls player)

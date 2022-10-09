@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Rocket : Weapon
 {
-    public Rocket() : base(60, 0, 5, 1, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/Rocket"), Resources.Load<GameObject>("ProjectilePrefabs/RocketBullet"),"Rocket Launcher",0.5f)
+    public Rocket() : base(60, 0, 5, 1, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/Rocket"), Resources.Load<GameObject>("ProjectilePrefabs/RocketBullet"),"Rocket Launcher")
     {
        
     }
@@ -13,7 +13,7 @@ public class Rocket : Weapon
     {
         
         base.Shoot(position, shootDirection);
-        lastProjectile.GetComponent<RocketBullet>().Init(this, shootDirection);
+        lastProjectile.GetComponent<GameProjectile>().Init(this, shootDirection);
         if(Random.Range(1,10) == 5)
         {
             lastProjectile.GetComponent<RocketBullet>().Glitch();
