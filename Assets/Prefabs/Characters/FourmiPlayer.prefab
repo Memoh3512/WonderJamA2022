@@ -605,7 +605,7 @@ MonoBehaviour:
   maxHP: 100
   GunHolderDistance: 0.7
   staminaUsageMultiplier: 3
-  jumpSFX: {fileID: 8300000, guid: 6f11fbcd63c11c44ca69b705453e9683, type: 3}
+  jumpSFX: {fileID: 8300000, guid: 1c1c547c771517949b060cd3cc4ddc62, type: 3}
   footstepSFX: {fileID: 8300000, guid: c02828976cc0d584ea4ca493cdfd24b9, type: 3}
   staminaTakenEvent:
     m_PersistentCalls:
