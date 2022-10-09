@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")] 
     public GameObject movingControls;
-    public GameObject prepAttackControls;
     public GameObject turnReminder;
     
     // Singleton
@@ -60,10 +59,6 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        movingControls.SetActive(false);
-        prepAttackControls.SetActive(false);
-
-        //GetActivePlayer().ShowUI();
         setUI(movingControls);
     }
     
@@ -76,7 +71,6 @@ public class GameManager : MonoBehaviour
         foreach (var player in players)
         {
             player.setState(PlayerAction.Waiting);
-            player.PlayerTargetted(false);
         }
         
         // Start la game
@@ -119,15 +113,13 @@ public class GameManager : MonoBehaviour
     {
         turn++;
         TurnShowText();
-        
+
         nextTurnEvent.Invoke();
     }
     public void NextPlayerTurn()
     {
-        foreach (var player in players)
-        {
-            player.PlayerTargetted(false);
-        }
+        Time.timeScale = 1;
+
         setCurrentPlayerState(PlayerAction.Waiting);
 
         do
@@ -151,25 +143,21 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            
             FocusOnPlayer(GetActivePlayer());
             GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
 
             nextPlayerEvent.Invoke();
-            SwapGlitch();    
-            
+            SwapGlitch();
         }
         
     }
 
     private IEnumerator GlobalCamCor()
     {
-        
         followCam.gameObject.SetActive(false);
         yield return new WaitForSeconds(GlobalCamShowTime);
         followCam.gameObject.SetActive(true);
         FocusOnPlayer(GetActivePlayer());
-
     }
 
     private void SwapGlitch()
@@ -214,7 +202,6 @@ public class GameManager : MonoBehaviour
 
     public void FocusOnPlayer(PlayerControls player)
     {
-        player.PlayerTargetted();
         setCurrentPlayerState(PlayerAction.Moving);
 
         followCam.Follow = GetActivePlayer().transform;
@@ -222,9 +209,7 @@ public class GameManager : MonoBehaviour
 
     public void SwitchToGlobalCam()
     {
-        
         followCam.gameObject.SetActive(false);
-        
     }
 
     public PlayerControls GetActivePlayer()
@@ -265,9 +250,6 @@ public class GameManager : MonoBehaviour
             case PlayerAction.Moving:
                 setUI(instance.movingControls);
                 break;
-            // case PlayerAction.PrepAttack:
-            //     setUI(instance.prepAttackControls);
-            //     break;
         }
     }
     public Weapon getRandomWeapon()
@@ -290,7 +272,6 @@ public class GameManager : MonoBehaviour
     public void setUI(GameObject ui)
     {
         movingControls.SetActive(false);
-        prepAttackControls.SetActive(false);
 
         ui.SetActive(true);
     }
@@ -302,8 +283,6 @@ public class GameManager : MonoBehaviour
 
     public void Glitch(GlitchType glitchType, PlayerControls player)
     {
-        
-        
         SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Glitch01_V01"));
         
         GameObject Text = Instantiate(Resources.Load<GameObject>("PopupText"), new Vector3(0, 0, 0), Quaternion.identity);
