@@ -158,6 +158,47 @@ public class GameManager : MonoBehaviour
         GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
 
         nextPlayerEvent.Invoke();
+        SwapGlitch();
+    }
+
+    private void SwapGlitch()
+    {
+        //Glitch à la fin du tour d'un player 2 players swap de place cuz why not
+        if (players.Count > 1)
+        {
+            if (Random.Range(0, 10) == 1)
+            {
+                PlayerControls player1 = GetRandomAlivePlayer();
+                PlayerControls player2;
+                do
+                {
+                    player2 = GetRandomAlivePlayer();
+
+                } while (player2 == player1);
+
+                Glitch(GlitchType.Player, player1);
+                Glitch(GlitchType.Player, player2);
+
+                Vector3 position = player1.transform.position;
+                player1.transform.position = player2.transform.position;
+                player2.transform.position = position;
+
+            }
+        }
+
+
+    }
+
+    public PlayerControls GetRandomAlivePlayer()
+    {
+        PlayerControls player;
+        do
+        {
+            player = players[Random.Range(0, players.Count)];
+
+        }
+        while (!player.isAlive());
+        return player;
     }
 
     public void FocusOnPlayer(PlayerControls player)
@@ -254,5 +295,13 @@ public class GameManager : MonoBehaviour
         Text.transform.localScale *= 20;
         Text.GetComponent<TextMeshPro>().color = Color.magenta;
         Text.GetComponent<TextMeshPro>().text = "GLITCH";
+    }
+
+    public void PopupText(Vector3 position, float scale, Color color, String text)
+    {
+        GameObject Text = Instantiate(Resources.Load<GameObject>("PopupText"), position, Quaternion.identity);
+        Text.transform.localScale *= scale;
+        Text.GetComponent<TextMeshPro>().color = color;
+        Text.GetComponent<TextMeshPro>().text = text;
     }
 }
