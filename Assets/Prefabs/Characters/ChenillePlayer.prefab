@@ -87,6 +87,6 @@ PrefabInstance:
         type: 3}
       propertyPath: jumpSFX
       value: 
-      objectReference: {fileID: 8300000, guid: 6f11fbcd63c11c44ca69b705453e9683, type: 3}
+      objectReference: {fileID: 8300000, guid: fbb657756d4f66345923de5390c53510, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4829669ca8cb4a44fb05fafc9593e363, type: 3}
