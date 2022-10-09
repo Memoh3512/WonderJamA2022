@@ -81,6 +81,8 @@ public class PlayerControls : Damagable
         weapons.Add(new SMG());
         weapons.Add(new Rocket());
         weapons.Add(new Shotgun());
+        weapons.Add(new Pearl());
+        weapons.Add(new Poutine());
         //ENSEMBLE {
         currentWeapon = weapons[0];
         //}
@@ -551,6 +553,7 @@ public class PlayerControls : Damagable
             staminaTakenEvent?.Invoke(currentStamina);
         }
     }
+
     public void Won()
     {
         manette.Winner = true;
