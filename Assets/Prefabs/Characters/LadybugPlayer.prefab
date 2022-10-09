@@ -496,12 +496,12 @@ MonoBehaviour:
   maxIKDistance: 1
   startShootTimeScale: 0.05
   slomoTimeScale: 0.2
-  moveSpeed: 5
-  jumpHeight: 200
-  gravityScale: 5
+  moveSpeed: 1
+  jumpHeight: 50
+  gravityScale: 0.5
   maxStamina: 100
-  airControl: 10
-  maxAirVelocity: 5
+  airControl: 3
+  maxAirVelocity: 1
   maxHP: 100
   GunHolderDistance: 0.7
   staminaUsageMultiplier: 3
