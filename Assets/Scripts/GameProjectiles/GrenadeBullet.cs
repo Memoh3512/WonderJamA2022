@@ -5,6 +5,7 @@ using UnityEngine;
 public class GrenadeBullet : GameProjectile
 {
     public float secondsBeforeExplosion;
+    public float knockback;
     public override void Init(Weapon parent, Vector2 shootDirection)
     {
         base.Init(parent, shootDirection);
@@ -13,7 +14,11 @@ public class GrenadeBullet : GameProjectile
 
     public override void Colliding(Collision2D collision)
     {
-        //override pour pas que ça fasse le base.Colliding do not remove
+        if(collision.gameObject.tag == "Player")
+        {
+            Vector2 direction = (collision.transform.position - transform.position).normalized;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * knockback);
+        }
     }
 
 

@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
     private UnityEvent nextPlayerEvent = new UnityEvent();
     private int currentPlayerIndex;
 
+    private Vector3 posStartTurn; 
+
     public static List<Character> characters;
 
     [Header("Camera")] public CinemachineVirtualCamera followCam;
@@ -119,7 +121,15 @@ public class GameManager : MonoBehaviour
     {
         
         Time.timeScale = 1;
-        
+        if(Random.Range(0, 10) == 3)
+        {
+            if (GetActivePlayer().isAlive())
+            {
+                Glitch(GlitchType.Player);
+                GetActivePlayer().gameObject.transform.position = posStartTurn;
+            }
+        }
+
         setCurrentPlayerState(PlayerAction.Waiting);
 
         if (start)
@@ -165,6 +175,7 @@ public class GameManager : MonoBehaviour
                 SwapGlitch();    
             }
         }
+        posStartTurn = GetActivePlayer().gameObject.transform.position;
         
     }
 
