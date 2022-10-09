@@ -168,17 +168,9 @@ public class PlayerControls : Damagable
                             
                             SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
                             slowed = true;
+                            Time.timeScale = startShootTimeScale;
+                            StartCoroutine(TimeGlitch());
 
-                            if(Random.Range(0,10) == 5)
-                            {
-                                GameManager.instance.Glitch(GlitchType.Screen);
-                                Time.timeScale *= 2f;
-                            }
-                            else
-                            {
-                                Time.timeScale = startShootTimeScale;
-
-                            }
 
                         }
                         else ResetTime();
@@ -423,6 +415,20 @@ public class PlayerControls : Damagable
             RemoveStamina(Math.Abs(rb.velocity.x * Time.deltaTime));
         }
         CheckStaminaState();
+    }
+
+    IEnumerator TimeGlitch()
+    {
+        if(Random.Range(0,20) == 5)
+        {
+            yield return new WaitForSeconds(2*Time.timeScale);
+            GameManager.instance.Glitch(GlitchType.Player);
+            yield return new WaitForSeconds(2f*Time.timeScale);
+            ResetTime();
+            Time.timeScale *= 3f;
+            yield return new WaitForSeconds(5);
+            ResetTime();
+        }
     }
 
     void UpdateSpriteFlip()
