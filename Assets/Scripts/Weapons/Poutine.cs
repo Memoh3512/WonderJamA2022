@@ -16,7 +16,7 @@ public class Poutine : Weapon
         AmmoUsed();
         gunShotEvent.Invoke(this);
         
-        //TODO SFX Poutine
         
+        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Poutine_V01"));
     }
 }
