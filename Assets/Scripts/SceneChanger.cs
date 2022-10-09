@@ -30,17 +30,12 @@ public class SceneChanger : MonoBehaviour
 
     public void ChangeScene()
     {
-
         LevelLoader.instance.LoadScene(nextScene, transition);
-
     }
     
     public static void ChangeScene(SceneTypes scene, TransitionTypes transitionType = TransitionTypes.CrossFade)
     {
-
-        
         LevelLoader.instance.LoadScene(scene, transitionType);
-
     }
 
 }
