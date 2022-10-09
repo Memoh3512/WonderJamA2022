@@ -19,6 +19,11 @@ public class RocketBullet : GameProjectile
         if (!bounce && !boomed && collision.gameObject.tag != "Bullet")
         {
             boomed = true;
+            SoundPlayer.instance.PlaySFX(1, 
+                Resources.Load<AudioClip>("Sound/SFX/Explosion_01_V01"),
+                Resources.Load<AudioClip>("Sound/SFX/Explosion_02_V01"),
+                Resources.Load<AudioClip>("Sound/SFX/Explosion_03_V01"));
+            
             GameObject explosion = GameObject.Instantiate(Resources.Load<GameObject>("ProjectilePrefabs/Explosion"), transform.position, Quaternion.identity);
             explosion.GetComponent<Explosion>().Init(damage, 4, 25);
             GetComponent<ParticleSystem>().Stop();
