@@ -60,7 +60,8 @@ public class PlayerJoinTester : MonoBehaviour
                 {
                     SetCharacter(GameManager.characters[0]);
                     
-                    //TODO SFX player join
+                    
+                    SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Join_V01"));
                     
                     joined = true;
                 }
@@ -83,8 +84,8 @@ public class PlayerJoinTester : MonoBehaviour
                 SceneChanger.ChangeScene(SceneTypes.GameplayScene, TransitionTypes.CoolTransition);
                 SoundPlayer.instance.SetMusic(Songs.GameplaySong, 1, TransitionBehavior.Stop);
                 
-                //TODO SFX start game
                 
+                SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Gamestart_V01"));
             }
         }
     }

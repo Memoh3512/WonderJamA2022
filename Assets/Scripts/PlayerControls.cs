@@ -588,8 +588,8 @@ public class PlayerControls : Damagable
             Vector3 pos = spawnpoints[Random.Range(0, spawnpoints.Length)].transform.position;
             transform.position = pos;
             
-            //TODO SFX fall
             
+            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Void_V01"));
         }
     }
 
