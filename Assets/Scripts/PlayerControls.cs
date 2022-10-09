@@ -83,15 +83,7 @@ public class PlayerControls : Damagable
         rb.gravityScale = gravityScale;
 
         //debug
-        weapons.Add(new Sniper());
-        weapons.Add(new SMG());
-        weapons.Add(new Rocket());
-        weapons.Add(new Shotgun());
-        weapons.Add(new Pearl());
-        weapons.Add(new Poutine());
-        weapons.Add(new Bow());
-        weapons.Add(new MachineGun());
-        weapons.Add(new Grenade());
+        weapons.Add(GameManager.instance.getRandomWeapon());
         //ENSEMBLE {
         currentWeapon = weapons[0];
         
