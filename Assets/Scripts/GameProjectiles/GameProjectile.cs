@@ -23,7 +23,7 @@ public class GameProjectile : MonoBehaviour
         rb.velocity = shootDirection.normalized * speed;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         transform.eulerAngles = new Vector3(0,0, Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg);
     }
