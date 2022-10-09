@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RandomGlitchMove : MonoBehaviour
 {
+    public float scaleBouger = 1;
 
     private void Start()
     {
@@ -13,12 +14,13 @@ public class RandomGlitchMove : MonoBehaviour
 
     IEnumerator TP()
     {
-        yield return new WaitForSeconds(15);
-        if(Random.Range(0,10) == 5)
+        yield return new WaitForSeconds(5);
+        if(Random.Range(0,20) == 5)
         {
             GameManager.instance.Glitch(GlitchType.Screen);
             yield return new WaitForSeconds(0.5f);
-            transform.position = new Vector3(transform.position.x + Random.Range(-10, 10), transform.position.y + Random.Range(-10, 10), transform.position.z);
+            float delta = 10 * scaleBouger;
+            transform.position = new Vector3(transform.position.x + Random.Range(-delta, delta), transform.position.y + Random.Range(-delta, delta), transform.position.z);
         }
         StartCoroutine(TP());
     }

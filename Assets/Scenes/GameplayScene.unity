@@ -1489,6 +1489,7 @@ GameObject:
   - component: {fileID: 700168438}
   - component: {fileID: 700168440}
   - component: {fileID: 700168439}
+  - component: {fileID: 700168441}
   m_Layer: 0
   m_Name: Toile3
   m_TagString: Untagged
@@ -1686,6 +1687,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &700168441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700168437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f58ddabb446564cb32d129a86dda85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleBouger: 0.5
 --- !u!1 &773738939
 GameObject:
   m_ObjectHideFlags: 0
@@ -3824,6 +3838,7 @@ GameObject:
   - component: {fileID: 1611730835}
   - component: {fileID: 1611730837}
   - component: {fileID: 1611730836}
+  - component: {fileID: 1611730838}
   m_Layer: 0
   m_Name: Toile1 (1)
   m_TagString: Untagged
@@ -4183,6 +4198,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1611730838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611730834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f58ddabb446564cb32d129a86dda85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleBouger: 0.5
 --- !u!1001 &1657963927
 PrefabInstance:
   m_ObjectHideFlags: 0
