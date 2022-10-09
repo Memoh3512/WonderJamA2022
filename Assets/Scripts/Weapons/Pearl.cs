@@ -15,7 +15,7 @@ public class Pearl : Weapon
         base.Shoot(position, shootDirection);
         lastProjectile.GetComponent<GameProjectile>().Init(this, shootDirection);
         
-        //TODO SFX Perle
         
+        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Teleport_V01"));
     }
 }

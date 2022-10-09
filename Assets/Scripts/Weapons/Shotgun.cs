@@ -29,8 +29,8 @@ public class Shotgun : Weapon
         AmmoUsed();
         gunShotEvent.Invoke(this);
         
-        //TODO SFX SHOTGUN
         
+        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Shotgun_V01"));
 
     }
 

@@ -19,6 +19,7 @@ public class Bow : Weapon
             lastProjectile.GetComponent<GameProjectile>().Init(this, shootDirection);
         }
 
-        //SFX bow;
+        
+        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Arc_v01"));
     }
 }
