@@ -90,6 +90,7 @@ public class PlayerControls : Damagable
         weapons.Add(new Poutine());
         //ENSEMBLE {
         currentWeapon = weapons[0];
+        
         //}
         
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
@@ -485,7 +486,7 @@ public class PlayerControls : Damagable
         if (state == PlayerAction.Moving)
         {
             showUI(true);
-            changeGunEvent.Invoke(currentWeapon, null);
+            
         }
         if (state == PlayerAction.Waiting)
         {
@@ -594,5 +595,10 @@ public class PlayerControls : Damagable
         {
             currentWeapon?.turnOffLineRenderer();
         }
+        changeGunEvent.Invoke(currentWeapon, null);
+    }
+    public Weapon GetGun()
+    {
+        return currentWeapon;
     }
 }
