@@ -485,7 +485,7 @@ public class PlayerControls : Damagable
         if (state == PlayerAction.Moving)
         {
             showUI(true);
-            unShowCostEvent?.Invoke();
+            changeGunEvent.Invoke(currentWeapon, null);
         }
         if (state == PlayerAction.Waiting)
         {
