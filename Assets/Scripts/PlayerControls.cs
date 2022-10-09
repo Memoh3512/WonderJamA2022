@@ -90,6 +90,7 @@ public class PlayerControls : Damagable
         weapons.Add(new Poutine());
         weapons.Add(new Bow());
         weapons.Add(new MachineGun());
+        weapons.Add(new Grenade());
         //ENSEMBLE {
         currentWeapon = weapons[0];
         

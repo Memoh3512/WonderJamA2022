@@ -7,24 +7,52 @@ public class Explosion : MonoBehaviour
 {
     int damage;
     float pushForce;
+    public float steps = 30;
+    private float lifeSpan;
+    private float maxRadius;
+    private LineRenderer lr;
+    public int pointsCount = 100;
+    CircleCollider2D cc;
 
-    public void Init(int damage, float radius,float pushForce)
+    public void Init(int damage, float radius,float pushForce,float lifeSpan = 0.2f)
     {
+        this.lr = GetComponent<LineRenderer>();
+        this.lifeSpan = lifeSpan;
         this.damage = damage;
         this.pushForce = pushForce;
-        CircleCollider2D cc = GetComponent<CircleCollider2D>();
-        cc.radius = radius;
+        cc = GetComponent<CircleCollider2D>();
+        maxRadius = radius;
         cc.enabled = true;
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
         text.GetComponent<TextMeshPro>().text = "BOOM!";
         text.GetComponent<TextMeshPro>().color = Color.red;
-        text.transform.localScale *= 4;
+        text.transform.localScale *= 3;
+        text.GetComponent<TextAnim>().random = false;
         StartCoroutine(Die());
     }
 
     IEnumerator Die()
     {
-        yield return new WaitForSeconds(0.2f);
+        lr.positionCount = pointsCount;
+        float timePassed = 0;
+        float timeStep = lifeSpan / steps;
+        float currentRadius = 0;
+        while (timePassed < lifeSpan)
+        {
+            yield return new WaitForSeconds(timeStep);
+            timePassed += timeStep;
+            Vector3[] points = new Vector3[pointsCount];
+            currentRadius = maxRadius * (timePassed / lifeSpan);
+            cc.radius = currentRadius;
+            for (int i = 0; i < pointsCount; i++)
+            {
+                float angle = (360f / pointsCount) * i * Mathf.Deg2Rad;
+                points[i] = transform.position + (new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)))*currentRadius;
+            }
+            points[points.Length-1] = points[0];
+            lr.SetPositions(points);
+        }
+
         Destroy(gameObject);
     }
 
