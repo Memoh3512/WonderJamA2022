@@ -14,5 +14,8 @@ public class Pearl : Weapon
     {
         base.Shoot(position, shootDirection);
         lastProjectile.GetComponent<PearlBullet>().Init(this, shootDirection,GameManager.instance.GetActivePlayer());
+        
+        //TODO SFX Perle
+        
     }
 }

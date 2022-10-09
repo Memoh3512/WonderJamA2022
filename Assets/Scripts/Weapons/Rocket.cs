@@ -18,6 +18,9 @@ public class Rocket : Weapon
         {
             lastProjectile.GetComponent<RocketBullet>().Glitch();
         }
+        
+        //TODO SFX Lance roquette lance le projectile
+        
     }
 
 }

@@ -15,6 +15,7 @@ public class SMG : Weapon
         base.Shoot(position, shootDirection);
         lastProjectile.GetComponent<SMGBullet>().Init(this, shootDirection);
         
+        //TODO SFX SMG
 
     }
 

@@ -28,6 +28,9 @@ public class Shotgun : Weapon
         text.transform.localScale *= 2;
         AmmoUsed();
         gunShotEvent.Invoke(this);
+        
+        //TODO SFX SHOTGUN
+        
 
     }
 
