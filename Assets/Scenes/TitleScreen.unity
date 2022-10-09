@@ -2507,7 +2507,7 @@ MonoBehaviour:
         m_MethodName: PlaySoundEffect
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 6f11fbcd63c11c44ca69b705453e9683,
+          m_ObjectArgument: {fileID: 8300000, guid: 9f3d88414caead6458aead6d3411fefa,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
