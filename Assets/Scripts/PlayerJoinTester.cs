@@ -82,6 +82,9 @@ public class PlayerJoinTester : MonoBehaviour
 
                 SceneChanger.ChangeScene(SceneTypes.GameplayScene, TransitionTypes.CoolTransition);
                 SoundPlayer.instance.SetMusic(Songs.GameplaySong, 1, TransitionBehavior.Stop);
+                
+                //TODO SFX start game
+                
             }
         }
     }
