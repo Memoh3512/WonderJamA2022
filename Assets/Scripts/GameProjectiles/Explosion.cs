@@ -69,7 +69,7 @@ public class Explosion : MonoBehaviour
             if(angle < 100 && angle > 80)
             {
                 GameManager.instance.Glitch(GlitchType.Player, collision.GetComponent<PlayerControls>());
-                collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce*2);
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce*0.1f);
             }
             else
             {
