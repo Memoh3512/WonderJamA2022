@@ -31,11 +31,11 @@ RectTransform:
   - {fileID: 5631305274062835116}
   - {fileID: 9207571108174453243}
   m_Father: {fileID: 1404199893446255846}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.5, y: 62.48799}
+  m_AnchoredPosition: {x: 25.1, y: 38.1}
   m_SizeDelta: {x: 73.0789, y: 24.6876}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &667511227285069550
@@ -418,10 +418,10 @@ RectTransform:
   - {fileID: 7306361998147689119}
   - {fileID: 3356287820831460593}
   - {fileID: 5899062046134014987}
+  - {fileID: 2374771880135831549}
   - {fileID: 3938762256126179410}
   - {fileID: 2433832353642422399}
   - {fileID: 7507746394016105940}
-  - {fileID: 2374771880135831549}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1788,11 +1788,11 @@ RectTransform:
   - {fileID: 7916647299266567884}
   - {fileID: 1772385416727840531}
   m_Father: {fileID: 1404199893446255846}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.5, y: 37.8}
+  m_AnchoredPosition: {x: 25.100006, y: 13.41202}
   m_SizeDelta: {x: 73.0789, y: 24.6876}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7773006465692726846
@@ -1940,11 +1940,11 @@ RectTransform:
   - {fileID: 6622656263368198799}
   - {fileID: 8471798004090527331}
   m_Father: {fileID: 1404199893446255846}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.5, y: 87.17599}
+  m_AnchoredPosition: {x: 25.100006, y: 62.78801}
   m_SizeDelta: {x: 73.0789, y: 24.6876}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8971107967724764818
@@ -1978,11 +1978,11 @@ RectTransform:
   - {fileID: 5155715724138606057}
   - {fileID: 4587196322511441974}
   m_Father: {fileID: 1404199893446255846}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.5, y: 13.111988}
+  m_AnchoredPosition: {x: 25.100006, y: 87.47202}
   m_SizeDelta: {x: 73.0789, y: 24.6876}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &9145435769051212955
@@ -2051,7 +2051,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Get Weapon
+  m_text: Get Weapon costs(75% stamina)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 89481463f403336418574b4f4309feb0, type: 2}
   m_sharedMaterial: {fileID: -5685916394003705918, guid: 89481463f403336418574b4f4309feb0,
@@ -2087,7 +2087,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2115,7 +2115,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -159.71938, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
