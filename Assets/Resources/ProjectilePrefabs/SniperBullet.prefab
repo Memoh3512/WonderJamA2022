@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8184641359907527889}
   - component: {fileID: 4576507772183519783}
   - component: {fileID: -3764007939345206634}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SniperBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -123,6 +123,7 @@ MonoBehaviour:
   damage: 40
   gravityScale: 0.1
   speed: 20
+  offset: 0
 --- !u!60 &-3764007939345206634
 PolygonCollider2D:
   m_ObjectHideFlags: 0

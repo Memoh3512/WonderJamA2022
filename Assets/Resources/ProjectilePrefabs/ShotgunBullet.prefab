@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8184641359907527889}
   - component: {fileID: 1697798697834507994}
   - component: {fileID: 3391781470701815815}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ShotgunBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -153,3 +153,4 @@ MonoBehaviour:
   damage: 2
   gravityScale: 1
   speed: 10
+  offset: 0

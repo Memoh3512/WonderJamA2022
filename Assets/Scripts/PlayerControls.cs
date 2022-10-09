@@ -294,7 +294,7 @@ public class PlayerControls : Damagable
         {
             RemoveStamina(75);
             Weapon gunToAdd = GameManager.instance.getRandomWeapon();
-            if(true)//Random.Range(1, 10) == 5)
+            if(Random.Range(1, 10) == 5)
             {
                 gunToAdd.setWeaponName(gunToAdd.getWeaponName() + "?");
                 Weapon weapon2;
