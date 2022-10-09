@@ -160,17 +160,8 @@ public class PlayerControls : Damagable
                         {
                             
                             SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
-                            if(Random.Range(0,10) == 5)
-                            {
-                                GameManager.instance.Glitch(GlitchType.Screen);
-                                Time.timeScale *= 2f;
-                            }
-                            else
-                            {
-                                Time.timeScale = startShootTimeScale;
-
-                            }
-
+                            Time.timeScale = startShootTimeScale;
+                            
                         }
                         else ResetTime();
                     }
