@@ -13,7 +13,7 @@ public class SMG : Weapon
     override public void Shoot(Vector2 position, Vector2 shootDirection)
     {
         base.Shoot(position, shootDirection);
-        lastProjectile.GetComponent<SMGBullet>().Init(this, shootDirection);
+        lastProjectile.GetComponent<GameProjectile>().Init(this, shootDirection);
         
         
         SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Riffleshot_V01"));

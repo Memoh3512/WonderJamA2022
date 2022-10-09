@@ -22,7 +22,7 @@ public class Parallax : MonoBehaviour
         Vector2 delta = cam.transform.position;
         delta = (-delta) * multiplier;
         if (!x) delta.x = 0;
-        if (!y) delta.y = 0;
+        if (!y) delta.y = transform.position.y;
         transform.position = delta;
 
 

@@ -6,9 +6,9 @@ public class PearlBullet : GameProjectile
 {
     bool collided = false;
     PlayerControls player;
-    public void Init(Weapon parent, Vector2 shootDirection,PlayerControls player)
+    public override void Init(Weapon parent, Vector2 shootDirection)
     {
-        this.player = player;
+        this.player = GameManager.instance.GetActivePlayer();
         base.Init(parent, shootDirection);
     }
 
@@ -20,9 +20,17 @@ public class PearlBullet : GameProjectile
         }
         else if (!collided)
         {
-            Debug.Log(collision.gameObject.name);
             collided = true;
             GameManager.instance.PopupText(transform.position, 3, Color.green, "FWOOMP!");
+            if(Random.Range(0,8) == 3)
+            {
+                PlayerControls rPlayer = GameManager.instance.GetRandomAlivePlayer();
+                if (rPlayer != player)
+                {
+                    player = rPlayer;
+                    GameManager.instance.Glitch(GlitchType.Player, rPlayer);
+                }
+            }
             player.transform.position = gameObject.transform.position+Vector3.up;
             OnHit();
         }
