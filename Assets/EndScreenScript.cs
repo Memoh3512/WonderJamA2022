@@ -84,7 +84,7 @@ public class EndScreenScript : MonoBehaviour
     public void PlayAgain()
     {
         PlayerInputs.ResetManettes();
-        SceneChanger.ChangeScene(SceneTypes.MainMenu);
+        SceneChanger.ChangeScene(SceneTypes.MainMenu,TransitionTypes.CoolTransition);
     }
     
 }
