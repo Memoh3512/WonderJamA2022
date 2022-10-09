@@ -74,6 +74,10 @@ public class Explosion : MonoBehaviour
             }
             else
             {
+                if(Random.Range(0,10) == 5){
+                    GameManager.instance.Glitch(GlitchType.Player, collision.gameObject.GetComponent<PlayerControls>());
+                    direction *= -1;
+                }
                 collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);
                 collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce);
                 collision.gameObject.GetComponent<Rigidbody2D>().velocity += Vector2.up * 0.1f;
