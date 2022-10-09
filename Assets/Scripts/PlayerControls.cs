@@ -46,6 +46,7 @@ public class PlayerControls : Damagable
     public float startShootTimeScale = 0.05f;
     public float slomoTimeScale = 0.2f;
     public int fallDamage = 25;
+    private bool slowed = false;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -111,6 +112,12 @@ public class PlayerControls : Damagable
     private void Update()
     {
         CheckInputs();
+        
+        //fix slowdown when grounded
+        if (slowed)
+        {
+            if (IsGrounded()) ResetTime();
+        }
 
         UpdateAnimValues();
 
@@ -160,7 +167,19 @@ public class PlayerControls : Damagable
                         {
                             
                             SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
-                            Time.timeScale = startShootTimeScale;
+                            slowed = true;
+
+                            if(Random.Range(0,10) == 5)
+                            {
+                                GameManager.instance.Glitch(GlitchType.Screen);
+                                Time.timeScale *= 2f;
+                            }
+                            else
+                            {
+                                Time.timeScale = startShootTimeScale;
+
+                            }
+
                         }
                         else ResetTime();
                     }
@@ -254,6 +273,7 @@ public class PlayerControls : Damagable
             
             SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Shortslowmoout_V01"));
             Time.timeScale = 1f;
+            slowed = false;
         }
     }
     
@@ -393,9 +413,13 @@ public class PlayerControls : Damagable
         {
             //air control
             float di = delta.x * airControl;
-            rb.velocity = new Vector2(
-                Mathf.Clamp(rb.velocity.x + (di*Time.deltaTime), -maxAirVelocity, maxAirVelocity),
+            float xSpeed = Math.Abs(rb.velocity.x) > maxAirVelocity
+                ? rb.velocity.x
+                : Math.Min(maxAirVelocity, rb.velocity.x + (di * Time.deltaTime));
+            Vector2 vel = new Vector2(
+                xSpeed,
                 rb.velocity.y);
+            rb.velocity = vel;
             RemoveStamina(Math.Abs(rb.velocity.x * Time.deltaTime));
         }
         CheckStaminaState();
