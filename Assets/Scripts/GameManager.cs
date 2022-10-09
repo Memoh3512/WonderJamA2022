@@ -28,7 +28,6 @@ public struct Character
 public class GameManager : MonoBehaviour
 {
     private List<PlayerControls> players = new List<PlayerControls>();
-    private List<Weapon> allWeapons = new List<Weapon>();
     private int turn;
     private GameState gameState;
     private UnityEvent nextTurnEvent = new UnityEvent();
@@ -216,7 +215,14 @@ public class GameManager : MonoBehaviour
     }
     public Weapon getRandomWeapon()
     {
-        return allWeapons[Random.Range(0, allWeapons.Count)];
+        switch (Random.Range(0, 4))
+        {
+            case 0: return new Sniper();
+            case 1: return new SMG();
+            case 2: return new Rocket();
+            case 3: return new Shotgun();
+        }
+        return new SMG();
     }
 
     public void AddPlayer(PlayerControls player)
@@ -233,6 +239,11 @@ public class GameManager : MonoBehaviour
     }
 
     public void Glitch(GlitchType glitchType)
+    {
+        Glitch(glitchType, GetActivePlayer());
+    }
+
+    public void Glitch(GlitchType glitchType, PlayerControls player)
     {
         GameObject Text = Instantiate(Resources.Load<GameObject>("PopupText"), new Vector3(0, 0, 0), Quaternion.identity);
         Text.transform.localScale *= 20;

@@ -60,10 +60,16 @@ public class Weapon
     {
         projectileCount--;
         ammoUsedEvent?.Invoke();
+        if (projectileCount <= 0) WeaponEmpty();
     }
     virtual public void WeaponEmpty()
     {
-
+        GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"), lastProjectile.transform.position, Quaternion.identity);
+        text.GetComponent<TextMeshPro>().text = weaponName +  "\nOut of ammo!";
+        text.transform.localScale *= 3;
+        text.GetComponent<TextMeshPro>().color = Color.red;
+        GameManager.instance.GetActivePlayer().RemoveWeapon(this);
+        
     }
 
     public string getWeaponName()

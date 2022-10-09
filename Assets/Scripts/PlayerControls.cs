@@ -44,8 +44,6 @@ public class PlayerControls : Damagable
     public float zoomSpeed = 1;
     public float maxFallCount = 3;
     public float maxIKDistance = 1;
-    public float startShootTimeScale = 0.05f;
-    public float slomoTimeScale = 0.2f;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -58,6 +56,8 @@ public class PlayerControls : Damagable
 
     private List<Weapon> weapons = new List<Weapon>();
     private Weapon currentWeapon = null;
+
+    private Vector2 storedVelocityBeforeShooting = Vector2.zero;
     
     public UnityEvent<float> staminaTakenEvent = new UnityEvent<float>();
     public UnityEvent<Weapon,Weapon> changeGunEvent = new UnityEvent<Weapon,Weapon>();
@@ -140,16 +140,14 @@ public class PlayerControls : Damagable
                 else if (manette.xButton.wasPressedThisFrame)
                 {
                     GameManager.instance.setCurrentPlayerState(PlayerAction.PrepAttack);
-                    if (!IsGrounded()) Time.timeScale = startShootTimeScale;
+                    storedVelocityBeforeShooting = rb.velocity;
+                    rb.velocity = Vector2.zero;
+                    rb.gravityScale = 0;
                     changeGunEvent.Invoke(currentWeapon,null);
                 }
                 else if (manette.yButton.wasPressedThisFrame)
                 {
-                    //TODO peut pas bouger utilise la stamina
-                    Weapon gunToAdd = GameManager.instance.getRandomWeapon();
-                    weapons.Add(gunToAdd);
-                    
-                    GameManager.instance.NextPlayerTurn();
+                    GetWeapon();
                 }
 
                 break;
@@ -164,30 +162,26 @@ public class PlayerControls : Damagable
                 if (manette.xButton.wasPressedThisFrame)
                 {
                     GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
-                    Time.timeScale = 1f;
+                    rb.velocity = storedVelocityBeforeShooting;
+                    storedVelocityBeforeShooting = Vector2.zero;
+                    rb.gravityScale = gravityScale;
                 }
                 else if (manette.rightTrigger.wasPressedThisFrame)
                 {
-
-                    if (!IsGrounded()) Time.timeScale = slomoTimeScale;
+                    rb.velocity = storedVelocityBeforeShooting;
+                    storedVelocityBeforeShooting = Vector2.zero;
+                    rb.gravityScale = gravityScale;
 
                     TryShoot(true);
-                    if (currentWeapon.getFirerate() == 0)
-                    {
-                        Time.timeScale = 1f;
-                        GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
-                    }
 
                 }else if (manette.rightTrigger.isPressed)
                 {
                     TryShoot();
-                }
-                else if (manette.rightTrigger.wasReleasedThisFrame)
+                }else if (manette.dpRight.wasPressedThisFrame)
                 {
-
-                    Time.timeScale = 1f;
-                    GameManager.instance.setCurrentPlayerState(PlayerAction.Moving);
-
+                    
+                    
+                    
                 }
                 else if (manette.dpRight.wasPressedThisFrame)
                 {
@@ -212,7 +206,7 @@ public class PlayerControls : Damagable
     {
         if (CanShootWeaponCooldown())
         {
-            if (CanShootWeaponStamina())
+            if (CanShootWeaponStamina() && singlePress)
             {
                 Vector2 dir = gunHolder.transform.position - transform.position;
                 RemoveStamina(currentWeapon.getStaminaCost());
@@ -222,7 +216,7 @@ public class PlayerControls : Damagable
             else if(singlePress)
             {
                 GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
-                text.GetComponent<TextMeshPro>().text = "No stamina!";
+                text.GetComponent<TextMeshPro>().text = "No Stamina!";
                 text.transform.localScale *= 0.5f;
                 text.GetComponent<TextMeshPro>().color = Color.cyan;
             }
@@ -244,6 +238,35 @@ public class PlayerControls : Damagable
             
         }
 
+    }
+
+    void GetWeapon()
+    {
+        if(currentStamina >= 75)
+        {
+            RemoveStamina(75);
+            Weapon gunToAdd = GameManager.instance.getRandomWeapon();
+            weapons.Add(gunToAdd);
+            GameObject popup = GameObject.Instantiate(Resources.Load<GameObject>("GetWeaponPopup"), transform);
+            popup.transform.position += Vector3.up*2;
+            popup.GetComponent<WeaponPopup>().Setup(gunToAdd);
+            if (weapons.Count == 1) NextGun();
+        }
+        else
+        {
+            GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
+            text.GetComponent<TextMeshPro>().text = "No Stamina!";
+            text.transform.localScale *= 0.5f;
+            text.GetComponent<TextMeshPro>().color = Color.cyan;
+        }
+
+
+    }
+
+    public void RemoveWeapon(Weapon weapon)
+    {
+        weapons.Remove(weapon);
+        NextGun();
     }
 
     void CheckStaminaState()
@@ -311,7 +334,7 @@ public class PlayerControls : Damagable
                 isGunFlipped = true;
                 gunHolder.GetComponent<SpriteRenderer>().flipY = true;
 
-            } else if ( isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
+            } else if (isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
             {
 
                 isGunFlipped = false;
@@ -322,7 +345,7 @@ public class PlayerControls : Damagable
             }
 
         }
-        else if (IsGrounded() && manette.leftStick.magnitude > flipStickDeadzone)
+        else if (manette.leftStick.magnitude > flipStickDeadzone)
         {
             
             
@@ -359,7 +382,7 @@ public class PlayerControls : Damagable
 
             if (hit[1].distance <= maxIKDistance)
             {
-                //Debug.Log("DIST: " + hit[1].distance);
+                Debug.Log("DIST: " + hit[1].distance);
                 Vector2 normal = hit[1].normal;
                 float angle = Mathf.Rad2Deg * Mathf.Atan2(normal.y, normal.x);
                 angle -= 90; //tangent a la surface
@@ -436,11 +459,18 @@ public class PlayerControls : Damagable
         {
             currIndex = 0;
         }
-        
-        currentWeapon = weapons[currIndex];
-        gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
-        
-        changeGunEvent.Invoke(currentWeapon,oldGun);
+        if (weapons.Count > 0)
+        {
+            currentWeapon = weapons[currIndex];
+            gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
+            changeGunEvent.Invoke(currentWeapon, oldGun);
+        }
+        else
+        {
+            gunHolder.GetComponent<SpriteRenderer>().sprite = null;
+        }
+
+
     }
     public bool CanShootWeaponStamina()
     {
@@ -487,10 +517,7 @@ public class PlayerControls : Damagable
         {
             ui.SetActive(show);
         }
-        if (show)
-        {
-            staminaTakenEvent?.Invoke(currentStamina);
-        }
+        staminaTakenEvent?.Invoke(currentStamina);
     }
     public void Won()
     {
