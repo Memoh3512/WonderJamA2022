@@ -7,6 +7,7 @@ TagManager:
   - Spawnpoint
   - GlobalCam
   - LevelTop
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -52,4 +53,7 @@ TagManager:
     locked: 0
   - name: Level-Front
     uniqueID: 1135128125
+    locked: 0
+  - name: UI
+    uniqueID: 2750532531
     locked: 0
