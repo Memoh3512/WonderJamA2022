@@ -27,6 +27,7 @@ public class GenericBar : MonoBehaviour
     float targetValue;
     float currentValue;
     private float maxStat;
+    private float cost;
     private void Awake()
     {
         
@@ -55,6 +56,7 @@ public class GenericBar : MonoBehaviour
         }
         if(costType==CostType.Mask)
         {
+            pc.staminaTakenEvent.AddListener(OnValueUpdated);
             pc.changeGunEvent.AddListener(OnGunChanged);
             pc.unShowCostEvent.AddListener(UnShowCost);
         }
@@ -75,20 +77,27 @@ public class GenericBar : MonoBehaviour
 
     void OnValueUpdated(float value)
     {
-        if (value < 0)
+        if (costType == CostType.Mask)
         {
-            value = 0;
-        }
-        
-        if (delay!=0f)
-        {
-            targetValue = value;
-            StopCoroutine(valueTaken());
-            StartCoroutine(valueTaken());
+            UpdateCost(value);
         }
         else
         {
-            transform.localScale = new Vector3( baseScale*(value / maxStat),transform.localScale.y,transform.localScale.z);
+            if (value < 0)
+            {
+                value = 0;
+            }
+        
+            if (delay!=0f)
+            {
+                targetValue = value;
+                StopCoroutine(valueTaken());
+                StartCoroutine(valueTaken());
+            }
+            else
+            {
+                transform.localScale = new Vector3( baseScale*(value / maxStat),transform.localScale.y,transform.localScale.z);
+            }
         }
     }
     
@@ -97,7 +106,15 @@ public class GenericBar : MonoBehaviour
     {
         if (costType == CostType.Mask)
         {
+            cost = value;
             transform.localScale = new Vector3( baseScale*((currentValueX-(value)) / maxStat),transform.localScale.y,transform.localScale.z);
+        }
+    }
+    void UpdateCost(float currentValueX)
+    {
+        if (cost > 0)
+        {
+            transform.localScale = new Vector3( baseScale*((currentValueX-(cost)) / maxStat),transform.localScale.y,transform.localScale.z);
         }
     }
     private float getMaxPlayerStat()
