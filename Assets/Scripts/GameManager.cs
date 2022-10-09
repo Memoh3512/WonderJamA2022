@@ -28,7 +28,7 @@ public struct Character
 public class GameManager : MonoBehaviour
 {
     private List<PlayerControls> players = new List<PlayerControls>();
-    private int turn;
+    private int turn = 0;
     private GameState gameState;
     private UnityEvent nextTurnEvent = new UnityEvent();
     private UnityEvent nextPlayerEvent = new UnityEvent();
@@ -65,22 +65,17 @@ public class GameManager : MonoBehaviour
     public void GameStart()
     {
         //RESET LES VALEURS <3
-        turn = 1;
-        TurnShowText();
-
         foreach (var player in players)
         {
             player.setState(PlayerAction.Waiting);
         }
-        
-        // Start la game
-        currentPlayerIndex = 0;
-        FocusOnPlayer(players[0]);
+        NextPlayerTurn(true);
     }
     public void TurnShowText()
     {
         turnReminder.SetActive(true);
         TextMeshProUGUI t = turnReminder.GetComponentInChildren<TextMeshProUGUI>();
+        t.color = new Color(t.color.r, t.color.g, t.color.b, 0);
         t.text = "Turn " + turn;
         StartCoroutine(FadeTextToFullAlpha(2f,t));
     }
@@ -116,23 +111,32 @@ public class GameManager : MonoBehaviour
 
         nextTurnEvent.Invoke();
     }
-    public void NextPlayerTurn()
+    public void NextPlayerTurn(bool start = false)
     {
+        
         Time.timeScale = 1;
 
         setCurrentPlayerState(PlayerAction.Waiting);
 
-        do
+        if (start)
         {
-            currentPlayerIndex++;
-            currentPlayerIndex %= players.Count;
-            if (currentPlayerIndex == 0) NextTurn();
+            currentPlayerIndex = 0;
+            turn = 0;
+        }
+        else
+        {
+            do
+            {
+                currentPlayerIndex++;
+                currentPlayerIndex %= players.Count;
 
-        } while (!GetActivePlayer().isAlive());
+            } while (!GetActivePlayer().isAlive());
+        }
+        
 
         if (currentPlayerIndex == 0)
         {
-
+            NextTurn();
             //delay call pareil que le else en dessous sauf que ca montre la global cam
             StartCoroutine(GlobalCamCor());
             GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
@@ -140,8 +144,11 @@ public class GameManager : MonoBehaviour
             //TODO SFX change de tour
             
             nextPlayerEvent.Invoke();
-            SwapGlitch();    
-
+            if (!start)
+            {
+                SwapGlitch();    
+            }
+            
         }
         else
         {
@@ -149,7 +156,10 @@ public class GameManager : MonoBehaviour
             GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
 
             nextPlayerEvent.Invoke();
-            SwapGlitch();
+            if (!start)
+            {
+                SwapGlitch();    
+            }
         }
         
     }
@@ -169,6 +179,12 @@ public class GameManager : MonoBehaviour
         {
             if (Random.Range(0, 10) == 1)
             {
+                int playersAlive = 0;
+                foreach(PlayerControls p in players)
+                {
+                    if (p.isAlive()) playersAlive++;
+                }
+                if (playersAlive < 2) return;
                 PlayerControls player1 = GetRandomAlivePlayer();
                 PlayerControls player2;
                 do

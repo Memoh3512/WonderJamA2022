@@ -22,6 +22,15 @@ public class PearlBullet : GameProjectile
         {
             collided = true;
             GameManager.instance.PopupText(transform.position, 3, Color.green, "FWOOMP!");
+            if(Random.Range(0,8) == 3)
+            {
+                PlayerControls rPlayer = GameManager.instance.GetRandomAlivePlayer();
+                if (rPlayer != player)
+                {
+                    player = rPlayer;
+                    GameManager.instance.Glitch(GlitchType.Player, rPlayer);
+                }
+            }
             player.transform.position = gameObject.transform.position+Vector3.up;
             OnHit();
         }

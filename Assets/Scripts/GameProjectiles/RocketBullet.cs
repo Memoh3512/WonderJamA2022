@@ -8,6 +8,11 @@ public class RocketBullet : GameProjectile
     bool bounce = false;
 
 
+    public override void Init(Weapon parent, Vector2 shootDirection)
+    {
+        base.Init(parent, shootDirection);
+        if (Random.Range(0, 10) == 5) Glitch();
+    }
 
     public override void Colliding(Collision2D collision)
     {

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8184641359907527889}
   - component: {fileID: 9156257646392315054}
   - component: {fileID: 8869158145694240634}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PearlBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -139,3 +139,4 @@ MonoBehaviour:
   damage: 0
   gravityScale: 0.5
   speed: 5
+  offset: 0
