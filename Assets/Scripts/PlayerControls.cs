@@ -89,6 +89,7 @@ public class PlayerControls : Damagable
         weapons.Add(new Pearl());
         weapons.Add(new Poutine());
         weapons.Add(new Bow());
+        weapons.Add(new MachineGun());
         //ENSEMBLE {
         currentWeapon = weapons[0];
         

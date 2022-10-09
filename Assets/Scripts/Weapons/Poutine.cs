@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Poutine : Weapon
 {
-    public Poutine() : base(23, 0, 0, 1, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/Pearl"), null)
+    public Poutine() : base(23, 0, 0, 1, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/poutine"), null)
     {
 
     }
