@@ -58,7 +58,8 @@ public static class PlayerInputs
 
         }
         gamepads.Clear();
-        
+        playerAdded = 0;
+
     }
     
     
