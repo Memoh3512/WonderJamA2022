@@ -13,6 +13,7 @@ public class Explosion : MonoBehaviour
     private LineRenderer lr;
     public int pointsCount = 100;
     CircleCollider2D cc;
+    List<PlayerControls> playersHit = new List<PlayerControls>();
 
     public void Init(int damage, float radius,float pushForce,float lifeSpan = 0.2f)
     {
@@ -60,12 +61,15 @@ public class Explosion : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
+            PlayerControls pc = collision.gameObject.GetComponent<PlayerControls>();
+            if (playersHit.Contains(pc)) return;
+            playersHit.Add(pc);
             Vector2 direction = (collision.transform.position - transform.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            if(angle < 100 && angle > 80)
+            if(angle < 105 && angle > 75)
             {
                 GameManager.instance.Glitch(GlitchType.Player, collision.GetComponent<PlayerControls>());
-                collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce*2);
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce*1.1f);
             }
             else
             {
