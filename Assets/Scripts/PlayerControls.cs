@@ -8,6 +8,7 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Processors;
 using UnityEngine.Serialization;
 using TMPro;
+using Random = UnityEngine.Random;
 
 
 public enum PlayerAction
@@ -592,7 +593,10 @@ public class PlayerControls : Damagable
         else
         {
 
-            transform.position = new Vector3(transform.position.x, top, 0);
+            //respawn to a random spawnpoint
+            GameObject[] spawnpoints = GameObject.FindGameObjectsWithTag("Spawnpoint");
+            Vector3 pos = spawnpoints[Random.Range(0, spawnpoints.Length)].transform.position;
+            transform.position = pos;
 
         }
 
