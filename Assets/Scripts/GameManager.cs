@@ -297,11 +297,12 @@ public class GameManager : MonoBehaviour
         Text.GetComponent<TextMeshPro>().text = "GLITCH";
     }
 
-    public void PopupText(Vector3 position, float scale, Color color, String text)
+    public void PopupText(Vector3 position, float scale, Color color, String text,float lifeSpan = 1.5f)
     {
-        GameObject Text = Instantiate(Resources.Load<GameObject>("PopupText"), position, Quaternion.identity);
-        Text.transform.localScale *= scale;
-        Text.GetComponent<TextMeshPro>().color = color;
-        Text.GetComponent<TextMeshPro>().text = text;
+        GameObject textpop = Instantiate(Resources.Load<GameObject>("PopupText"), position, Quaternion.identity);
+        textpop.transform.localScale *= scale;
+        textpop.GetComponent<TextMeshPro>().color = color;
+        textpop.GetComponent<TextMeshPro>().text = text;
+        textpop.GetComponent<TextAnim>().lifeSpan = lifeSpan;
     }
 }

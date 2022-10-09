@@ -6,7 +6,7 @@ using UnityEngine;
 public class TextAnim : MonoBehaviour
 {
     // Start is called before the first frame update
-    float lifeSpan;
+    public float lifeSpan = 0;
     float Scaleup;
     float startingSize;
     float speed;
@@ -17,6 +17,7 @@ public class TextAnim : MonoBehaviour
     void Start()
     {
         timeStep = 0.01f;
+        if(lifeSpan == 0)
         lifeSpan = 1.5f;
         Scaleup = 2;
         speed = 0.5f;
