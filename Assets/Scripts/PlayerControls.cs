@@ -251,6 +251,7 @@ public class PlayerControls : Damagable
 
         if (Time.timeScale < 1f)
         {
+            //TODO SFX short slomo_out
             SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoout_V01"));
             Time.timeScale = 1f;
         }
