@@ -8,6 +8,7 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Processors;
 using UnityEngine.Serialization;
 using TMPro;
+using Random = UnityEngine.Random;
 
 
 public enum PlayerAction
@@ -55,6 +56,9 @@ public class PlayerControls : Damagable
     public int maxHP = 100;
     public float GunHolderDistance = 2f;
     public float staminaUsageMultiplier = 3f;
+
+    [Header("Audio")] public AudioClip jumpSFX;
+    public AudioClip footstepSFX;
 
     private List<Weapon> weapons = new List<Weapon>();
     private Weapon currentWeapon = null;
@@ -150,15 +154,29 @@ public class PlayerControls : Damagable
 
                     if (!IsGrounded())
                     {
-                        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
+                        if (Math.Abs(Time.timeScale - 1f) < 0.01f)
+                        {
+                            
+                            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
+                            
+                        }
                         Time.timeScale = startShootTimeScale;
                     }
                     
                 }else if (manette.rightTrigger.wasPressedThisFrame)
                 {
 
-                    
-                    if (!IsGrounded()) Time.timeScale = slomoTimeScale;
+
+                    if (!IsGrounded())
+                    {
+                        if (Math.Abs(Time.timeScale - 1f) < 0.01f)
+                        {
+                            
+                            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
+                            
+                        }
+                        Time.timeScale = slomoTimeScale;
+                    }
 
                     if (currentWeapon != null)
                     {
@@ -169,11 +187,11 @@ public class PlayerControls : Damagable
 
                             if (currentWeapon.getFirerate() == 0)
                             {
-                                Time.timeScale = 1f;
+                                ResetTime();
                             }
 
                         }
-                        else Time.timeScale = 1f;
+                        else ResetTime();
 
                     }
 
@@ -183,7 +201,7 @@ public class PlayerControls : Damagable
                     {
                         
                         if (currentWeapon.getFirerate() != 0) TryShoot();
-                        if (IsGrounded()) Time.timeScale = 1f;   
+                        if (IsGrounded()) ResetTime(); 
                         
                     }
                 }
@@ -217,6 +235,21 @@ public class PlayerControls : Damagable
         }
         
     }
+
+    void ResetTime()
+    {
+
+        if (Math.Abs(Time.timeScale - 1f) > 0.01f)
+        {
+            
+            
+            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoout_V01"));
+        }
+
+        Time.timeScale = 1f;
+
+    }
+    
     void TryShoot(bool singlePress=false)
     {
 
@@ -436,9 +469,29 @@ public class PlayerControls : Damagable
     {
         if (IsGrounded())
         {
-            rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);   
+            rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
+
+            if (jumpSFX != null)
+            {
+                
+                SoundPlayer.instance.PlaySFX(jumpSFX);
+                
+            }
+            
         }
         //Debug.Log("JUMP");
+    }
+
+    public void PlayFootstepSFX()
+    {
+
+        if (footstepSFX != null)
+        {
+            
+            SoundPlayer.instance.PlaySFX(footstepSFX);   
+            
+        }
+
     }
 
     bool IsGrounded()
@@ -541,7 +594,10 @@ public class PlayerControls : Damagable
         else
         {
 
-            transform.position = new Vector3(transform.position.x, top, 0);
+            //respawn to a random spawnpoint
+            GameObject[] spawnpoints = GameObject.FindGameObjectsWithTag("Spawnpoint");
+            Vector3 pos = spawnpoints[Random.Range(0, spawnpoints.Length)].transform.position;
+            transform.position = pos;
 
         }
 
@@ -549,6 +605,10 @@ public class PlayerControls : Damagable
 
     private void Die()
     {
+        
+        
+        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Die"));
+        
         alive = false;
         gameObject.SetActive(false);
         GameManager.instance.PlayerDied(gameObject);

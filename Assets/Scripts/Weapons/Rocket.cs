@@ -19,8 +19,8 @@ public class Rocket : Weapon
             lastProjectile.GetComponent<RocketBullet>().Glitch();
         }
         
-        //TODO SFX Lance roquette lance le projectile
-        
+       
+        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Rocketshot_V01"));
     }
 
 }
