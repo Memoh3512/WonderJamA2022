@@ -19,6 +19,6 @@ public class Bow : Weapon
             lastProjectile.GetComponent<GameProjectile>().Init(this, shootDirection);
         }
 
-        //SFX bow;
+        //TODO SFX bow
     }
 }
