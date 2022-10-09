@@ -249,6 +249,7 @@ public class PlayerControls : Damagable
             GameObject popup = GameObject.Instantiate(Resources.Load<GameObject>("GetWeaponPopup"), transform);
             popup.transform.position += Vector3.up*2;
             popup.GetComponent<WeaponPopup>().Setup(gunToAdd);
+            if (weapons.Count == 1) NextGun();
         }
         else
         {
@@ -259,6 +260,12 @@ public class PlayerControls : Damagable
         }
 
 
+    }
+
+    public void RemoveWeapon(Weapon weapon)
+    {
+        weapons.Remove(weapon);
+        NextGun();
     }
 
     void CheckStaminaState()
@@ -447,11 +454,18 @@ public class PlayerControls : Damagable
         {
             currIndex = 0;
         }
-        
-        currentWeapon = weapons[currIndex];
-        gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
-        
-        changeGunEvent.Invoke(currentWeapon,oldGun);
+        if (weapons.Count > 0)
+        {
+            currentWeapon = weapons[currIndex];
+            gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
+            changeGunEvent.Invoke(currentWeapon, oldGun);
+        }
+        else
+        {
+            gunHolder.GetComponent<SpriteRenderer>().sprite = null;
+        }
+
+
     }
     public bool CanShootWeaponStamina()
     {
