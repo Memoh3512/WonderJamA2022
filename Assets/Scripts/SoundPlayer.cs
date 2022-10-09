@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum Songs
 {
@@ -161,6 +162,19 @@ public class SoundPlayer : MonoBehaviour
         {
             
             source.PlayOneShot(sfx,2*globalVolume*vol);   
+            
+        }
+
+    }
+    
+    public void PlaySFX(float vol = 1f,  params AudioClip[] sfx)
+    {
+
+        int i = Random.Range(0, sfx.Length);
+        if (sfx[i] != null)
+        {
+            
+            source.PlayOneShot(sfx[i],2*globalVolume*vol);   
             
         }
 
