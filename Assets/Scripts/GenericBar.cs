@@ -116,9 +116,16 @@ public class GenericBar : MonoBehaviour
     }
     void UpdateCost(float currentValueX)
     {
-        if (cost > 0)
+        if (pc.CanShootWeaponStamina())
         {
-            transform.localScale = new Vector3( baseScale*((currentValueX-(cost)) / maxStat),transform.localScale.y,transform.localScale.z);
+            if (cost > 0)
+            {
+                transform.localScale = new Vector3( baseScale*((currentValueX-(cost)) / maxStat),transform.localScale.y,transform.localScale.z);
+            }
+        }
+        else
+        {
+            UnShowCost();
         }
     }
     private float getMaxPlayerStat()
