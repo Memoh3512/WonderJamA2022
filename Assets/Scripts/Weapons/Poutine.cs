@@ -15,5 +15,8 @@ public class Poutine : Weapon
         GameManager.instance.GetActivePlayer().TakeDamage(-50);
         AmmoUsed();
         gunShotEvent.Invoke(this);
+        
+        //TODO SFX Poutine
+        
     }
 }
