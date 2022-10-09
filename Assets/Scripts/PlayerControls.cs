@@ -241,8 +241,8 @@ public class PlayerControls : Damagable
         if (Math.Abs(Time.timeScale - 1f) > 0.01f)
         {
             
-            //TODO SFX slomo out
             
+            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoout_V01"));
         }
 
         Time.timeScale = 1f;
@@ -601,7 +601,8 @@ public class PlayerControls : Damagable
     private void Die()
     {
         
-        //TODO SFX die
+        
+        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Die"));
         
         alive = false;
         gameObject.SetActive(false);

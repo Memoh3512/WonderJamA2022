@@ -33,7 +33,8 @@ public class Damagable : MonoBehaviour
         } else if (gameObject.CompareTag("Player"))
         {
             
-            //TODO SFX take damage
+            
+            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Hurt_V01"));
             
         }
         damageTakenEvent?.Invoke(hp);

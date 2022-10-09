@@ -275,7 +275,8 @@ public class GameManager : MonoBehaviour
     public void Glitch(GlitchType glitchType, PlayerControls player)
     {
         
-        //TODO SFX Glitch (met le 1 pour l'instant)
+        
+        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Glitch01_V01"));
         
         GameObject Text = Instantiate(Resources.Load<GameObject>("PopupText"), new Vector3(0, 0, 0), Quaternion.identity);
         Text.transform.localScale *= 20;

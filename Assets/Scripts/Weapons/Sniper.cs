@@ -14,8 +14,8 @@ public class Sniper : Weapon
         base.Shoot(position, shootDirection);
         lastProjectile.GetComponent<SniperBullet>().Init(this, shootDirection);
 
-        //TODO SFX SNIPER
         
+        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Snipershot_v01"));
     }
 
 
