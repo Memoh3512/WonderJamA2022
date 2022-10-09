@@ -405,9 +405,9 @@ public class PlayerControls : Damagable
     {
         if(true)//Random.Range(0,10) == 5)
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(2*Time.timeScale);
             GameManager.instance.Glitch(GlitchType.Player);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f*Time.timeScale);
             ResetTime();
             Time.timeScale *= 2f;
             yield return new WaitForSeconds(5);
