@@ -37,11 +37,6 @@ public class PlayerJoinTester : MonoBehaviour
         {
             if (PlayerInputs.GetPlayerController(playerNb - 1).gp.enabled)
             {
-                Color col = GetComponent<Image>().color;
-                float h, s, v;
-                Color.RGBToHSV(col, out h, out s, out v);
-                col = Color.HSVToRGB(h, s, 1);
-                GetComponent<Image>().color = col;
 
                 GameObject.Find("BlinkText").GetComponent<Animator>().SetTrigger("Appear");
                 if (pressStartText != null) pressStartText.gameObject.SetActive(false);
@@ -83,6 +78,7 @@ public class PlayerJoinTester : MonoBehaviour
                 }
 
                 SceneChanger.ChangeScene(SceneTypes.GameplayScene, TransitionTypes.CoolTransition);
+                SoundPlayer.instance.SetMusic(Songs.GameplaySong, 1, TransitionBehavior.Stop);
             }
         }
     }

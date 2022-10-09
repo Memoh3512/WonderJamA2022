@@ -10,6 +10,7 @@ public class PlayerSpawner : MonoBehaviour
     [Header("Character prefabs")]
     public GameObject ladybugPrefab;
     public GameObject sauterellePrefab;
+    public GameObject ChenillePrefab;
 
     public GameObject cursorPrefab;
     
@@ -32,6 +33,9 @@ public class PlayerSpawner : MonoBehaviour
                         break;
                     case "Grasshopper":
                         playerPrefab = sauterellePrefab;
+                        break;
+                    case "Caterpillar":
+                        playerPrefab = ChenillePrefab;
                         break;
                 }
                 

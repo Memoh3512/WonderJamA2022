@@ -186,7 +186,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 89481463f403336418574b4f4309feb0, type: 2}
-  m_sharedMaterial: {fileID: -104421312003614671, guid: 89481463f403336418574b4f4309feb0,
+  m_sharedMaterial: {fileID: -5685916394003705918, guid: 89481463f403336418574b4f4309feb0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -638,7 +638,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 89481463f403336418574b4f4309feb0, type: 2}
-  m_sharedMaterial: {fileID: -104421312003614671, guid: 89481463f403336418574b4f4309feb0,
+  m_sharedMaterial: {fileID: -5685916394003705918, guid: 89481463f403336418574b4f4309feb0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3048,7 +3048,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 89481463f403336418574b4f4309feb0, type: 2}
-  m_sharedMaterial: {fileID: -104421312003614671, guid: 89481463f403336418574b4f4309feb0,
+  m_sharedMaterial: {fileID: -5685916394003705918, guid: 89481463f403336418574b4f4309feb0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3401,7 +3401,7 @@ MonoBehaviour:
   m_text: GAME TITLE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 89481463f403336418574b4f4309feb0, type: 2}
-  m_sharedMaterial: {fileID: -104421312003614671, guid: 89481463f403336418574b4f4309feb0,
+  m_sharedMaterial: {fileID: -5685916394003705918, guid: 89481463f403336418574b4f4309feb0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3483,6 +3483,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2600255644076168637, guid: 6caf72a355008fa4cb6ec6893c2edf09,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2c82cbd57f2472f4887ca4ffa38cafe8,
+        type: 3}
     - target: {fileID: 2600255644412635352, guid: 6caf72a355008fa4cb6ec6893c2edf09,
         type: 3}
       propertyPath: m_RootOrder
@@ -3557,6 +3563,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8343592764702467374, guid: 7379f1c7f39472243a3e03c4553bd972,
+        type: 3}
+      propertyPath: globalVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343592764702467375, guid: 7379f1c7f39472243a3e03c4553bd972,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2ec09ff58d7179548a1d166ebd2c6045, type: 3}
     - target: {fileID: 8343592764702467377, guid: 7379f1c7f39472243a3e03c4553bd972,
         type: 3}
       propertyPath: m_RootOrder

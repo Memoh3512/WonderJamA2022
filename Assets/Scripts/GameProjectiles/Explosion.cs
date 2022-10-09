@@ -18,13 +18,13 @@ public class Explosion : MonoBehaviour
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
         text.GetComponent<TextMeshPro>().text = "BOOM!";
         text.GetComponent<TextMeshPro>().color = Color.red;
-        text.transform.localScale *= 5;
+        text.transform.localScale *= 4;
         StartCoroutine(Die());
     }
 
     IEnumerator Die()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.2f);
         Destroy(gameObject);
     }
 
@@ -34,7 +34,7 @@ public class Explosion : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);
             Vector2 direction = (collision.transform.position - transform.position).normalized;
-            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(direction * pushForce);
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce);
         }
     }
 }

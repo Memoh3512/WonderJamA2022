@@ -12,6 +12,12 @@ enum GameState
     Stopped
 }
 
+public enum GlitchType
+{
+    Player,
+    Screen
+}
+
 public struct Character
 {
     public Sprite spr;
@@ -22,28 +28,16 @@ public struct Character
 public class GameManager : MonoBehaviour
 {
     private List<PlayerControls> players = new List<PlayerControls>();
-    private List<Weapon> allWeapons = new List<Weapon>();
     private int turn;
     private GameState gameState;
     private UnityEvent nextTurnEvent = new UnityEvent();
     private UnityEvent nextPlayerEvent = new UnityEvent();
     private int currentPlayerIndex;
 
-    public static List<Character> characters = new List<Character>()
-    {
-        new Character()
-        {
-            spr = Resources.Load<Sprite>("Characters/Coccinelle"),
-            name = "Ladybug"
-        },
-        new Character()
-        {
-            spr = Resources.Load<Sprite>("Characters/Sauterelle"),
-            name = "Grasshopper"
-        },
-    };
+    public static List<Character> characters;
 
-    [Header("GO References")] public CinemachineVirtualCamera followCam;
+    [Header("Camera")] public CinemachineVirtualCamera followCam;
+    public float GlobalCamShowTime = 3f;
 
     [Header("UI")] 
     public GameObject movingControls;
@@ -144,10 +138,78 @@ public class GameManager : MonoBehaviour
 
         } while (!GetActivePlayer().isAlive());
 
-        FocusOnPlayer(GetActivePlayer());
-        GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
+        if (currentPlayerIndex == 0)
+        {
 
-        nextPlayerEvent.Invoke();
+            //delay call pareil que le else en dessous sauf que ca montre la global cam
+            StartCoroutine(GlobalCamCor());
+            GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
+
+            nextPlayerEvent.Invoke();
+            SwapGlitch();    
+
+        }
+        else
+        {
+            
+            FocusOnPlayer(GetActivePlayer());
+            GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
+
+            nextPlayerEvent.Invoke();
+            SwapGlitch();    
+            
+        }
+        
+    }
+
+    private IEnumerator GlobalCamCor()
+    {
+        
+        followCam.gameObject.SetActive(false);
+        yield return new WaitForSeconds(GlobalCamShowTime);
+        followCam.gameObject.SetActive(true);
+        FocusOnPlayer(GetActivePlayer());
+
+    }
+
+    private void SwapGlitch()
+    {
+        //Glitch à la fin du tour d'un player 2 players swap de place cuz why not
+        if (players.Count > 1)
+        {
+            if (Random.Range(0, 10) == 1)
+            {
+                PlayerControls player1 = GetRandomAlivePlayer();
+                PlayerControls player2;
+                do
+                {
+                    player2 = GetRandomAlivePlayer();
+
+                } while (player2 == player1);
+
+                Glitch(GlitchType.Player, player1);
+                Glitch(GlitchType.Player, player2);
+
+                Vector3 position = player1.transform.position;
+                player1.transform.position = player2.transform.position;
+                player2.transform.position = position;
+
+            }
+        }
+
+
+    }
+
+    public PlayerControls GetRandomAlivePlayer()
+    {
+        PlayerControls player;
+        do
+        {
+            player = players[Random.Range(0, players.Count)];
+
+        }
+        while (!player.isAlive());
+        return player;
     }
 
     public void FocusOnPlayer(PlayerControls player)
@@ -203,14 +265,21 @@ public class GameManager : MonoBehaviour
             case PlayerAction.Moving:
                 setUI(instance.movingControls);
                 break;
-            case PlayerAction.PrepAttack:
-                setUI(instance.prepAttackControls);
-                break;
+            // case PlayerAction.PrepAttack:
+            //     setUI(instance.prepAttackControls);
+            //     break;
         }
     }
     public Weapon getRandomWeapon()
     {
-        return allWeapons[Random.Range(0, allWeapons.Count)];
+        switch (Random.Range(0, 4))
+        {
+            case 0: return new Sniper();
+            case 1: return new SMG();
+            case 2: return new Rocket();
+            case 3: return new Shotgun();
+        }
+        return new SMG();
     }
 
     public void AddPlayer(PlayerControls player)
@@ -224,5 +293,31 @@ public class GameManager : MonoBehaviour
         prepAttackControls.SetActive(false);
 
         ui.SetActive(true);
+    }
+
+    public void Glitch(GlitchType glitchType)
+    {
+        Glitch(glitchType, GetActivePlayer());
+    }
+
+    public void Glitch(GlitchType glitchType, PlayerControls player)
+    {
+        
+        
+        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Glitch01_V01"));
+        
+        GameObject Text = Instantiate(Resources.Load<GameObject>("PopupText"), new Vector3(0, 0, 0), Quaternion.identity);
+        Text.transform.localScale *= 20;
+        Text.GetComponent<TextMeshPro>().color = Color.magenta;
+        Text.GetComponent<TextMeshPro>().text = "GLITCH";
+    }
+
+    public void PopupText(Vector3 position, float scale, Color color, String text,float lifeSpan = 1.5f)
+    {
+        GameObject textpop = Instantiate(Resources.Load<GameObject>("PopupText"), position, Quaternion.identity);
+        textpop.transform.localScale *= scale;
+        textpop.GetComponent<TextMeshPro>().color = color;
+        textpop.GetComponent<TextMeshPro>().text = text;
+        textpop.GetComponent<TextAnim>().lifeSpan = lifeSpan;
     }
 }

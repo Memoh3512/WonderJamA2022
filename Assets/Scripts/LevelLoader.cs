@@ -27,6 +27,26 @@ public class LevelLoader : MonoBehaviour
         {
 
             instance = this;
+            
+            //SPAGHETT
+            GameManager.characters = new List<Character>()
+            {
+                new Character()
+                {
+                    spr = Resources.Load<Sprite>("Characters/Coccinelle"),
+                    name = "Ladybug"
+                },
+                new Character()
+                {
+                    spr = Resources.Load<Sprite>("Characters/Sauterelle"),
+                    name = "Grasshopper"
+                },
+                new Character()
+                {
+                    spr = Resources.Load<Sprite>("Characters/Chenille"),
+                    name = "Caterpillar"
+                },
+            };
 
         }
         else
@@ -42,7 +62,7 @@ public class LevelLoader : MonoBehaviour
     private void Start()
     {
         
-        SoundPlayer.instance.SetMusic(Songs.ADRENALINE);
+        SoundPlayer.instance.SetMusic(Songs.Crickets);
         
     }
 
