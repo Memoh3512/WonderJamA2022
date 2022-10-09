@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 30
-  gravityScale: 0.1
+  gravityScale: 0.4
   speed: 4
   offset: 0
   secondsBeforeExplosion: 5

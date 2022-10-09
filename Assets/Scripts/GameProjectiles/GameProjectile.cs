@@ -25,7 +25,10 @@ public class GameProjectile : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.eulerAngles = new Vector3(0,0, Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg);
+        if (GetComponent<Transform>() && rb)
+        {
+            transform.eulerAngles = new Vector3(0,0, Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg);
+        }
     }
     protected virtual void OnHit()
     {
