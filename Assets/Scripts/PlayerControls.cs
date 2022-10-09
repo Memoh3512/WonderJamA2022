@@ -111,7 +111,7 @@ public class PlayerControls : Damagable
 
         if (currentWeapon != null)
         {
-            
+
             if (currentWeapon.cooldown > 0)
             {
                 currentWeapon.cooldown -= Time.deltaTime;
@@ -119,10 +119,8 @@ public class PlayerControls : Damagable
                 {
                     currentWeapon.cooldown = 0;
                 }
-            }   
-            
+            }
         }
-
     }
 
     void UpdateAnimValues()
@@ -134,7 +132,6 @@ public class PlayerControls : Damagable
     void CheckInputs()
     {
         //movement inputs
-
         switch (state)
         {
             case PlayerAction.Moving:
@@ -226,36 +223,27 @@ public class PlayerControls : Damagable
                 //Physics guide le joueur :P
                 break;
         }
-        
         //zoom
         if (state != PlayerAction.Waiting)
         {
             if (manette.rightShoulder.isPressed) FindObjectOfType<PlayerFollowCam>().Zoom(-zoomSpeed*Time.deltaTime);
             if (manette.leftShoulder.isPressed) FindObjectOfType<PlayerFollowCam>().Zoom(zoomSpeed*Time.deltaTime);
         }
-        
     }
 
     void ResetTime()
     {
-
         if (Math.Abs(Time.timeScale - 1f) > 0.01f)
         {
-            
-            
             SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoout_V01"));
         }
-
         Time.timeScale = 1f;
-
     }
     
     void TryShoot(bool singlePress=false)
     {
-
         if (currentWeapon != null)
         {
-            
             if (CanShootWeaponCooldown())
             {
                 if (CanShootWeaponStamina())
@@ -272,28 +260,22 @@ public class PlayerControls : Damagable
                     text.transform.localScale *= 0.5f;
                     text.GetComponent<TextMeshPro>().color = Color.cyan;
                 }
-            }    
-            
+            }
         }
-        
     }
 
     void UpdateGunHolderPosition()
     {
-
         if (manette.rightStick.magnitude > flipStickDeadzone)
         {
-         
             Vector2 angle = manette.rightStick.normalized;
 
             Vector2 pos = ((Vector2)transform.position) + (angle * GunHolderDistance);
 
             gunHolder.transform.position = pos;
-            gunHolder.transform.eulerAngles = new Vector3(0,0,Mathf.Rad2Deg * Mathf.Atan2(angle.y, angle.x));          
-            
+            gunHolder.transform.eulerAngles = new Vector3(0,0,Mathf.Rad2Deg * Mathf.Atan2(angle.y, angle.x));
         }
         currentWeapon?.OnGunHolderMove(gunHolder.transform.position, gunHolder.transform.position - transform.position);
-
     }
 
     public void Heal(int heal)
@@ -325,8 +307,6 @@ public class PlayerControls : Damagable
             text.transform.localScale *= 0.5f;
             text.GetComponent<TextMeshPro>().color = Color.cyan;
         }
-
-
     }
 
     public void RemoveWeapon(Weapon weapon)
@@ -364,7 +344,6 @@ public class PlayerControls : Damagable
     }
     void MovePlayer()
     {
-
         var position = transform.position;
         Vector2 delta = (movementDelta * moveSpeed);
         if (IsGrounded())
@@ -381,60 +360,46 @@ public class PlayerControls : Damagable
                 rb.velocity.y);
             RemoveStamina(Math.Abs(rb.velocity.x * Time.deltaTime));
         }
-
         CheckStaminaState();
     }
 
     void UpdateSpriteFlip()
     {
-
         //gun sprite flip
         if (manette.rightStick.magnitude > flipStickDeadzone)
         {
-            
             float angle = Mathf.Rad2Deg * Mathf.Atan2(manette.rightStick.y, manette.rightStick.x);
             if (!isGunFlipped && (angle > 90 + flipAngleLeeway || angle < -90 - flipAngleLeeway))
             {
-
                 isSpriteFlipped = true;
                 sprite.flipX = true;
                 isGunFlipped = true;
                 gunHolder.GetComponent<SpriteRenderer>().flipY = true;
-
-            } else if ( isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
+            } 
+            else if ( isGunFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
             {
-
                 isGunFlipped = false;
                 gunHolder.GetComponent<SpriteRenderer>().flipY = false;
                 isSpriteFlipped = false;
                 sprite.flipX = false;
-
             }
 
         }
         else if (IsGrounded() && manette.leftStick.magnitude > flipStickDeadzone)
         {
-            
-            
             //player sprite flip
             float angle = Mathf.Rad2Deg*Mathf.Atan2(movementDelta.y, movementDelta.x);
 
             if (!isSpriteFlipped && (angle > 90 + flipAngleLeeway || angle < -90 - flipAngleLeeway))
             {
-
                 isSpriteFlipped = true;
                 sprite.flipX = true;
-
             } else if (isSpriteFlipped && angle < 90 - flipAngleLeeway && angle > -90 + flipAngleLeeway)
             {
-
                 isSpriteFlipped = false;
                 sprite.flipX = false;
-
             }
-            
         }
-        
     }
 
     void UpdateSpriteIK()
@@ -446,7 +411,6 @@ public class PlayerControls : Damagable
         RaycastHit2D[] hit = new RaycastHit2D[2];
         if (Physics2D.Raycast(transform.position, Vector2.down, filter, hit) > 1)
         {
-
             if (hit[1].distance <= maxIKDistance)
             {
                 //Debug.Log("DIST: " + hit[1].distance);
@@ -460,9 +424,7 @@ public class PlayerControls : Damagable
             {
                 sprite.transform.eulerAngles = Vector3.zero;
             }
-
         }
-
     }
 
     void Jump()
@@ -473,25 +435,18 @@ public class PlayerControls : Damagable
 
             if (jumpSFX != null)
             {
-                
                 SoundPlayer.instance.PlaySFX(jumpSFX);
-                
             }
-            
         }
         //Debug.Log("JUMP");
     }
 
     public void PlayFootstepSFX()
     {
-
         if (footstepSFX != null)
         {
-            
-            SoundPlayer.instance.PlaySFX(footstepSFX);   
-            
+            SoundPlayer.instance.PlaySFX(footstepSFX);
         }
-
     }
 
     bool IsGrounded()
@@ -519,7 +474,12 @@ public class PlayerControls : Damagable
         state = stateToSet;
         if (state == PlayerAction.Moving)
         {
+            showUI(true);
             unShowCostEvent?.Invoke();
+        }
+        if (state == PlayerAction.Waiting)
+        {
+            showUI(false);
         }
     }
     public bool isAlive()
@@ -562,8 +522,6 @@ public class PlayerControls : Damagable
             text.transform.localScale *= 0.7f;
             text.GetComponent<TextMeshPro>().color = Color.yellow;
         }
-
-
     }
     public bool CanShootWeaponStamina()
     {
@@ -589,24 +547,18 @@ public class PlayerControls : Damagable
         if (fallCount >= maxFallCount)
         {
             Die();
-
         }
         else
         {
-
             //respawn to a random spawnpoint
             GameObject[] spawnpoints = GameObject.FindGameObjectsWithTag("Spawnpoint");
             Vector3 pos = spawnpoints[Random.Range(0, spawnpoints.Length)].transform.position;
             transform.position = pos;
-
         }
-
     }
 
     private void Die()
     {
-        
-        
         SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Die"));
         
         alive = false;
@@ -614,7 +566,11 @@ public class PlayerControls : Damagable
         GameManager.instance.PlayerDied(gameObject);
     }
 
-    public void PlayerTargetted(bool show = true)
+    public void Won()
+    {
+        manette.Winner = true;
+    }
+    private void showUI(bool show = true)
     {
         foreach (var ui in toNotShowOnOthersTurn)
         {
@@ -624,10 +580,9 @@ public class PlayerControls : Damagable
         {
             staminaTakenEvent?.Invoke(currentStamina);
         }
-    }
-
-    public void Won()
-    {
-        manette.Winner = true;
+        else
+        {
+            currentWeapon?.turnOffLineRenderer();
+        }
     }
 }

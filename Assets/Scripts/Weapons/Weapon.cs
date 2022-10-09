@@ -91,6 +91,10 @@ public class Weapon
         lr.SetPositions(finalPoints);
     }
 
+    public void turnOffLineRenderer()
+    {
+        lr.positionCount = 0;
+    }
 
     virtual public void Shoot(Vector2 position, Vector2 shootDirection)
     {
