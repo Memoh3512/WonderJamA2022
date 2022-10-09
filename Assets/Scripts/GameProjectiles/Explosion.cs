@@ -70,12 +70,13 @@ public class Explosion : MonoBehaviour
             {
                 GameManager.instance.Glitch(GlitchType.Player, collision.GetComponent<PlayerControls>());
                 collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce*1.1f);
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity += Vector2.up * 0.1f;
             }
             else
             {
                 collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);
                 collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce);
-
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity += Vector2.up * 0.1f;
             }
 
         }

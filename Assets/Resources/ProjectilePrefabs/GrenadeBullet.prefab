@@ -125,6 +125,7 @@ MonoBehaviour:
   speed: 4
   offset: 0
   secondsBeforeExplosion: 5
+  knockback: 1
 --- !u!70 &7392293429754121269
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
