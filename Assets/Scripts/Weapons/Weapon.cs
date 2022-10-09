@@ -34,6 +34,7 @@ public class Weapon
         if (weaponName == "")
             this.weaponName = this.GetType().ToString();
         else this.weaponName = weaponName;
+
         
     }
 
