@@ -6,15 +6,11 @@ public class RocketBullet : GameProjectile
 {
     bool boomed = false;
     bool bounce = false;
-    public void Init(Weapon parent, Vector2 shootDirection)
-    {
-        base.Init(30, 0.05f, 3, parent, shootDirection);
-    }
+
 
 
     public override void Colliding(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.name);
         if (!bounce && !boomed)
         {
             boomed = true;

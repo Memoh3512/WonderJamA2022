@@ -14,6 +14,7 @@ public class Weapon
     protected Vector2 shootingOffset;
     protected int projectileCount;
     protected string weaponName;
+    private LineRenderer lr;
     
     public UnityEvent<Weapon> gunShotEvent = new UnityEvent<Weapon>();
 
@@ -34,8 +35,16 @@ public class Weapon
         if (weaponName == "")
             this.weaponName = this.GetType().ToString();
         else this.weaponName = weaponName;
+
+        
         
     }
+
+    public void OnGunHolderMove(Vector2 position, Vector2 shootDirection)
+    {
+        if (projectilePrefab == null) return; 
+    }
+
 
     virtual public void Shoot(Vector2 position, Vector2 shootDirection)
     {
