@@ -114,6 +114,7 @@ public class Weapon
         GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"),lastProjectile.transform.position,Quaternion.identity);
         text.GetComponent<TextMeshPro>().text = Random.Range(1,100) == 2 ? "Poutine!" : "PEW!";
         gunShotEvent.Invoke(this);
+       
     }
 
 
@@ -136,7 +137,7 @@ public class Weapon
         text.GetComponent<TextMeshPro>().color = Color.red;
         text.GetComponent<TextAnim>().lifeSpan = 4;
         GameManager.instance.GetActivePlayer().RemoveWeapon(this);
-        
+        lr.positionCount = 0;
     }
 
     public string getWeaponName()
