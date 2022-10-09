@@ -289,9 +289,10 @@ public class PlayerControls : Damagable
             Vector2 pos = ((Vector2)transform.position) + (angle * GunHolderDistance);
 
             gunHolder.transform.position = pos;
-            gunHolder.transform.eulerAngles = new Vector3(0,0,Mathf.Rad2Deg * Mathf.Atan2(angle.y, angle.x));
+            gunHolder.transform.eulerAngles = new Vector3(0,0,Mathf.Rad2Deg * Mathf.Atan2(angle.y, angle.x));          
             
         }
+        currentWeapon?.OnGunHolderMove(gunHolder.transform.position, gunHolder.transform.position - transform.position);
 
     }
 

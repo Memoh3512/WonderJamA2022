@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class GameProjectile : MonoBehaviour
 {
-    protected int damage;
-    protected float gravityScale;
-    protected float speed;
+    public int damage;
+    public float gravityScale;
+    public float speed;
     protected Weapon parent;
     protected Vector2 shootDirection;
     protected Rigidbody2D rb;
-    public void Init(int damage, float gravityScale, float speed, Weapon parent,Vector2 shootDirection)
-    {
-        this.damage = damage;
-        this.gravityScale = gravityScale;
-        this.speed = speed;
+
+     public virtual void Init (Weapon parent, Vector2 shootDirection)
+     {
         this.parent = parent;
         this.shootDirection = shootDirection;
 
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = gravityScale; 
+        rb.gravityScale = gravityScale;
         rb.velocity = shootDirection.normalized * speed;
     }
+ 
 
     private void FixedUpdate()
     {

@@ -6,7 +6,7 @@ public class Rocket : Weapon
 {
     public Rocket() : base(60, 0, 5, 1, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/Rocket"), Resources.Load<GameObject>("ProjectilePrefabs/RocketBullet"),"Rocket Launcher")
     {
-
+        shootOffset = 1f;
     }
 
     override public void Shoot(Vector2 position, Vector2 shootDirection)

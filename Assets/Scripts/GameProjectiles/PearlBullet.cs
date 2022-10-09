@@ -9,7 +9,7 @@ public class PearlBullet : GameProjectile
     public void Init(Weapon parent, Vector2 shootDirection,PlayerControls player)
     {
         this.player = player;
-        base.Init(0, 1f, 10, parent, shootDirection);
+        base.Init(parent, shootDirection);
     }
 
     public override void Colliding(Collision2D collision)
