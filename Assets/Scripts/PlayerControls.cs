@@ -323,7 +323,7 @@ public class PlayerControls : Damagable
         {
             RemoveStamina(75);
             Weapon gunToAdd = GameManager.instance.getRandomWeapon();
-            if(Random.Range(1, 10) == 5)
+            if(Random.Range(0, 7) == 5)
             {
                 gunToAdd.setWeaponName(gunToAdd.getWeaponName() + "?");
                 Weapon weapon2;
