@@ -83,15 +83,7 @@ public class PlayerControls : Damagable
         rb.gravityScale = gravityScale;
 
         //debug
-        weapons.Add(new Sniper());
-        weapons.Add(new SMG());
-        weapons.Add(new Rocket());
-        weapons.Add(new Shotgun());
-        weapons.Add(new Pearl());
-        weapons.Add(new Poutine());
-        weapons.Add(new Bow());
-        weapons.Add(new MachineGun());
-        weapons.Add(new Grenade());
+        weapons.Add(GameManager.instance.getRandomWeapon());
         //ENSEMBLE {
         currentWeapon = weapons[0];
         
@@ -323,7 +315,7 @@ public class PlayerControls : Damagable
         {
             RemoveStamina(75);
             Weapon gunToAdd = GameManager.instance.getRandomWeapon();
-            if(Random.Range(1, 10) == 5)
+            if(Random.Range(0, 7) == 5)
             {
                 gunToAdd.setWeaponName(gunToAdd.getWeaponName() + "?");
                 Weapon weapon2;
