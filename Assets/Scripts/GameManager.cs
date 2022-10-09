@@ -118,6 +118,7 @@ public class GameManager : MonoBehaviour
     }
     public void NextPlayerTurn()
     {
+        
         Time.timeScale = 1;
 
         setCurrentPlayerState(PlayerAction.Waiting);
