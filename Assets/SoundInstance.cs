@@ -6,8 +6,13 @@ public class SoundInstance : MonoBehaviour
 {
     public void PlaySoundEffect(AudioClip sfx)
     {
-        
-        SoundPlayer.instance.PlaySFX(sfx);
-        
+
+        if (sfx != null)
+        {
+            
+            SoundPlayer.instance.PlaySFX(sfx);   
+            
+        }
+
     }
 }
