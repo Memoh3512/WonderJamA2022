@@ -30,6 +30,12 @@ public class Damagable : MonoBehaviour
         {
             hp = 0;
             OnDeath();
+        } else if (gameObject.CompareTag("Player"))
+        {
+            
+            
+            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Hurt_V01"));
+            
         }
         damageTakenEvent?.Invoke(hp);
         return hp <= 0;
