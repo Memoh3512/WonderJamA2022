@@ -5074,7 +5074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minZoom: 2
-  maxZoom: 8
+  maxZoom: 9.2
 --- !u!114 &2133557882
 MonoBehaviour:
   m_ObjectHideFlags: 0
