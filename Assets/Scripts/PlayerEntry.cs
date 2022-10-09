@@ -12,7 +12,7 @@ public class PlayerEntry : MonoBehaviour
     {
 
         //ajouter le clavier aux manettes
-        PlayerInputs.gamepads.Add(new Manette());
+        //PlayerInputs.gamepads.Add(new Manette());
         
         foreach (Gamepad gp in Gamepad.all)
         {

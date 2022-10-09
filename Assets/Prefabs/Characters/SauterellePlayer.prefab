@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 1531561707257332866, guid: 4829669ca8cb4a44fb05fafc9593e363,
         type: 3}
       propertyPath: m_Name
-      value: SauterellePlayer Variant
+      value: SauterellePlayer
       objectReference: {fileID: 0}
     - target: {fileID: 1531561707257332867, guid: 4829669ca8cb4a44fb05fafc9593e363,
         type: 3}
@@ -104,6 +104,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1531561707257332879, guid: 4829669ca8cb4a44fb05fafc9593e363,
+        type: 3}
+      propertyPath: jumpSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: d394db7eb48c2dc4cbd4feb472238a4b, type: 3}
     - target: {fileID: 6529072179446364420, guid: 4829669ca8cb4a44fb05fafc9593e363,
         type: 3}
       propertyPath: m_Radius

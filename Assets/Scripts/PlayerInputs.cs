@@ -47,9 +47,19 @@ public static class PlayerInputs
 
     }
 
-
     public static void ResetManettes()
     {
-        throw new System.NotImplementedException();
+
+        // ca devrait marcher
+        for (int i = 0; i < pControllers.Length; i++)
+        {
+
+            pControllers[i] = null;
+
+        }
+        gamepads.Clear();
+        
     }
+    
+    
 }
