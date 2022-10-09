@@ -14,15 +14,18 @@ public class EndScreenScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        manettes = PlayerInputs.pControllers.ToList();
+        manettes = new List<Manette>();
 
-        for (int i = 0; i < manettes.Count; i++)
+        foreach (var manette in PlayerInputs.pControllers)
         {
-            if (manettes[i]==null||manettes[i].character==null||manettes[i].character=="")
+            if (manette==null||manette.character==null||manette.character=="")
             {
-                manettes.RemoveAt(i);
+               
             }
-            
+            else
+            {
+                manettes.Add(manette);
+            }
         }
         
         Debug.Log("Manettes"+ manettes.Count+ " sd " + manettes);
@@ -80,6 +83,7 @@ public class EndScreenScript : MonoBehaviour
     }
     public void PlayAgain()
     {
+        PlayerInputs.ResetManettes();
         SceneChanger.ChangeScene(SceneTypes.MainMenu);
     }
     
