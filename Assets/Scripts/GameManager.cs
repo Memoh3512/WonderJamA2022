@@ -34,24 +34,7 @@ public class GameManager : MonoBehaviour
     private UnityEvent nextPlayerEvent = new UnityEvent();
     private int currentPlayerIndex;
 
-    public static List<Character> characters = new List<Character>()
-    {
-        new Character()
-        {
-            spr = Resources.Load<Sprite>("Characters/Coccinelle"),
-            name = "Ladybug"
-        },
-        new Character()
-        {
-            spr = Resources.Load<Sprite>("Characters/Sauterelle"),
-            name = "Grasshopper"
-        },
-        new Character()
-        {
-            spr = Resources.Load<Sprite>("Characters/Chenille"),
-            name = "Caterpillar"
-        },
-    };
+    public static List<Character> characters;
 
     [Header("GO References")] public CinemachineVirtualCamera followCam;
 

@@ -14,6 +14,8 @@ public class Sniper : Weapon
         base.Shoot(position, shootDirection);
         lastProjectile.GetComponent<SniperBullet>().Init(this, shootDirection);
 
+        //TODO SFX SNIPER
+        
     }
 
 
