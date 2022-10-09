@@ -10,6 +10,7 @@ public enum SceneTypes
     Options = 1,
     PlayerJoin = 2,
     GameplayScene = 3,
+    EndScreen = 4,
     
 }
 

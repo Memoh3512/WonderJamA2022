@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -60,7 +60,8 @@ public class PlayerControls : Damagable
     
     public UnityEvent<float> staminaTakenEvent = new UnityEvent<float>();
     public UnityEvent<Weapon,Weapon> changeGunEvent = new UnityEvent<Weapon,Weapon>();
-
+    public UnityEvent unShowCostEvent = new UnityEvent();
+    
     public List<GameObject> toNotShowOnOthersTurn = new List<GameObject>();
 
     private void Start()
@@ -138,6 +139,7 @@ public class PlayerControls : Damagable
                 else if (manette.xButton.wasPressedThisFrame)
                 {
 
+
                     if (!IsGrounded())
                     {
                         SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
@@ -146,6 +148,7 @@ public class PlayerControls : Damagable
                     
                 }else if (manette.rightTrigger.wasPressedThisFrame)
                 {
+
 
                     if (!IsGrounded()) Time.timeScale = slomoTimeScale;
 
@@ -234,6 +237,35 @@ public class PlayerControls : Damagable
             
         }
 
+    }
+
+    void GetWeapon()
+    {
+        if(currentStamina >= 75)
+        {
+            RemoveStamina(75);
+            Weapon gunToAdd = GameManager.instance.getRandomWeapon();
+            weapons.Add(gunToAdd);
+            GameObject popup = GameObject.Instantiate(Resources.Load<GameObject>("GetWeaponPopup"), transform);
+            popup.transform.position += Vector3.up * 2;
+            popup.GetComponent<WeaponPopup>().Setup(gunToAdd);
+            if (weapons.Count == 1) NextGun();
+        }
+        else
+        {
+            GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
+            text.GetComponent<TextMeshPro>().text = "No Stamina!";
+            text.transform.localScale *= 0.5f;
+            text.GetComponent<TextMeshPro>().color = Color.cyan;
+        }
+
+
+    }
+
+    public void RemoveWeapon(Weapon weapon)
+    {
+        weapons.Remove(weapon);
+        NextGun();
     }
 
     void CheckStaminaState()
@@ -397,6 +429,10 @@ public class PlayerControls : Damagable
     public void setState(PlayerAction stateToSet)
     {
         state = stateToSet;
+        if (state == PlayerAction.Moving)
+        {
+            unShowCostEvent?.Invoke();
+        }
     }
     public bool isAlive()
     {
@@ -406,7 +442,7 @@ public class PlayerControls : Damagable
     {
         Weapon oldGun = currentWeapon;
         int currIndex = weapons.IndexOf(currentWeapon);
-        
+
         if (reverse)
         {
             currIndex--;
@@ -422,11 +458,18 @@ public class PlayerControls : Damagable
         {
             currIndex = 0;
         }
-        
-        currentWeapon = weapons[currIndex];
-        gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
-        
-        changeGunEvent.Invoke(currentWeapon,oldGun);
+        if (weapons.Count > 0)
+        {
+            currentWeapon = weapons[currIndex];
+            gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
+            changeGunEvent.Invoke(currentWeapon, oldGun);
+        }
+        else
+        {
+            gunHolder.GetComponent<SpriteRenderer>().sprite = null;
+        }
+
+
     }
     public bool CanShootWeaponStamina()
     {
@@ -477,5 +520,9 @@ public class PlayerControls : Damagable
         {
             staminaTakenEvent?.Invoke(currentStamina);
         }
+    }
+    public void Won()
+    {
+        manette.Winner = true;
     }
 }

@@ -28,7 +28,6 @@ public struct Character
 public class GameManager : MonoBehaviour
 {
     private List<PlayerControls> players = new List<PlayerControls>();
-    private List<Weapon> allWeapons = new List<Weapon>();
     private int turn;
     private GameState gameState;
     private UnityEvent nextTurnEvent = new UnityEvent();
@@ -80,7 +79,7 @@ public class GameManager : MonoBehaviour
         movingControls.SetActive(false);
         prepAttackControls.SetActive(false);
 
-        //players[currentPlayerIndex].ShowUI();
+        //GetActivePlayer().ShowUI();
         setUI(movingControls);
     }
     
@@ -135,6 +134,7 @@ public class GameManager : MonoBehaviour
     private void NextTurn()
     {
         turn++;
+        TurnShowText();
         
         nextTurnEvent.Invoke();
     }
@@ -144,28 +144,18 @@ public class GameManager : MonoBehaviour
         {
             player.PlayerTargetted(false);
         }
-        players[currentPlayerIndex].setState(PlayerAction.Waiting);
+        setCurrentPlayerState(PlayerAction.Waiting);
 
-        // Get le next alive et rollover le playerIndex 
-        
-        foreach (var player in players)
-        {
-            if (player.isAlive())
-            {
-                
-            }
-        }
-        
         do
         {
             currentPlayerIndex++;
             currentPlayerIndex %= players.Count;
             if (currentPlayerIndex == 0) NextTurn();
 
-        } while (!players[currentPlayerIndex].isAlive());
+        } while (!GetActivePlayer().isAlive());
 
-        FocusOnPlayer(players[currentPlayerIndex]);
-        players[currentPlayerIndex].currentStamina = players[currentPlayerIndex].maxStamina;
+        FocusOnPlayer(GetActivePlayer());
+        GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
 
         nextPlayerEvent.Invoke();
     }
@@ -173,11 +163,9 @@ public class GameManager : MonoBehaviour
     public void FocusOnPlayer(PlayerControls player)
     {
         player.PlayerTargetted();
-        setUI(movingControls);
-        //TODO set la camera ui etc
-        players[currentPlayerIndex].setState(PlayerAction.Moving);
+        setCurrentPlayerState(PlayerAction.Moving);
 
-        followCam.Follow = players[currentPlayerIndex].transform;
+        followCam.Follow = GetActivePlayer().transform;
     }
 
     public void SwitchToGlobalCam()
@@ -206,19 +194,20 @@ public class GameManager : MonoBehaviour
         if (count <= 1)
         {
             GameEnd();
-        }else if (players[currentPlayerIndex] == deadPlayer.GetComponent<PlayerControls>())
+        }else if (GetActivePlayer() == deadPlayer.GetComponent<PlayerControls>())
         {
             NextPlayerTurn();
         }
     }
     public void GameEnd()
     {
-        
+        GetActivePlayer().Won();
+        SceneChanger.ChangeScene(SceneTypes.EndScreen);
     }
     public void setCurrentPlayerState(PlayerAction state)
     {
         Debug.Log("Current state switched : "+state);
-        players[currentPlayerIndex].setState(state);
+        GetActivePlayer().setState(state);
         switch (state)
         {
             case PlayerAction.Moving:
@@ -231,7 +220,14 @@ public class GameManager : MonoBehaviour
     }
     public Weapon getRandomWeapon()
     {
-        return allWeapons[Random.Range(0, allWeapons.Count)];
+        switch (Random.Range(0, 4))
+        {
+            case 0: return new Sniper();
+            case 1: return new SMG();
+            case 2: return new Rocket();
+            case 3: return new Shotgun();
+        }
+        return new SMG();
     }
 
     public void AddPlayer(PlayerControls player)
@@ -248,6 +244,11 @@ public class GameManager : MonoBehaviour
     }
 
     public void Glitch(GlitchType glitchType)
+    {
+        Glitch(glitchType, GetActivePlayer());
+    }
+
+    public void Glitch(GlitchType glitchType, PlayerControls player)
     {
         GameObject Text = Instantiate(Resources.Load<GameObject>("PopupText"), new Vector3(0, 0, 0), Quaternion.identity);
         Text.transform.localScale *= 20;
