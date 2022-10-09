@@ -54,6 +54,7 @@ public class PlayerControls : Damagable
     public float maxAirVelocity = 10;
     public int maxHP = 100;
     public float GunHolderDistance = 2f;
+    public float staminaUsageMultiplier = 3f;
 
     private List<Weapon> weapons = new List<Weapon>();
     private Weapon currentWeapon = null;
@@ -261,6 +262,16 @@ public class PlayerControls : Damagable
 
     }
 
+    public void Heal(int heal)
+    {
+        hp += heal;
+        if (hp > maxHP)
+        {
+            hp = maxHP;
+        }
+        damageTakenEvent?.Invoke(hp);
+    }
+
     void GetWeapon()
     {
         if(currentStamina >= 75)
@@ -325,7 +336,7 @@ public class PlayerControls : Damagable
         if (IsGrounded())
         {
             rb.velocity = new Vector2(delta.x, rb.velocity.y);
-            RemoveStamina(Math.Abs((delta * Time.deltaTime).x));
+            RemoveStamina(Math.Abs((delta * Time.deltaTime).x)*staminaUsageMultiplier);
         }
         else
         {
