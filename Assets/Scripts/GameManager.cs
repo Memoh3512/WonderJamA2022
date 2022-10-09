@@ -274,7 +274,7 @@ public class GameManager : MonoBehaviour
     public Weapon getRandomWeapon()
     {
         Weapon rWeapon = new SMG();
-        switch (Random.Range(0, 7))
+        switch (Random.Range(0, 8))
         {
             case 0: rWeapon =  new Sniper();
                 break;
@@ -289,6 +289,8 @@ public class GameManager : MonoBehaviour
             case 5: rWeapon = new Poutine();
                 break;
             case 6: rWeapon = new Bow();
+                break;
+            case 7: rWeapon = new MachineGun();
                 break;
 
 
