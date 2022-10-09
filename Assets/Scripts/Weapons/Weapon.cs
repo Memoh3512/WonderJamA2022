@@ -64,10 +64,11 @@ public class Weapon
     }
     virtual public void WeaponEmpty()
     {
-        GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"), lastProjectile.transform.position, Quaternion.identity);
-        text.GetComponent<TextMeshPro>().text = weaponName +  "\nOut of ammo!";
+        GameObject text = GameObject.Instantiate(Resources.Load<GameObject>("PopupText"), GameManager.instance.GetActivePlayer().transform.position, Quaternion.identity);
+        text.GetComponent<TextMeshPro>().text = weaponName +  " Out of ammo!";
         text.transform.localScale *= 3;
         text.GetComponent<TextMeshPro>().color = Color.red;
+        text.GetComponent<TextAnim>().lifeSpan = 4;
         GameManager.instance.GetActivePlayer().RemoveWeapon(this);
         
     }
