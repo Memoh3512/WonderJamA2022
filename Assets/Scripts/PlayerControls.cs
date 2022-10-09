@@ -46,6 +46,7 @@ public class PlayerControls : Damagable
     public float startShootTimeScale = 0.05f;
     public float slomoTimeScale = 0.2f;
     public int fallDamage = 25;
+    private bool slowed = false;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -111,6 +112,12 @@ public class PlayerControls : Damagable
     private void Update()
     {
         CheckInputs();
+        
+        //fix slowdown when grounded
+        if (slowed)
+        {
+            if (IsGrounded()) ResetTime();
+        }
 
         UpdateAnimValues();
 
@@ -161,7 +168,8 @@ public class PlayerControls : Damagable
                             
                             SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
                             Time.timeScale = startShootTimeScale;
-                            
+                            slowed = true;
+
                         }
                         else ResetTime();
                     }
@@ -255,6 +263,7 @@ public class PlayerControls : Damagable
             
             SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Shortslowmoout_V01"));
             Time.timeScale = 1f;
+            slowed = false;
         }
     }
     
