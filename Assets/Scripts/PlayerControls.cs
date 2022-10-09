@@ -137,8 +137,12 @@ public class PlayerControls : Damagable
                 }
                 else if (manette.xButton.wasPressedThisFrame)
                 {
-                    
-                    if (!IsGrounded()) Time.timeScale = startShootTimeScale;
+
+                    if (!IsGrounded())
+                    {
+                        SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
+                        Time.timeScale = startShootTimeScale;
+                    }
                     
                 }else if (manette.rightTrigger.wasPressedThisFrame)
                 {

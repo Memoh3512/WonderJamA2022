@@ -3557,6 +3557,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8343592764702467374, guid: 7379f1c7f39472243a3e03c4553bd972,
+        type: 3}
+      propertyPath: globalVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343592764702467375, guid: 7379f1c7f39472243a3e03c4553bd972,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2ec09ff58d7179548a1d166ebd2c6045, type: 3}
     - target: {fileID: 8343592764702467377, guid: 7379f1c7f39472243a3e03c4553bd972,
         type: 3}
       propertyPath: m_RootOrder
