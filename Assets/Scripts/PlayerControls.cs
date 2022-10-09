@@ -385,7 +385,6 @@ public class PlayerControls : Damagable
     {
         var position = transform.position;
         Vector2 delta = (movementDelta * moveSpeed);
-        if (Math.Abs(rb.velocity.x) > Math.Abs(delta.x)) delta.x = rb.velocity.x;
         if (IsGrounded())
         {
             rb.velocity = new Vector2(delta.x, rb.velocity.y);

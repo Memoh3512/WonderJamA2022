@@ -528,7 +528,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 10
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 7009b8d0126bece49b3c5d9180eeb58a, type: 2}
@@ -597,8 +597,8 @@ MonoBehaviour:
   slomoTimeScale: 0.2
   fallDamage: 25
   moveSpeed: 1
-  jumpHeight: 50
-  gravityScale: 0.5
+  jumpHeight: 100
+  gravityScale: 2
   maxStamina: 100
   airControl: 3
   maxAirVelocity: 1
