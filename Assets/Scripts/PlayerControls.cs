@@ -205,7 +205,7 @@ public class PlayerControls : Damagable
                         if (currentWeapon.getFirerate() != 0) TryShoot();
                         if (IsGrounded() && Time.timeScale < 1f)
                         {
-                            Debug.Log("SMGWATF GROUNDPRESSED");
+                            //Debug.Log("SMGWATF GROUNDPRESSED");
                             ResetTime();
                         } 
                         
