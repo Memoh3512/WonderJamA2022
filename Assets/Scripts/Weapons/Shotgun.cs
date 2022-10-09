@@ -5,7 +5,7 @@ using TMPro;
 
 public class Shotgun : Weapon
 {
-    public Shotgun() : base(20, 0, 5, 5, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/Shotgun"), Resources.Load<GameObject>("ProjectilePrefabs/ShotgunBullet"),"",0.5f,false)
+    public Shotgun() : base(20, 0, 5, 5, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/Shotgun"), Resources.Load<GameObject>("ProjectilePrefabs/ShotgunBullet"),"",false)
     {
 
     }
@@ -18,7 +18,7 @@ public class Shotgun : Weapon
             shootDirection = Quaternion.AngleAxis(Random.Range(-60, 60), Vector2.up) * shootDirection;
             lastProjectile = GameObject.Instantiate(projectilePrefab, position + shootDirection.normalized * Random.Range(0.1f,0.5f), Quaternion.identity);
             lastProjectile.transform.position += new Vector3(shootingOffset.x, shootingOffset.y);
-            lastProjectile.GetComponent<ShotgunBullet>().Init(this, shootDirection);
+            lastProjectile.GetComponent<GameProjectile>().Init(this, shootDirection);
           }
 
 

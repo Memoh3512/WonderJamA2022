@@ -13,7 +13,7 @@ public class Pearl : Weapon
     override public void Shoot(Vector2 position, Vector2 shootDirection)
     {
         base.Shoot(position, shootDirection);
-        lastProjectile.GetComponent<PearlBullet>().Init(this, shootDirection,GameManager.instance.GetActivePlayer());
+        lastProjectile.GetComponent<GameProjectile>().Init(this, shootDirection);
         
         //TODO SFX Perle
         
