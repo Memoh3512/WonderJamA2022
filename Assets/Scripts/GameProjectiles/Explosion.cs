@@ -32,9 +32,20 @@ public class Explosion : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);
             Vector2 direction = (collision.transform.position - transform.position).normalized;
-            collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce);
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            if(angle < 100 && angle > 80)
+            {
+                GameManager.instance.Glitch(GlitchType.Player, collision.GetComponent<PlayerControls>());
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce*2);
+            }
+            else
+            {
+                collision.gameObject.GetComponent<PlayerControls>().TakeDamage(damage);
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity += (direction * pushForce);
+
+            }
+
         }
     }
 }
