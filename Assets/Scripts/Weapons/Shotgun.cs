@@ -5,7 +5,7 @@ using TMPro;
 
 public class Shotgun : Weapon
 {
-    public Shotgun() : base(20, 0, 5, 5, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/Shotgun"), Resources.Load<GameObject>("ProjectilePrefabs/ShotgunBullet"))
+    public Shotgun() : base(20, 0, 5, 5, Vector2.zero, Resources.Load<Sprite>("WeaponSprites/Shotgun"), Resources.Load<GameObject>("ProjectilePrefabs/ShotgunBullet"),"",0.5f,false)
     {
 
     }

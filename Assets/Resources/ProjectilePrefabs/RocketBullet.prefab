@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 30
   gravityScale: 0.2
-  speed: 10
+  speed: 5
 --- !u!198 &8610490407339465906
 ParticleSystem:
   m_ObjectHideFlags: 0
