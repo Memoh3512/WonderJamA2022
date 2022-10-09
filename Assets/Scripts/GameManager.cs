@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviour
 
     public static List<Character> characters;
 
-    [Header("GO References")] public CinemachineVirtualCamera followCam;
+    [Header("Camera")] public CinemachineVirtualCamera followCam;
+    public float GlobalCamShowTime = 3f;
 
     [Header("UI")] 
     public GameObject movingControls;
@@ -137,11 +138,38 @@ public class GameManager : MonoBehaviour
 
         } while (!GetActivePlayer().isAlive());
 
-        FocusOnPlayer(GetActivePlayer());
-        GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
+        if (currentPlayerIndex == 0)
+        {
 
-        nextPlayerEvent.Invoke();
-        SwapGlitch();
+            //delay call pareil que le else en dessous sauf que ca montre la global cam
+            StartCoroutine(GlobalCamCor());
+            GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
+
+            nextPlayerEvent.Invoke();
+            SwapGlitch();    
+
+        }
+        else
+        {
+            
+            FocusOnPlayer(GetActivePlayer());
+            GetActivePlayer().currentStamina = GetActivePlayer().maxStamina;
+
+            nextPlayerEvent.Invoke();
+            SwapGlitch();    
+            
+        }
+        
+    }
+
+    private IEnumerator GlobalCamCor()
+    {
+        
+        followCam.gameObject.SetActive(false);
+        yield return new WaitForSeconds(GlobalCamShowTime);
+        followCam.gameObject.SetActive(true);
+        FocusOnPlayer(GetActivePlayer());
+
     }
 
     private void SwapGlitch()
