@@ -283,7 +283,7 @@ public class PlayerControls : Damagable
         hp += heal;
         if (hp > maxHP)
         {
-            hp = maxHP;
+            GameManager.instance.Glitch(GlitchType.Player);
         }
         damageTakenEvent?.Invoke(hp);
     }
@@ -294,7 +294,29 @@ public class PlayerControls : Damagable
         {
             RemoveStamina(75);
             Weapon gunToAdd = GameManager.instance.getRandomWeapon();
-            weapons.Add(gunToAdd);
+            if(true)//Random.Range(1, 10) == 5)
+            {
+                gunToAdd.setWeaponName(gunToAdd.getWeaponName() + "?");
+                Weapon weapon2;
+                do
+                {
+                    weapon2 = GameManager.instance.getRandomWeapon();
+                } while (weapon2.getProjectilePrefab() == null);
+                gunToAdd.setProjectilePrefab(weapon2.getProjectilePrefab());
+                GameManager.instance.Glitch(GlitchType.Player);
+            }
+            bool weaponAlreadyAcquired = false;
+            foreach(Weapon w in weapons)
+            {
+                if(gunToAdd.getWeaponName() == w.getWeaponName())
+                {
+                    weaponAlreadyAcquired = true;
+                    w.addAmmos(gunToAdd.getProjectileCount());
+                    gunToAdd.setWeaponName(w.getWeaponName() + " Ammos x" + gunToAdd.getProjectileCount());
+                }
+            }
+            if(!weaponAlreadyAcquired)
+                weapons.Add(gunToAdd);
             GameObject popup = GameObject.Instantiate(Resources.Load<GameObject>("GetWeaponPopup"), transform);
             popup.transform.position += Vector3.up * 2;
             popup.GetComponent<WeaponPopup>().Setup(gunToAdd);
@@ -475,7 +497,7 @@ public class PlayerControls : Damagable
         if (state == PlayerAction.Moving)
         {
             showUI(true);
-            unShowCostEvent?.Invoke();
+            changeGunEvent.Invoke(currentWeapon, null);
         }
         if (state == PlayerAction.Waiting)
         {
