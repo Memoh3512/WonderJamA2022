@@ -59,6 +59,10 @@ public class GenericBar : MonoBehaviour
             pc.staminaTakenEvent.AddListener(OnValueUpdated);
             pc.changeGunEvent.AddListener(OnGunChanged);
             pc.unShowCostEvent.AddListener(UnShowCost);
+            if (pc.GetGun()!=null)
+            {
+                UpdateWeaponStaminaCost(pc.GetGun());
+            }
         }
     }
 

@@ -14,10 +14,7 @@ public class Rocket : Weapon
         
         base.Shoot(position, shootDirection);
         lastProjectile.GetComponent<GameProjectile>().Init(this, shootDirection);
-        if(Random.Range(1,10) == 5)
-        {
-            lastProjectile.GetComponent<RocketBullet>().Glitch();
-        }
+ 
         
        
         SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Rocketshot_V01"));

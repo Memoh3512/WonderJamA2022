@@ -90,6 +90,7 @@ public class PlayerControls : Damagable
         weapons.Add(new Poutine());
         //ENSEMBLE {
         currentWeapon = weapons[0];
+        
         //}
         
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
@@ -306,7 +307,7 @@ public class PlayerControls : Damagable
         {
             RemoveStamina(75);
             Weapon gunToAdd = GameManager.instance.getRandomWeapon();
-            if(true)//Random.Range(1, 10) == 5)
+            if(Random.Range(1, 10) == 5)
             {
                 gunToAdd.setWeaponName(gunToAdd.getWeaponName() + "?");
                 Weapon weapon2;
@@ -338,7 +339,6 @@ public class PlayerControls : Damagable
         {
             GameObject text = Instantiate(Resources.Load<GameObject>("PopupText"), transform.position, Quaternion.identity);
             text.GetComponent<TextMeshPro>().text = "No Stamina!";
-            text.transform.localScale *= 0.5f;
             text.GetComponent<TextMeshPro>().color = Color.cyan;
         }
     }
@@ -510,7 +510,7 @@ public class PlayerControls : Damagable
         if (state == PlayerAction.Moving)
         {
             showUI(true);
-            changeGunEvent.Invoke(currentWeapon, null);
+            
         }
         if (state == PlayerAction.Waiting)
         {
@@ -617,5 +617,10 @@ public class PlayerControls : Damagable
         {
             currentWeapon?.turnOffLineRenderer();
         }
+        changeGunEvent.Invoke(currentWeapon, null);
+    }
+    public Weapon GetGun()
+    {
+        return currentWeapon;
     }
 }
