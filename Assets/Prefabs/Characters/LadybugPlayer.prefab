@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5370071572137284211}
   - component: {fileID: 6355104109066133444}
   - component: {fileID: 2745902192776160579}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: HPBarBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 5609355158085585393}
   - component: {fileID: 1062699194160978688}
   - component: {fileID: 3703688621053049831}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: HPBarTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -592,10 +592,10 @@ MonoBehaviour:
   flipStickDeadzone: 0.5
   flipAngleLeeway: 15
   zoomSpeed: 3
-  maxFallCount: 3
   maxIKDistance: 1
   startShootTimeScale: 0.05
   slomoTimeScale: 0.2
+  fallDamage: 25
   moveSpeed: 1
   jumpHeight: 50
   gravityScale: 0.5
@@ -633,7 +633,7 @@ GameObject:
   - component: {fileID: 3950050513350653164}
   - component: {fileID: 3022177227828681138}
   - component: {fileID: 2351883873051360764}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: StaminaBarCost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -746,7 +746,7 @@ GameObject:
   - component: {fileID: 2237277484893657231}
   - component: {fileID: 1069283825639730700}
   - component: {fileID: 2179041164472810161}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: StaminaBarCostMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -846,7 +846,7 @@ GameObject:
   - component: {fileID: 3619883213997211218}
   - component: {fileID: 6122782739815136732}
   - component: {fileID: 1349731389407172839}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: StaminaBarBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -947,7 +947,7 @@ GameObject:
   - component: {fileID: 2227607249251985057}
   - component: {fileID: 8776141667825341206}
   - component: {fileID: 2303784896422467480}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: StaminaBarTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}

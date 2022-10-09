@@ -42,10 +42,10 @@ public class PlayerControls : Damagable
     [Header("Global Player Params")] public float flipStickDeadzone = 0.5f;
     public float flipAngleLeeway;
     public float zoomSpeed = 1;
-    public float maxFallCount = 3;
     public float maxIKDistance = 1;
     public float startShootTimeScale = 0.05f;
     public float slomoTimeScale = 0.2f;
+    public int fallDamage = 25;
 
     [Header("Player Stats")] public float moveSpeed = 1;
     public float jumpHeight = 1;
@@ -94,6 +94,7 @@ public class PlayerControls : Damagable
         //}
         
         gunHolder.GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponSprite;
+        gunHolder.transform.position = ((Vector2)transform.position) + (Vector2.right * GunHolderDistance);;
         
         //Init
         Init(maxHP);
@@ -167,13 +168,13 @@ public class PlayerControls : Damagable
 
                     if (!IsGrounded())
                     {
-                        if (Math.Abs(Time.timeScale - 1f) < 0.01f)
+                        
+                        if (Time.timeScale < 1f)
                         {
-                            
-                            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
-                            
+
+                            Time.timeScale = slomoTimeScale;
+
                         }
-                        Time.timeScale = slomoTimeScale;
                     }
 
                     if (currentWeapon != null)
@@ -199,13 +200,23 @@ public class PlayerControls : Damagable
                     {
                         
                         if (currentWeapon.getFirerate() != 0) TryShoot();
-                        if (IsGrounded()) ResetTime(); 
+                        if (IsGrounded() && Time.timeScale < 1f)
+                        {
+                            Debug.Log("SMGWATF GROUNDPRESSED");
+                            ResetTime();
+                        } 
                         
                     }
                 }
                 else if (manette.rightTrigger.wasReleasedThisFrame)
                 {
-                    Time.timeScale = 1f;
+
+                    if (Time.timeScale < 1f)
+                    {
+
+                        ResetTime();   
+                        
+                    }
                 }
                 else if (manette.dpRight.wasPressedThisFrame)
                 {
@@ -234,11 +245,12 @@ public class PlayerControls : Damagable
 
     void ResetTime()
     {
-        if (Math.Abs(Time.timeScale - 1f) > 0.01f)
+
+        if (Time.timeScale < 1f)
         {
             SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoout_V01"));
+            Time.timeScale = 1f;
         }
-        Time.timeScale = 1f;
     }
     
     void TryShoot(bool singlePress=false)
@@ -335,7 +347,7 @@ public class PlayerControls : Damagable
     {
         weapons.Remove(weapon);
         NextGun();
-        Time.timeScale = 1f;
+        ResetTime();
     }
 
     void CheckStaminaState()
@@ -478,8 +490,9 @@ public class PlayerControls : Damagable
         filter.layerMask = LayerMask.GetMask("Ground", "Player");
 
         Collider2D[] colls = new Collider2D[2];
-        bool ret = Physics2D.OverlapCircle(characterCollider.bounds.center + (Vector3.down * 0.2f),
+        bool ret = Physics2D.OverlapCircle(characterCollider.bounds.center + (Vector3.down * 0.1f),
             ((CircleCollider2D)characterCollider).radius,filter,colls) > 1;
+        if (colls[1] != null)Debug.Log( colls[0].gameObject.name + " - " + colls[1].gameObject.name);
         return ret;
     }
 
@@ -564,9 +577,7 @@ public class PlayerControls : Damagable
     public void Fall(float top)
     {
 
-        fallCount++;
-
-        if (fallCount >= maxFallCount)
+        if (TakeDamage(fallDamage))
         {
             Die();
         }
