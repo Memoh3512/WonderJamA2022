@@ -90,6 +90,7 @@ public class PlayerControls : Damagable
         weapons.Add(new Poutine());
         weapons.Add(new Bow());
         weapons.Add(new MachineGun());
+        weapons.Add(new Grenade());
         //ENSEMBLE {
         currentWeapon = weapons[0];
         
@@ -155,13 +156,14 @@ public class PlayerControls : Damagable
 
                     if (!IsGrounded())
                     {
-                        if (Math.Abs(Time.timeScale - 1f) < 0.01f)
+                        if (Time.timeScale >= 1f)
                         {
                             
                             SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoin_V01"));
+                            Time.timeScale = startShootTimeScale;
                             
                         }
-                        Time.timeScale = startShootTimeScale;
+                        else ResetTime();
                     }
                     
                 }else if (manette.rightTrigger.wasPressedThisFrame)
@@ -204,7 +206,7 @@ public class PlayerControls : Damagable
                         if (currentWeapon.getFirerate() != 0) TryShoot();
                         if (IsGrounded() && Time.timeScale < 1f)
                         {
-                            Debug.Log("SMGWATF GROUNDPRESSED");
+                            //Debug.Log("SMGWATF GROUNDPRESSED");
                             ResetTime();
                         } 
                         
@@ -250,7 +252,8 @@ public class PlayerControls : Damagable
 
         if (Time.timeScale < 1f)
         {
-            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Slowmoout_V01"));
+            
+            SoundPlayer.instance.PlaySFX(Resources.Load<AudioClip>("Sound/SFX/Shortslowmoout_V01"));
             Time.timeScale = 1f;
         }
     }

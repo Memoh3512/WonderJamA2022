@@ -11,6 +11,7 @@ public class PlayerSpawner : MonoBehaviour
     public GameObject ladybugPrefab;
     public GameObject sauterellePrefab;
     public GameObject ChenillePrefab;
+    public GameObject fourmiPrefab;
 
     public GameObject cursorPrefab;
     
@@ -36,6 +37,9 @@ public class PlayerSpawner : MonoBehaviour
                         break;
                     case "Caterpillar":
                         playerPrefab = ChenillePrefab;
+                        break;
+                    case "Ant":
+                        playerPrefab = fourmiPrefab;
                         break;
                 }
                 

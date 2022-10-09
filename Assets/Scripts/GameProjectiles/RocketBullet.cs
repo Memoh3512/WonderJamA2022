@@ -30,6 +30,7 @@ public class RocketBullet : GameProjectile
             Destroy(GetComponent<SpriteRenderer>());
             Destroy(GetComponent<PolygonCollider2D>());
             Destroy(gameObject, GetComponent<ParticleSystem>().startLifetime);
+            OnHit();
         }
         else if(bounce)
         {

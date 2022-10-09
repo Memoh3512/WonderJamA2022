@@ -46,6 +46,11 @@ public class LevelLoader : MonoBehaviour
                     spr = Resources.Load<Sprite>("Characters/Chenille"),
                     name = "Caterpillar"
                 },
+                new Character()
+                {
+                    spr = Resources.Load<Sprite>("Characters/Fourmi"),
+                    name = "Ant"
+                },
             };
 
         }
